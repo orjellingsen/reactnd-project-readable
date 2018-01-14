@@ -29,9 +29,10 @@ export function addPost ({ id, title, body, author, category }) {
   }
 }
 
-export function votePost ({ option }) {
+export function votePost ({ id, option }) {
   return {
     type: VOTE_POST,
+    id,
     option,
   }
 }
