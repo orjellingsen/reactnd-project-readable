@@ -1,35 +1,6 @@
-export const ADD_POST = 'ADD_POST'
-export const REMOVE_POST = 'REMOVE_POST'
-export const EDIT_POST = 'EDIT_POST'
-export const VOTE_POST = 'VOTE_POST'
-
-export function addPost ({ title, body }) {
-  return {
-    type: ADD_POST,
-    title,
-    body,
-  }
-}
-
-export function removePost ({ id }) {
-  return {
-    type: REMOVE_POST,
-    id,
-  }
-}
-
-export function editPost ({ id, author }) {
-  return {
-    type: EDIT_POST,
-    id,
-    author,
-  }
-}
-
-export function votePost ({ id, voteScore }) {
-  return {
-    type: VOTE_POST,
-    id,
-    voteScore,
-  }
-}
+export const GET_POSTS = 'GET_POSTS' // GET /posts
+export const GET_SINGLE_POST = 'GET_SINGLE_POST' // GET /posts/:id
+export const ADD_POST = 'ADD_POST' // POST /posts
+export const VOTE_POST = 'VOTE_POST' // POST /posts/:id
+export const EDIT_POST = 'EDIT_POST' // PUT /posts/:id
+export const DELETE_POST = 'REMOVE_POST' // DELETE /posts/:id

@@ -1,37 +1,6 @@
-export const ADD_COMMENT = 'ADD_COMMENT'
-export const REMOVE_COMMENT = 'REMOVE_COMMENT'
-export const EDIT_COMMENT = 'EDIT_COMMENT'
-export const VOTE_COMMENT = 'VOTE_COMMENT'
-
-export function addComment ({ parentId, body, author }) {
-  return {
-    type: ADD_COMMENT,
-    parentId,
-    body,
-    author,
-  }
-}
-
-export function removeComment ({ id }) {
-  return {
-    type: REMOVE_COMMENT,
-    id,
-    deleted: true,
-  }
-}
-
-export function editComment ({ id, author }) {
-  return {
-    type: EDIT_COMMENT,
-    id,
-    author,
-  }
-}
-
-export function voteComment ({ id, voteScore }) {
-  return {
-    type: VOTE_COMMENT,
-    id,
-    voteScore,
-  }
-}
+export const GET_COMMENTS = 'GET_COMMENTS' // GET /posts/:id/comments
+export const ADD_COMMENT = 'ADD_COMMENT' // POST /comments
+export const GET_SINGLE_COMMENT = 'GET_SINGLE_COMMENT' // GET /comments/:id
+export const VOTE_COMMENT = 'VOTE_COMMENT' // POST /comments/:id
+export const EDIT_COMMENT = 'EDIT_COMMENT' // PUT /comments/:id
+export const DELETE_COMMENT = 'DELETE_COMMENT' // DELETE /comments/:id

@@ -1,8 +1,3 @@
-export const SELECT_CATEGORY = 'SELECT_CATEGORY'
+export const GET_CATEGORIES = 'GET_CATEGORIES' // GET /categories
+export const GET_CAREGORY_POST = 'GET_CATEGORY_POST' // GET /:category/posts
 
-export function selectCategory ({ category }) {
-  return {
-    type: SELECT_CATEGORY,
-    category,
-  }
-}

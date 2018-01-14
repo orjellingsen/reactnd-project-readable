@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker'
 import reducer from './reducers'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
+import api from './utils/api_helper'
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -25,9 +26,14 @@ const store = createStore(
   )
 )
 
+const element = document.getElementById('root');
+if (!element) {
+  throw new Error("couldn't find element with id root")
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
-  </Provider>, document.getElementById('root')
+  </Provider>, element
 )
 registerServiceWorker()
