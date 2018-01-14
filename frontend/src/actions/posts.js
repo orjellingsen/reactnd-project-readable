@@ -11,9 +11,10 @@ export function getPosts () {
   }
 }
 
-export function getSinglePost ({}) {
+export function getSinglePost ({ id }) {
   return {
     type: GET_SINGLE_POST,
+    id,
   }
 }
 

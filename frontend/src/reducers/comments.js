@@ -3,7 +3,18 @@ import {
 } from '../actions/comments'
 
 function commentsReducer (state = {}, action) {
-  return state
+  const { postId, id, body, author, parentId, option, } = action
+
+  switch (action.type) {
+    case GET_COMMENTS:
+    case ADD_COMMENT:
+    case GET_SINGLE_COMMENT:
+    case VOTE_COMMENT:
+    case EDIT_COMMENT:
+    case DELETE_COMMENT:
+    default:
+      return state
+  }
 }
 
 export default commentsReducer

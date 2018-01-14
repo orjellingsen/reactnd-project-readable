@@ -3,7 +3,13 @@ import {
 } from '../actions/categories'
 
 function categoriesReducer (state = {}, action) {
-  return state
+  const { category, } = action
+  switch (action.type) {
+    case GET_CATEGORIES:
+    case GET_CATEGORY_POSTS:
+    default:
+      return state
+  }
 }
 
 export default categoriesReducer
