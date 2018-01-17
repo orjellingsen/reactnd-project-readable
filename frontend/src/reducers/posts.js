@@ -6,6 +6,8 @@ function postsReducer ( state = {}, action ) {
   const { id, title, body, author, category, option, } = action
   switch (action.type) {
     case GET_POSTS:
+      return {
+      }
     case GET_SINGLE_POST:
     case ADD_POST:
     case VOTE_POST:
