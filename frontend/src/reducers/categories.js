@@ -2,13 +2,18 @@ import {
   GET_CATEGORIES, GET_CATEGORY_POSTS,
 } from '../actions/categories'
 
-function categoriesReducer (state = {}, action) {
+const initialState = {
+  categoryList: '',
+  currentCategory: 'all',
+}
+
+function categoriesReducer (state = initialState, action) {
   const { categoryList, } = action
   switch (action.type) {
     case GET_CATEGORIES:
       return {
         ...state,
-          categoryList
+          categoryList,
       }
     case GET_CATEGORY_POSTS:
       return {

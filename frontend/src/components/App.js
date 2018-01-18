@@ -9,14 +9,14 @@ class App extends Component {
   }
 
   render() {
-    const { categories } = this.props //Er en array, lodash???
+    const { categories } = this.props
     console.log(categories)
     return (
       <div>
           <ul>
           {categories.map(
               (category) => (
-                  <li key={category} className="category">
+                  <li key={category.name} className="category">
                           {category.name}
                   </li>
               )
