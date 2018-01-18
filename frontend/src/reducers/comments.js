@@ -3,7 +3,6 @@ import {
 } from '../actions/comments'
 
 function commentsReducer (state = {}, action) {
-  const { postId, id, body, author, parentId, option, } = action
 
   switch (action.type) {
     case GET_COMMENTS:

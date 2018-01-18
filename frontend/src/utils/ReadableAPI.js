@@ -57,8 +57,15 @@ export const votePost = ( post, option ) =>
     .then(res => res.json())
     .then(data => data.vote)
 
-/*export const editPost = () =>
+export const editPost = ( post ) =>
+  fetch(`${api}/posts/${post.id}`, {
+    method: 'PUT',
+    headers,
+  })
+    .then(res => res.json())
+    .then(data => data.post)
 
+    /*
 // Comments
 export const getCommentsByParent = () =>
 

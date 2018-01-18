@@ -3,10 +3,11 @@ import {
 } from '../actions/posts'
 
 function postsReducer ( state = {}, action ) {
-  const { id, title, body, author, category, option, } = action
+  const { allPosts } = action
   switch (action.type) {
     case GET_POSTS:
       return {
+          allPosts,
       }
     case GET_SINGLE_POST:
     case ADD_POST:
