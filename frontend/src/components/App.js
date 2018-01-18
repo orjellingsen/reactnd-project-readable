@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { fetchCategories } from '../actions/categories';
+import { fetchCategories } from '../middleware/categories';
 import _ from 'lodash'
 
 class App extends Component {
