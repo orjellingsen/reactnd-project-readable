@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
+import { fetchCategories } from '../middleware/categories'
 import Header from './Header'
 import Categories from './Categories'
 import ListPosts from './ListPosts'
@@ -19,21 +22,25 @@ const styles = {
 }
 
 class App extends Component {
+  componentWillMount() {
+    this.props.getCategories()
+  }
+
   render() {
-    const { classes } = this.props
+    const { classes, categories, } = this.props
     return (
       <div className={classes.root}>
         <Route exact path='/' render={() => (
           <Reboot>
             <Header />
-            <Categories />
+            <Categories categories={categories} />
             <ListPosts />
           </Reboot>
         )}/>
         <Route exact path='/category' render={() => (
           <Reboot>
             <Header />
-            <Categories />
+            <Categories categories={categories} />
           </Reboot>
         )}/>
         <Route exact path='/post' render={() => (
@@ -50,4 +57,19 @@ class App extends Component {
   }
 }
 
-export default withStyles(styles)(App)
+function mapStateToProps ({ categories, }) {
+  return {
+      categories: _.values(categories.categoryList),
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    getCategories: () => dispatch(fetchCategories()),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(App))

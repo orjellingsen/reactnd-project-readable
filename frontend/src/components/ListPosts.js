@@ -71,7 +71,7 @@ class ListPosts extends Component {
 
 function mapStateToProps ({ posts }) {
   return {
-      posts: _.values(posts.allPosts)
+    posts: _.values(posts.allPosts)
   }
 }
 
