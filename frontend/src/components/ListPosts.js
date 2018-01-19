@@ -13,14 +13,8 @@ import ThumbUp from 'material-ui-icons/ThumbUp'
 import Comment from 'material-ui-icons/Comment'
 
 const styles = {
-  root: {
-    width: '100%',
-  },
-  flex: {
-    flex: 1,
-  },
   card: {
-    width: '100%',
+    width: '60%',
     margin: '15px auto 15px auto'
   },
   flexGrow: {
@@ -28,7 +22,7 @@ const styles = {
   },
   cardHeader: {
     backgroundColor: '#FFEBEE'
-  }
+  },
 }
 
 class ListPosts extends Component {
@@ -37,7 +31,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { classes, posts } = this.props
+    const { classes, posts, } = this.props
     return (
       <div>
         {posts.map (

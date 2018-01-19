@@ -2,30 +2,36 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 
 import Header from './Header'
+import Categories from './Categories'
 import ListPosts from './ListPosts'
 
-import { withStyles } from 'material-ui/styles'
+import Reboot from 'material-ui/Reboot'
 import 'typeface-roboto'
 
 const styles = {
   root: {
     width: '100%',
+    margin: 0,
+    padding: 0,
   },
 }
 
 class App extends Component {
   render() {
-    const { classes } = this.props
     return (
       <div className='app'>
         <Route exact path='/' render={() => (
-          <div className={classes.root}>
+          <Reboot>
             <Header />
+            <Categories />
             <ListPosts />
-          </div>
+          </Reboot>
         )}/>
         <Route exact path='/category' render={() => (
-          <Header />
+          <Reboot>
+            <Header />
+            <Categories />
+          </Reboot>
         )}/>
         <Route exact path='/post' render={() => (
           <Header />
@@ -38,4 +44,4 @@ class App extends Component {
   }
 }
 
-export default withStyles(styles)(App)
+export default App
