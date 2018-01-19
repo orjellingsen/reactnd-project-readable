@@ -1,8 +1,52 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { fetchCategories } from '../middleware/categories';
+import { fetchCategories } from '../middleware/categories'
 import { fetchAllPosts } from '../middleware/posts'
 import _ from 'lodash'
+
+
+import { withStyles } from 'material-ui/styles'
+
+import Button from 'material-ui/Button'
+import Reboot from 'material-ui/Reboot'
+import Grid from 'material-ui/Grid'
+import Paper from 'material-ui/Paper'
+
+// App Bar
+import AppBar from 'material-ui/AppBar'
+import Toolbar from 'material-ui/Toolbar'
+import IconButton from 'material-ui/IconButton'
+import MenuIcon from 'material-ui-icons/Menu'
+import Typography from 'material-ui/Typography'
+
+// Category tabs
+import Tabs, { Tab } from 'material-ui/Tabs'
+
+// Card
+import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card'
+
+const styles = {
+  root: {
+    width: '100%',
+  },
+  flex: {
+    flex: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  paper: {
+    padding: 16,
+    textAlign: 'center',
+  },
+  card: {
+    width: '60%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    margin: '50px 0 10px 0'
+  }
+};
 
 class App extends Component {
   componentWillMount() {
@@ -11,35 +55,49 @@ class App extends Component {
   }
 
   render() {
-    const { categories, posts } = this.props
+    const { categories, posts, classes } = this.props
+
     return (
-      <div>
-        <h1>Readable</h1>
-        <h2>Categories</h2>
-        <ul>
-          {categories.map(
-              (category) => (
-                  <li key={category.name} className="category">{category.name}</li>
+      <div className={classes.root}>
+      <Reboot>
+        <Grid container spacing={24}>
+            <AppBar position='static'>
+              <Toolbar>
+                <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
+                  <MenuIcon />
+                </IconButton>
+                <Typography className={classes.flex} type="title" color="inherit">
+                  READABLE
+                </Typography>
+              </Toolbar>
+
+              <Toolbar>
+                <Tabs
+                  value
+                  onChange
+                  indicatorColor="primary"
+                  textColor="primary"
+                  fullWidth
+                >
+                  {categories.map ((category) => (
+                    <Tab key={category.name} label={category.name} />
+                  ))}
+                </Tabs>
+              </Toolbar>
+            </AppBar>
+
+            {posts.map (
+              (post) => (
+                <Card className={classes.card}>
+                  <CardHeader
+                    title={post.title}
+                    subheader={post.timestamp}
+                  />
+                </Card>
               )
-          )}
-        </ul>
-        <h2>Posts</h2>
-          {posts.map (
-            (post) => (
-              <div key={post.id}>
-                <h3>{post.title}</h3>
-                <p>{post.body}</p>
-                <ul>
-                  <li>Time: {post.timestamp}</li>
-                  <li>ID: {post.id}</li>
-                  <li>Author: {post.author}</li>
-                  <li>Category: {post.category}</li>
-                  <li>Vote Score: {post.voteScore}</li>
-                  <li>Comments: {post.commentCount}</li>
-                </ul>
-              </div>
-            )
-          )}
+            )}
+        </Grid>
+      </Reboot>
       </div>
     )
   }
@@ -61,4 +119,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(withStyles(styles)(App))
