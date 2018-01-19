@@ -1,14 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './components/App'
-import registerServiceWorker from './registerServiceWorker'
-import reducer from './reducers'
+import { BrowserRouter } from 'react-router-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
-import 'typeface-roboto'
+import App from './components/App'
+import registerServiceWorker from './registerServiceWorker'
+import reducer from './reducers'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -26,7 +25,7 @@ if (!element) {
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter><App /></BrowserRouter>
   </Provider>, element
 )
 registerServiceWorker()
