@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import { fetchCategories } from '../middleware/categories'
 import { fetchAllPosts } from '../middleware/posts'
 import _ from 'lodash'
@@ -25,6 +25,11 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 // Card
 import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card'
 
+// Icons
+import ThumbDown from 'material-ui-icons/ThumbDown'
+import ThumbUp from 'material-ui-icons/ThumbUp'
+import Comment from 'material-ui-icons/Comment'
+
 const styles = {
   root: {
     width: '100%',
@@ -36,17 +41,26 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
-  paper: {
-    padding: 16,
-    textAlign: 'center',
+  appBar: {
+    marginBottom: 10,
+    backgroundColor: '#3F51B5',
   },
   card: {
-    width: '60%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    margin: '50px 0 10px 0'
+    width: '90%',
+    margin: '10px auto 10px auto'
+  },
+
+  flexGrow: {
+    flex: '1 1 auto',
+  },
+  showPosts: {
+    margin: '0 auto 30px auto',
+    width: '90%',
+  },
+  categories: {
+    backgroundColor: '#5C6BC0',
   }
-};
+}
 
 class App extends Component {
   componentWillMount() {
@@ -60,25 +74,24 @@ class App extends Component {
     return (
       <div className={classes.root}>
       <Reboot>
-        <Grid container spacing={24}>
-            <AppBar position='static'>
+            <AppBar className={classes.appBar} position='static'>
               <Toolbar>
-                <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
+                <IconButton className={classes.menuButton} color='contrast' aria-label='Menu'>
                   <MenuIcon />
                 </IconButton>
-                <Typography className={classes.flex} type="title" color="inherit">
+                <Typography className={classes.flex} type='title' color='inherit'>
                   READABLE
                 </Typography>
               </Toolbar>
 
-              <Toolbar>
+              <Toolbar className={classes.categories}>
                 <Tabs
-                  value
-                  onChange
-                  indicatorColor="primary"
-                  textColor="primary"
-                  fullWidth
+                  value='0'
+                  indicatorColor='primary'
+                  textColor='inherit'
+                  centered
                 >
+                  <Tab label='All' />
                   {categories.map ((category) => (
                     <Tab key={category.name} label={category.name} />
                   ))}
@@ -86,17 +99,38 @@ class App extends Component {
               </Toolbar>
             </AppBar>
 
+            <Typography className={classes.showPosts} component='p'>
+              Showing all posts:
+            </Typography>
+
             {posts.map (
               (post) => (
-                <Card className={classes.card}>
+                <Card key = {post.id} className={classes.card}>
                   <CardHeader
                     title={post.title}
                     subheader={post.timestamp}
                   />
+
+                  <CardContent>
+                    <Typography component='p'>{post.body}</Typography>
+                  </CardContent>
+
+                  <CardActions>
+                    <IconButton aria-label='Like'>
+                      <ThumbUp />
+                    </IconButton>
+                    <IconButton>{post.voteScore}</IconButton>
+                    <IconButton aria-label='Dislike'>
+                      <ThumbDown />
+                    </IconButton>
+                    <div className={classes.flexGrow} />
+                    <IconButton aria-label='Comment'>
+                      <Comment /> ({post.commentCount})
+                    </IconButton>
+                  </CardActions>
                 </Card>
               )
             )}
-        </Grid>
       </Reboot>
       </div>
     )
