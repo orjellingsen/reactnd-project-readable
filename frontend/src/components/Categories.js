@@ -23,7 +23,7 @@ class Categories extends Component {
       <Tabs
         className={classes.categoryTabs}
         value='0'
-        indicatorColor='#E57373'
+        indicatorColor='primary'
         centered
       >
         <Tab label='All' disabled />

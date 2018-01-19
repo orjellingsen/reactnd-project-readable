@@ -15,15 +15,15 @@ const styles = {
     textAlign: 'center',
   },
   appBar: {
-    backgroundColor: '#C62828',
-  },
+    paddingRight: '10px',
+  }
 }
 
 class Header extends Component {
   render() {
     const { classes, editPost } = this.props
     return (
-      <AppBar className={classes.appBar} position='static'>
+      <AppBar className={classes.appBar} color='primary' position='static'>
         <Toolbar>
           <Typography className={classes.flex} type='title' color='inherit'>
             READABLE

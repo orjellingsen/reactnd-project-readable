@@ -21,7 +21,7 @@ const styles = {
     flex: '1 1 auto',
   },
   cardHeader: {
-    backgroundColor: '#FFEBEE'
+    backgroundColor: '#C5CAE9'
   },
 }
 
@@ -41,6 +41,7 @@ class ListPosts extends Component {
                 title={post.title}
                 subheader={post.author}
                 className={classes.cardHeader}
+                color='accent'
               />
 
               <CardContent>
