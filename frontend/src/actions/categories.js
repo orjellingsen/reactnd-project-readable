@@ -1,5 +1,7 @@
-export const GET_CATEGORIES = 'GET_CATEGORIES' // GET /categories
-export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS' // GET /:category/posts
+import {
+  GET_CATEGORIES,
+  GET_CATEGORY_POSTS,
+} from './actionTypes'
 
 export function getCategories (categoryList) {
   return {

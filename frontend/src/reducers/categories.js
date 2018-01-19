@@ -1,6 +1,7 @@
 import {
-  GET_CATEGORIES, GET_CATEGORY_POSTS,
-} from '../actions/categories'
+  GET_CATEGORIES,
+  GET_CATEGORY_POSTS,
+} from '../actions/actionTypes'
 
 const initialState = {
   categoryList: '',

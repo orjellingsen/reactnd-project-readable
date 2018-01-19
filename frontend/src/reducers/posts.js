@@ -1,6 +1,11 @@
 import {
-  GET_POSTS, GET_SINGLE_POST, ADD_POST, VOTE_POST, EDIT_POST, DELETE_POST,
-} from '../actions/posts'
+  GET_POSTS,
+  GET_SINGLE_POST,
+  ADD_POST,
+  VOTE_POST,
+  EDIT_POST,
+  DELETE_POST,
+} from '../actions/actionTypes'
 
 function postsReducer ( state = {}, action ) {
   const { allPosts } = action
