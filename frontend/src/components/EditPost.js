@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
+import serializeForm from 'form-serialize'
+import { connect } from 'react-redux'
+import { capitalize, UUID } from '../utils/helper'
+import { Redirect } from 'react-router'
+
+
+import { createPost } from '../middleware/posts'
 
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
 import Typography from 'material-ui/Typography'
-
 import Input, { InputLabel } from 'material-ui/Input'
 import { MenuItem } from 'material-ui/Menu'
 import Select from 'material-ui/Select'
 import FormControl from 'material-ui/Form/FormControl';
 import Button from 'material-ui/Button/Button';
-
-import serializeForm from 'form-serialize'
 
 
 const styles = {
@@ -24,14 +28,24 @@ const styles = {
 }
 
 class EditPost extends Component {
-  handleSubmit = (e) => {
-    console.log(e)
-    e.preventDefault()
-    const values = serializeForm(e.target, { hash: true })
-    console.log(values)
+  state = {
+    redirect: false,
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const post = serializeForm(e.target, { hash: true })
+    post.timestamp = Date.now()
+    post.id = UUID.generate()
+    this.props.createPost(post)
+    this.setState({ redirect: true })
+  }
+
   render() {
-    const { classes } = this.props
+    const { classes, categories } = this.props
+    if (this.state.redirect) {
+      return <Redirect to='/'/>
+    }
     return(
       <div className={classes.root}>
         <Typography type='title'>New Post</Typography>
@@ -67,9 +81,9 @@ class EditPost extends Component {
               value='React'
               input={<Input name="category" id="category" />}
             >
-              <MenuItem value={'React'}>React</MenuItem>
-              <MenuItem value={'Redux'}>Redux</MenuItem>
-              <MenuItem value={'Udacity'}>Udacity</MenuItem>
+              {categories.map( (category) => (
+                <MenuItem key={category.name} value={category.name}>{capitalize(category.name)}</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <Button type='submit' raised color='primary' fullWidth>Create Post</Button>
@@ -79,4 +93,17 @@ class EditPost extends Component {
   }
 }
 
-export default withStyles(styles)(EditPost)
+function mapStateToProps ({ post }) {
+  return {
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    createPost: (post) => dispatch(createPost(post)),
+  }
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(EditPost))

@@ -21,15 +21,10 @@ export function getSinglePost ({ id }) {
   }
 }
 
-export function addPost ({ id, title, body, author, category }) {
+export function addPost ( post ) {
   return {
     type: ADD_POST,
-    id,
-    timestamp: Date.now(),
-    title,
-    body,
-    author,
-    category
+    post,
   }
 }
 

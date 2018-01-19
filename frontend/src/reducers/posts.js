@@ -8,14 +8,18 @@ import {
 } from '../actions/actionTypes'
 
 function postsReducer ( state = {}, action ) {
-  const { allPosts } = action
+  const { allPosts, post, } = action
   switch (action.type) {
     case GET_POSTS:
       return {
-          allPosts,
+        allPosts,
       }
     case GET_SINGLE_POST:
     case ADD_POST:
+      return {
+        ...state,
+          post,
+      }
     case VOTE_POST:
     case EDIT_POST:
     case DELETE_POST:
