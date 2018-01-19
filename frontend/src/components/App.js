@@ -4,7 +4,9 @@ import { Route } from 'react-router-dom'
 import Header from './Header'
 import Categories from './Categories'
 import ListPosts from './ListPosts'
+import EditPost from './EditPost'
 
+import { withStyles } from 'material-ui/styles'
 import Reboot from 'material-ui/Reboot'
 import 'typeface-roboto'
 
@@ -18,8 +20,9 @@ const styles = {
 
 class App extends Component {
   render() {
+    const { classes } = this.props
     return (
-      <div className='app'>
+      <div className={classes.root}>
         <Route exact path='/' render={() => (
           <Reboot>
             <Header />
@@ -36,12 +39,15 @@ class App extends Component {
         <Route exact path='/post' render={() => (
           <Header />
         )}/>
-        <Route exact path='/add' render={() => (
-          <Header />
+        <Route exact path='/new' render={() => (
+          <Reboot>
+            <Header editPost='true' />
+            <EditPost />
+          </Reboot>
         )}/>
       </div>
     )
   }
 }
 
-export default App
+export default withStyles(styles)(App)

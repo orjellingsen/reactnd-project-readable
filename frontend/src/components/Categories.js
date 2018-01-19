@@ -8,9 +8,6 @@ import { withStyles } from 'material-ui/styles'
 import Tabs, { Tab } from 'material-ui/Tabs'
 
 const styles = {
-  categories: {
-    backgroundColor: '#D32F2F',
-  },
   categoryTabs: {
   },
 }
