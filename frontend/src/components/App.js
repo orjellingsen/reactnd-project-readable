@@ -42,23 +42,25 @@ const styles = {
     marginRight: 20,
   },
   appBar: {
-    marginBottom: 10,
-    backgroundColor: '#3F51B5',
+    marginBottom: 30,
+    backgroundColor: '#C62828',
   },
   card: {
-    width: '90%',
-    margin: '10px auto 10px auto'
+    width: '100%',
+    margin: '15px auto 15px auto'
   },
 
   flexGrow: {
     flex: '1 1 auto',
   },
-  showPosts: {
-    margin: '0 auto 30px auto',
-    width: '90%',
-  },
   categories: {
-    backgroundColor: '#5C6BC0',
+    backgroundColor: '#D32F2F',
+  },
+  categoryTabs: {
+    margin: 0
+  },
+  cardHeader: {
+    backgroundColor: '#FFEBEE'
   }
 }
 
@@ -76,9 +78,6 @@ class App extends Component {
       <Reboot>
             <AppBar className={classes.appBar} position='static'>
               <Toolbar>
-                <IconButton className={classes.menuButton} color='contrast' aria-label='Menu'>
-                  <MenuIcon />
-                </IconButton>
                 <Typography className={classes.flex} type='title' color='inherit'>
                   READABLE
                 </Typography>
@@ -86,12 +85,13 @@ class App extends Component {
 
               <Toolbar className={classes.categories}>
                 <Tabs
+                  className={classes.categoryTabs}
                   value='0'
-                  indicatorColor='primary'
+                  indicatorColor='#E57373'
                   textColor='inherit'
                   centered
                 >
-                  <Tab label='All' />
+                  <Tab label='All' disabled />
                   {categories.map ((category) => (
                     <Tab key={category.name} label={category.name} />
                   ))}
@@ -99,16 +99,13 @@ class App extends Component {
               </Toolbar>
             </AppBar>
 
-            <Typography className={classes.showPosts} component='p'>
-              Showing all posts:
-            </Typography>
-
             {posts.map (
               (post) => (
                 <Card key = {post.id} className={classes.card}>
                   <CardHeader
                     title={post.title}
-                    subheader={post.timestamp}
+                    subheader={post.author}
+                    className={classes.cardHeader}
                   />
 
                   <CardContent>
