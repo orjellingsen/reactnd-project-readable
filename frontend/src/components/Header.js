@@ -31,13 +31,13 @@ class Header extends Component {
           {!editPost ?
           <Link to='/new'>
             <IconButton color='contrast'>
-            <AddCircle /><Typography type="button">New</Typography>
+              <AddCircle /><Typography type="button">New</Typography>
             </IconButton>
           </Link>
           :
           <Link to='/'>
             <IconButton color='contrast'>
-            <Cancel /><Typography type="button">Cancel</Typography>
+              <Cancel /><Typography type="button">Cancel</Typography>
             </IconButton>
           </Link>
           }

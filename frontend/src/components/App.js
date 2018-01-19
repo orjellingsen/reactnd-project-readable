@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
@@ -37,19 +37,22 @@ class App extends Component {
             <ListPosts />
           </Reboot>
         )}/>
+
         <Route exact path='/category' render={() => (
           <Reboot>
             <Header />
             <Categories categories={categories} />
           </Reboot>
         )}/>
+
         <Route exact path='/post' render={() => (
           <Header />
         )}/>
+
         <Route exact path='/new' render={() => (
           <Reboot>
             <Header editPost='true' />
-            <EditPost />
+            <EditPost categories={categories} />
           </Reboot>
         )}/>
       </div>
@@ -59,7 +62,7 @@ class App extends Component {
 
 function mapStateToProps ({ categories, }) {
   return {
-      categories: _.values(categories.categoryList),
+    categories: _.values(categories.categoryList),
   }
 }
 
@@ -69,7 +72,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(App))
+)(withStyles(styles)(App)))
