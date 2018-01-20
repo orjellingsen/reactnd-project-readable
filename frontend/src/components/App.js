@@ -33,31 +33,31 @@ class App extends Component {
         <Route exact path='/' render={() => (
           <Reboot>
             <Header />
-            <Categories categories={categories} currentCategory='all' />
-            <ListPosts />
+            <Categories category='all' categories={categories} />
+            <ListPosts category='all' />
           </Reboot>
         )}/>
 
           <Route exact path='/react' render={() => (
             <Reboot>
               <Header />
-              <Categories currentCategory='react' categories={categories} />
-              <ListPosts />
+              <Categories category='react' categories={categories} />
+              <ListPosts category='react' />
             </Reboot>
           )}/>
 
           <Route exact path='/redux' render={() => (
             <Reboot>
               <Header />
-              <Categories currentCategory='redux' categories={categories} />
-              <ListPosts />
+              <Categories category='redux' categories={categories} />
+              <ListPosts category='redux' />
             </Reboot>
           )}/>
 
           <Route exact path='/udacity' render={() => (
             <Reboot>
               <Header />
-              <Categories currentCategory='udacity' categories={categories} />
+              <Categories category='udacity' categories={categories} />
               <ListPosts />
             </Reboot>
           )}/>

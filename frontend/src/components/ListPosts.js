@@ -29,7 +29,9 @@ const styles = {
 
 class ListPosts extends Component {
   componentWillMount() {
-    this.props.getAllPosts()
+    if(this.props.category === 'all') {
+      this.props.getAllPosts()
+    }
   }
   handleDelete = (id) => {
     this.props.deletePost(id)

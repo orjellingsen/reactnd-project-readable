@@ -29,7 +29,13 @@ const styles = {
 class EditPost extends Component {
   state = {
     redirect: false,
+    category: '',
   }
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
 
   handleSubmit = (e) => {
     e.preventDefault()
@@ -39,9 +45,13 @@ class EditPost extends Component {
     this.props.createPost(post)
     this.setState({ redirect: true })
   }
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   render() {
     const { classes, categories } = this.props
+    const { category } = this.state
     if (this.state.redirect) {
       return <Redirect to='/'/>
     }
@@ -77,8 +87,9 @@ class EditPost extends Component {
           <FormControl fullWidth margin='normal'>
             <InputLabel htmlFor="category">Category</InputLabel>
             <Select
-              value='React'
+              value={category}
               input={<Input name="category" id="category" />}
+              onChange={this.handleChange}
             >
               {categories.map( (category) => (
                 <MenuItem key={category.name} value={category.name}>{capitalize(category.name)}</MenuItem>
