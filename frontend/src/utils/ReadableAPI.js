@@ -41,8 +41,8 @@ export const addPost = ( post ) =>
     .then(res => res.json())
     .then(data => data.post)
 
-export const deletePost = ( post ) =>
-  fetch(`${api}/posts/${post.id}`, {
+export const deletePost = ( id ) =>
+  fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
     headers,
   })

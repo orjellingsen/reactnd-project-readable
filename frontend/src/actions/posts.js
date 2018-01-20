@@ -45,7 +45,7 @@ export function editPost ({ id, title, body }) {
   }
 }
 
-export function deletePost ({ id }) {
+export function deletePost ( id ) {
   return {
     type: DELETE_POST,
     id,

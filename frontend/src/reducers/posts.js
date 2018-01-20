@@ -8,14 +8,15 @@ import {
 } from '../actions/actionTypes'
 
 function postsReducer ( state = {}, action ) {
-  const { allPosts, post, } = action
   switch (action.type) {
     case GET_POSTS:
+      const { allPosts } = action
       return {
         allPosts,
       }
     case GET_SINGLE_POST:
     case ADD_POST:
+      const { post } = action
       return {
         ...state,
           post,
@@ -23,6 +24,12 @@ function postsReducer ( state = {}, action ) {
     case VOTE_POST:
     case EDIT_POST:
     case DELETE_POST:
+      const { id } = action
+      const newPosts = state.allPosts.filter((oldPost) => ( oldPost.id !== id ))
+      return {
+          ...state,
+            allPosts: newPosts,
+      }
     default:
       return state
   }

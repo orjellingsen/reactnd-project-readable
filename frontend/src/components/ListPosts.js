@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-import { fetchAllPosts } from '../middleware/posts'
+import { fetchAllPosts, removePost } from '../middleware/posts'
 
 import { withStyles } from 'material-ui/styles'
 import IconButton from 'material-ui/IconButton'
@@ -11,10 +11,11 @@ import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card'
 import ThumbDown from 'material-ui-icons/ThumbDown'
 import ThumbUp from 'material-ui-icons/ThumbUp'
 import Comment from 'material-ui-icons/Comment'
+import Delete from 'material-ui-icons/Delete'
 
 const styles = {
   card: {
-    width: '60%',
+    width: '90%',
     margin: '15px auto 15px auto'
   },
   flexGrow: {
@@ -28,6 +29,9 @@ const styles = {
 class ListPosts extends Component {
   componentWillMount() {
     this.props.getAllPosts()
+  }
+  handleDelete = (id) => {
+    this.props.deletePost(id)
   }
 
   render() {
@@ -57,6 +61,9 @@ class ListPosts extends Component {
                   <ThumbDown />
                 </IconButton>
                 <div className={classes.flexGrow} />
+                <IconButton onClick={(e) => this.handleDelete(post.id, e)} aria-label='Delete'>
+                  <Delete />
+                </IconButton>
                 <IconButton aria-label='Comment'>
                   <Comment /> ({post.commentCount})
                 </IconButton>
@@ -78,6 +85,7 @@ function mapStateToProps ({ posts }) {
 function mapDispatchToProps (dispatch) {
   return {
     getAllPosts: () => dispatch(fetchAllPosts()),
+    deletePost: (id) => dispatch(removePost(id)),
   }
 }
 export default connect(

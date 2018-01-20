@@ -5,32 +5,21 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import { Link } from 'react-router-dom'
 
 const styles = {
-  categoryTabs: {
-  },
 }
 
 class Categories extends Component {
-  state = {
-    value: 0,
-  }
-
-  handleChange = (event, value) => {
-    this.setState({ value })
-  }
-
   render() {
-    const { classes, categories, currentCategory } = this.props
-    const { value } = this.state
+    const { classes, categories, } = this.props
     return (
       <Tabs
         className={classes.categoryTabs}
-        value={currentCategory}
-        onChange={this.handleChange}
         indicatorColor='primary'
         centered
+        value='All'
       >
         <Tab
           label='All'
+          value='All'
           component={Link}
           to='/'
         />
