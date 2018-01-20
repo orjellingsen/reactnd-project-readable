@@ -1,5 +1,6 @@
 import {
   GET_POSTS,
+  GET_POSTS_BY_CATEGORY,
   GET_SINGLE_POST,
   ADD_POST,
   VOTE_POST,
@@ -10,6 +11,13 @@ import {
 export function getPosts ( allPosts ) {
   return {
     type: GET_POSTS,
+    allPosts,
+  }
+}
+
+export function getPostsByCategory (allPosts) {
+  return {
+    type: GET_POSTS_BY_CATEGORY,
     allPosts,
   }
 }

@@ -58,7 +58,7 @@ class App extends Component {
             <Reboot>
               <Header />
               <Categories category='udacity' categories={categories} />
-              <ListPosts />
+              <ListPosts category='udacity' />
             </Reboot>
           )}/>
 

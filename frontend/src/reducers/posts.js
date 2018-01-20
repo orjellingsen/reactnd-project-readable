@@ -1,5 +1,6 @@
 import {
   GET_POSTS,
+  GET_POSTS_BY_CATEGORY,
   GET_SINGLE_POST,
   ADD_POST,
   VOTE_POST,
@@ -8,11 +9,16 @@ import {
 } from '../actions/actionTypes'
 
 function postsReducer ( state = {}, action ) {
+  const { allPosts } = action
   switch (action.type) {
     case GET_POSTS:
-      const { allPosts } = action
       return {
         allPosts,
+      }
+    case GET_POSTS_BY_CATEGORY:
+      return {
+        ...state,
+          allPosts,
       }
     case GET_SINGLE_POST:
     case ADD_POST:

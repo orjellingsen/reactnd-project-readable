@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import moment from 'moment'
 
-import { fetchAllPosts, removePost } from '../middleware/posts'
+import { fetchAllPosts, removePost, fetchPostsByCategory } from '../middleware/posts'
 
 import { withStyles } from 'material-ui/styles'
 import IconButton from 'material-ui/IconButton'
@@ -29,8 +29,11 @@ const styles = {
 
 class ListPosts extends Component {
   componentWillMount() {
-    if(this.props.category === 'all') {
-      this.props.getAllPosts()
+    const { category, getAllPosts, getPostsByCategory } = this.props
+    if(category === 'all') {
+      getAllPosts()
+    } else {
+      getPostsByCategory(category)
     }
   }
   handleDelete = (id) => {
@@ -88,6 +91,7 @@ function mapStateToProps ({ posts }) {
 function mapDispatchToProps (dispatch) {
   return {
     getAllPosts: () => dispatch(fetchAllPosts()),
+    getPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
     deletePost: (id) => dispatch(removePost(id)),
   }
 }

@@ -1,6 +1,5 @@
 import {
   GET_CATEGORIES,
-  GET_CATEGORY_POSTS,
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -9,16 +8,12 @@ const initialState = {
 }
 
 function categoriesReducer (state = initialState, action) {
-  const { categoryList, } = action
   switch (action.type) {
     case GET_CATEGORIES:
+      const { categoryList, } = action
       return {
         ...state,
           categoryList,
-      }
-    case GET_CATEGORY_POSTS:
-      return {
-
       }
     default:
       return state

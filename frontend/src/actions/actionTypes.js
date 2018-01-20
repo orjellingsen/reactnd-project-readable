@@ -1,7 +1,7 @@
 export const GET_CATEGORIES = 'GET_CATEGORIES' // GET /categories
-export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS' // GET /:category/posts
 
 export const GET_POSTS = 'GET_POSTS' // GET /posts
+export const GET_POSTS_BY_CATEGORY = 'GET_POSTS_BY_CATEGORY' // GET /:category/posts
 export const GET_SINGLE_POST = 'GET_SINGLE_POST' // GET /posts/:id
 export const ADD_POST = 'ADD_POST' // POST /posts
 export const VOTE_POST = 'VOTE_POST' // POST /posts/:id
