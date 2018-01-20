@@ -9,17 +9,17 @@ const styles = {
 
 class Categories extends Component {
   render() {
-    const { classes, categories, } = this.props
+    const { classes, categories, currentCategory} = this.props
     return (
       <Tabs
         className={classes.categoryTabs}
         indicatorColor='primary'
         centered
-        value='All'
+        value={currentCategory}
       >
         <Tab
           label='All'
-          value='All'
+          value='all'
           component={Link}
           to='/'
         />
@@ -27,6 +27,7 @@ class Categories extends Component {
           <Tab
             key={category.name}
             label={category.name}
+            value={category.path}
             component={Link}
             to={category.path}
           />

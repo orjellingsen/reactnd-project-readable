@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import moment from 'moment'
 
 import { fetchAllPosts, removePost } from '../middleware/posts'
 
@@ -43,7 +44,7 @@ class ListPosts extends Component {
             <Card key = {post.id} className={classes.card}>
               <CardHeader
                 title={post.title}
-                subheader={post.author}
+                subheader={`Posted ${moment(post.timestamp).fromNow()} by ${post.author}`}
                 className={classes.cardHeader}
                 color='accent'
               />

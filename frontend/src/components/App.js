@@ -33,7 +33,7 @@ class App extends Component {
         <Route exact path='/' render={() => (
           <Reboot>
             <Header />
-            <Categories categories={categories} />
+            <Categories categories={categories} currentCategory='all' />
             <ListPosts />
           </Reboot>
         )}/>
@@ -53,7 +53,8 @@ class App extends Component {
               <ListPosts />
             </Reboot>
           )}/>
-          <Route exact path='udacity' render={() => (
+
+          <Route exact path='/udacity' render={() => (
             <Reboot>
               <Header />
               <Categories currentCategory='udacity' categories={categories} />
