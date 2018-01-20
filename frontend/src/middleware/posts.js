@@ -1,5 +1,11 @@
 import * as api from '../utils/ReadableAPI'
-import { getPosts, addPost, deletePost, getPostsByCategory } from '../actions/posts'
+import {
+  getPosts,
+  addPost,
+  deletePost,
+  getPostsByCategory,
+  getSinglePost,
+} from '../actions/posts'
 
 export const fetchAllPosts = () => dispatch => (
   api.fetchAllPosts()
@@ -9,6 +15,11 @@ export const fetchAllPosts = () => dispatch => (
 export const fetchPostsByCategory = (category) => dispatch => (
   api.fetchPostsByCategory(category)
     .then(posts => dispatch(getPostsByCategory(posts)))
+)
+
+export const fetchPost = (id) => dispatch => (
+  api.fetchPost(id)
+    .then(post => dispatch(getSinglePost(post)))
 )
 
 export const createPost = (post) => dispatch => (

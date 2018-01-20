@@ -9,7 +9,7 @@ import {
 } from '../actions/actionTypes'
 
 function postsReducer ( state = {}, action ) {
-  const { allPosts } = action
+  const { allPosts, post, id } = action
   switch (action.type) {
     case GET_POSTS:
       return {
@@ -21,8 +21,11 @@ function postsReducer ( state = {}, action ) {
           allPosts,
       }
     case GET_SINGLE_POST:
+      return {
+        ...state,
+          post,
+      }
     case ADD_POST:
-      const { post } = action
       return {
         ...state,
           post,
@@ -30,7 +33,6 @@ function postsReducer ( state = {}, action ) {
     case VOTE_POST:
     case EDIT_POST:
     case DELETE_POST:
-      const { id } = action
       const newPosts = state.allPosts.filter((oldPost) => ( oldPost.id !== id ))
       return {
           ...state,

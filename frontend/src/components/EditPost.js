@@ -29,7 +29,7 @@ const styles = {
 class EditPost extends Component {
   state = {
     redirect: false,
-    category: '',
+    category: 'react',
   }
 
   handleChange = event => {

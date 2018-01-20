@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
@@ -27,58 +27,41 @@ class App extends Component {
   }
 
   render() {
-    const { classes, categories, } = this.props
+    const { classes, categories, location } = this.props
     return (
       <div className={classes.root}>
-        <Route exact path='/' render={() => (
-          <Reboot>
-            <Header />
-            <Categories category='all' categories={categories} />
-            <ListPosts category='all' />
-          </Reboot>
-        )}/>
-
-          <Route exact path='/react' render={() => (
-            <Reboot>
-              <Header />
-              <Categories category='react' categories={categories} />
-              <ListPosts category='react' />
-            </Reboot>
-          )}/>
-
-          <Route exact path='/redux' render={() => (
-            <Reboot>
-              <Header />
-              <Categories category='redux' categories={categories} />
-              <ListPosts category='redux' />
-            </Reboot>
-          )}/>
-
-          <Route exact path='/udacity' render={() => (
-            <Reboot>
-              <Header />
-              <Categories category='udacity' categories={categories} />
-              <ListPosts category='udacity' />
-            </Reboot>
-          )}/>
-
-        <Route exact path='/category' render={() => (
-          <Reboot>
-            <Header />
-            <Categories categories={categories} />
-          </Reboot>
-        )}/>
-
-        <Route exact path='/post' render={() => (
-          <Header />
-        )}/>
-
-        <Route exact path='/new' render={() => (
-          <Reboot>
+        <Reboot>
+          {(location.pathname === '/new')?
             <Header editPost='true' />
-            <EditPost categories={categories} />
-          </Reboot>
-        )}/>
+          :
+            <Header />
+          }
+          <Switch>
+            <Route exact path='/' render={() => (
+              <div>
+                <Categories category='all' categories={categories} />
+                <ListPosts category='all' />
+              </div>
+            )}/>
+
+            {categories.map((category) => (
+              <Route key={category.path} exact path={`/${category.path}`} render={() => (
+                <div>
+                  <Categories category={category.path} categories={categories} />
+                  <ListPosts category={category.path} />
+                </div>
+              )}/>
+            ))}
+
+            <Route exact path='/post/:postId' render={() => (
+                <ListPosts category='singlePost' path={location.pathname} />
+            )}/>
+
+            <Route exact path='/new' render={() => (
+                <EditPost categories={categories} />
+            )}/>
+          </Switch>
+        </Reboot>
       </div>
     )
   }

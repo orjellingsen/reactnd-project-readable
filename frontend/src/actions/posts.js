@@ -15,17 +15,17 @@ export function getPosts ( allPosts ) {
   }
 }
 
-export function getPostsByCategory (allPosts) {
+export function getPostsByCategory ( allPosts ) {
   return {
     type: GET_POSTS_BY_CATEGORY,
     allPosts,
   }
 }
 
-export function getSinglePost ({ id }) {
+export function getSinglePost ( post ) {
   return {
     type: GET_SINGLE_POST,
-    id,
+    post,
   }
 }
 

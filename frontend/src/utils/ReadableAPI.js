@@ -26,10 +26,9 @@ export const fetchAllPosts = () =>
   fetch(`${api}/posts`, { headers, })
     .then(res => res.json())
 
-export const fetchPost = ( post ) =>
-  fetch(`${api}/posts/${post.id}`, { headers, })
+export const fetchPost = ( id ) =>
+  fetch(`${api}/posts/${id}`, { headers, })
     .then(res => res.json())
-    .then(data => data.post)
 
 export const addPost = ( post ) =>
   fetch(`${api}/posts`, {
