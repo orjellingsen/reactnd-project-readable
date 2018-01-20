@@ -38,6 +38,29 @@ class App extends Component {
           </Reboot>
         )}/>
 
+          <Route exact path='/react' render={() => (
+            <Reboot>
+              <Header />
+              <Categories currentCategory='react' categories={categories} />
+              <ListPosts />
+            </Reboot>
+          )}/>
+
+          <Route exact path='/redux' render={() => (
+            <Reboot>
+              <Header />
+              <Categories currentCategory='redux' categories={categories} />
+              <ListPosts />
+            </Reboot>
+          )}/>
+          <Route exact path='udacity' render={() => (
+            <Reboot>
+              <Header />
+              <Categories currentCategory='udacity' categories={categories} />
+              <ListPosts />
+            </Reboot>
+          )}/>
+
         <Route exact path='/category' render={() => (
           <Reboot>
             <Header />

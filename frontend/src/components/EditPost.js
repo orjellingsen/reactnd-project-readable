@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { capitalize, UUID } from '../utils/helper'
 import { Redirect } from 'react-router'
 
-
 import { createPost } from '../middleware/posts'
 
 import { withStyles } from 'material-ui/styles'
