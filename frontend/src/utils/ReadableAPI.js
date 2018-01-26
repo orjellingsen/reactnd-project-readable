@@ -26,11 +26,11 @@ export const fetchAllPosts = () =>
   fetch(`${api}/posts`, { headers, })
     .then(res => res.json())
 
-export const fetchPost = ( id ) =>
+export const fetchPost = (id) =>
   fetch(`${api}/posts/${id}`, { headers, })
     .then(res => res.json())
 
-export const addPost = ( post ) =>
+export const addPost = (post) =>
   fetch(`${api}/posts`, {
     method: 'POST',
     headers,
@@ -39,7 +39,7 @@ export const addPost = ( post ) =>
     .then(res => res.json())
     .then(data => data.post)
 
-export const deletePost = ( id ) =>
+export const deletePost = (id) =>
   fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
     headers,
@@ -47,7 +47,7 @@ export const deletePost = ( id ) =>
     .then(res => res.json())
     .then(data => data.post)
 
-export const votePost = ( post, option ) =>
+export const votePost = (post, option) =>
   fetch(`${api}/posts/${post.id}`, {
     method: 'POST',
     headers,
@@ -55,10 +55,11 @@ export const votePost = ( post, option ) =>
     .then(res => res.json())
     .then(data => data.vote)
 
-export const editPost = ( post ) =>
+export const editPost = (post) =>
   fetch(`${api}/posts/${post.id}`, {
     method: 'PUT',
     headers,
+    body: JSON.stringify(post),
   })
     .then(res => res.json())
     .then(data => data.post)

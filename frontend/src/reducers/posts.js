@@ -32,6 +32,9 @@ function postsReducer ( state = {}, action ) {
       }
     case VOTE_POST:
     case EDIT_POST:
+      return {
+        ...state,
+      }
     case DELETE_POST:
       const newPosts = state.allPosts.filter((oldPost) => ( oldPost.id !== id ))
       return {

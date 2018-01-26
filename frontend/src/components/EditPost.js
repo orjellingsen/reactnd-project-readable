@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { capitalize, UUID } from '../utils/helper'
 import { Redirect } from 'react-router'
 
-import { createPost } from '../middleware/posts'
+import { createPost, updatePost } from '../middleware/posts'
 
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
@@ -29,39 +29,60 @@ const styles = {
 class EditPost extends Component {
   state = {
     redirect: false,
+    redirectNew: false,
     category: 'react',
   }
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  componentDidMount () {
+    const { post, path } = this.props
+    if (post) {
+      this.setState( { category: post.category, })
+    } else if (path !== '/new') {
+      this.setState({ redirectNew: true })
+    }
+  }
 
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   handleSubmit = (e) => {
+    const { createPost, updatePost, post } = this.props
     e.preventDefault()
-    const post = serializeForm(e.target, { hash: true })
-    post.timestamp = Date.now()
-    post.id = UUID.generate()
-    this.props.createPost(post)
+    const updatedPost = serializeForm(e.target, { hash: true })
+    updatedPost.timestamp = Date.now()
+    if (!post) {
+      updatedPost.id = UUID.generate()
+      createPost(updatedPost)
+    } else {
+      updatedPost.id = post.id
+      updatePost(updatedPost)
+    }
     this.setState({ redirect: true })
   }
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
-    const { classes, categories } = this.props
-    const { category } = this.state
-    if (this.state.redirect) {
+    const { classes, categories, post } = this.props
+    const { category, redirect, redirectNew } = this.state
+    if (redirect) {
       return <Redirect to='/'/>
+    } else if (redirectNew) {
+      return <Redirect to='/new' />
     }
     return(
       <div className={classes.root}>
-        <Typography type='title'>New Post</Typography>
+        <Typography type='title'>
+          {post? 'Edit Post' : 'New Post'}
+        </Typography>
         <form onSubmit={this.handleSubmit} className='post-form' noValidate autoComplete="off">
           <TextField
             id="title"
             name='title'
+            defaultValue={post? post.title : ''}
             label="Title"
             margin="normal"
             color='#C62828'
@@ -70,6 +91,7 @@ class EditPost extends Component {
           <TextField
             id="body"
             name='body'
+            defaultValue={post? post.body : ''}
             label="Content"
             multiline
             margin="normal"
@@ -79,6 +101,7 @@ class EditPost extends Component {
           <TextField
             id="author"
             name='author'
+            defaultValue={post? post.author : ''}
             label="Author"
             multiline
             margin="normal"
@@ -96,21 +119,23 @@ class EditPost extends Component {
               ))}
             </Select>
           </FormControl>
-          <Button type='submit' raised color='primary' fullWidth>Create Post</Button>
+          <Button type='submit' raised color='primary' fullWidth>{post? 'Update Post' : 'Create Post'}</Button>
         </form>
       </div>
     )
   }
 }
 
-function mapStateToProps ({ post }) {
+function mapStateToProps ({ posts, }) {
   return {
+    post: posts.post,
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     createPost: (post) => dispatch(createPost(post)),
+    updatePost: (post) => dispatch(updatePost(post)),
   }
 }
 export default connect(

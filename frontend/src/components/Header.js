@@ -21,25 +21,25 @@ const styles = {
 
 class Header extends Component {
   render() {
-    const { classes, editPost } = this.props
+    const { classes, path, } = this.props
     return (
       <AppBar className={classes.appBar} color='primary' position='static'>
         <Toolbar>
           <Typography className={classes.flex} type='title' color='inherit'>
             READABLE
           </Typography>
-          {!editPost ?
-          <Link to='/new'>
-            <IconButton color='contrast'>
-              <AddCircle /><Typography type="button">New</Typography>
-            </IconButton>
-          </Link>
+          {(path === '/new' || path.includes('/update')) ?
+            <Link to='/'>
+              <IconButton color='contrast'>
+                <Cancel /><Typography type="button">Cancel</Typography>
+              </IconButton>
+            </Link>
           :
-          <Link to='/'>
-            <IconButton color='contrast'>
-              <Cancel /><Typography type="button">Cancel</Typography>
-            </IconButton>
-          </Link>
+            <Link to='/new'>
+              <IconButton color='contrast'>
+                <AddCircle /><Typography type="button">New</Typography>
+              </IconButton>
+            </Link>
           }
         </Toolbar>
       </AppBar>

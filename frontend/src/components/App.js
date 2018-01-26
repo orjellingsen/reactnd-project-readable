@@ -27,15 +27,12 @@ class App extends Component {
   }
 
   render() {
-    const { classes, categories, location } = this.props
+    const { classes, categories, } = this.props
+    const { pathname } = this.props.location
     return (
       <div className={classes.root}>
         <Reboot>
-          {(location.pathname === '/new')?
-            <Header editPost='true' />
-          :
-            <Header />
-          }
+          <Header path={pathname} />
           <Switch>
             <Route exact path='/' render={() => (
               <div>
@@ -54,11 +51,19 @@ class App extends Component {
             ))}
 
             <Route exact path='/post/:postId' render={() => (
-                <ListPosts category='singlePost' path={location.pathname} />
+              <ListPosts category='singlePost' path={pathname} />
             )}/>
 
             <Route exact path='/new' render={() => (
-                <EditPost categories={categories} />
+              <div>
+                <EditPost path={pathname} categories={categories} />
+              </div>
+            )}/>
+
+            <Route exact path='/update/:postId' render={() => (
+              <div>
+                <EditPost path={pathname} categories={categories} />
+              </div>
             )}/>
           </Switch>
         </Reboot>

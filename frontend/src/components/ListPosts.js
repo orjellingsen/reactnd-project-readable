@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
-import { fetchAllPosts, removePost, fetchPostsByCategory, fetchPost } from '../middleware/posts'
+import { fetchAllPosts, fetchPostsByCategory, fetchPost } from '../middleware/posts'
 import Post from './Post'
+
+import Button from 'material-ui/Button'
 
 class ListPosts extends Component {
   state = {
@@ -22,13 +24,8 @@ class ListPosts extends Component {
     }
   }
 
-  handleDelete = (id) => {
-    this.props.deletePost(id)
-  }
-
   render() {
     const { posts, post, category, path, } = this.props
-    console.log(posts)
     return (
       <div>
         {(category !== 'singlePost')?
@@ -39,7 +36,12 @@ class ListPosts extends Component {
                 </Link>
             ))
         :
-          <Post singlePost='true' post={post} path={path} />
+          <div>
+            <Link to='/'>
+              <Button className='all-categories' centered>View all categories</Button>
+            </Link>
+            <Post singlePost='true' post={post} path={path} />
+          </div>
         }
       </div>
     )
@@ -58,7 +60,6 @@ function mapDispatchToProps (dispatch) {
     getAllPosts: () => dispatch(fetchAllPosts()),
     getPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
     getPost: (id) => dispatch(fetchPost(id)),
-    deletePost: (id) => dispatch(removePost(id)),
   }
 }
 export default connect(

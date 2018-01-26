@@ -5,6 +5,7 @@ import {
   deletePost,
   getPostsByCategory,
   getSinglePost,
+  editPost,
 } from '../actions/posts'
 
 export const fetchAllPosts = () => dispatch => (
@@ -30,4 +31,9 @@ export const createPost = (post) => dispatch => (
 export const removePost = (id) => dispatch => (
   api.deletePost(id)
     .then(data => dispatch(deletePost(id)))
+)
+
+export const updatePost = (post) => dispatch => (
+  api.editPost(post)
+    .then(post => dispatch(editPost(post)))
 )
