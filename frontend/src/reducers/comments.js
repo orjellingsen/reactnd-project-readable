@@ -8,10 +8,18 @@ import {
 } from '../actions/actionTypes'
 
 function commentsReducer (state = {}, action) {
-
+  const { allComments, comment } = action
   switch (action.type) {
     case GET_COMMENTS:
+      return {
+        ...state,
+          allComments,
+      }
     case ADD_COMMENT:
+      return {
+        ...state,
+          comment,
+      }
     case GET_SINGLE_COMMENT:
     case VOTE_COMMENT:
     case EDIT_COMMENT:

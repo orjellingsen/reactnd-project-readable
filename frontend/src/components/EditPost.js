@@ -56,7 +56,7 @@ class EditPost extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     const { createPost, updatePost, post } = this.props
     e.preventDefault()
     const updatedPost = serializeForm(e.target, { hash: true })

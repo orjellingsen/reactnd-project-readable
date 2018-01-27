@@ -7,21 +7,17 @@ import {
   DELETE_COMMENT,
 } from './actionTypes'
 
-export function getComments ({ postId }) {
+export function getComments (allComments) {
   return {
     type: GET_COMMENTS,
-    postId,
+    allComments,
   }
 }
 
-export function addComment ({ id, body, author, parentId }) {
+export function addComment (comment) {
   return {
     type: ADD_COMMENT,
-    id,
-    timestamp: Date.now(),
-    body,
-    author,
-    parentId,
+    comment,
   }
 }
 
