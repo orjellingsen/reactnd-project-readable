@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import { withStyles } from 'material-ui/styles'
 import Tabs, { Tab } from 'material-ui/Tabs'
@@ -8,6 +9,12 @@ const styles = {
 }
 
 class Categories extends Component {
+  static propTypes = {
+    categories: PropTypes.array.isRequired,
+    category: PropTypes.string.isRequired,
+    classes: PropTypes.object,
+  }
+
   render() {
     const { classes, categories, category} = this.props
     return (

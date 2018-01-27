@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import { fetchCategories } from '../middleware/categories'
@@ -22,6 +23,12 @@ const styles = {
 }
 
 class App extends Component {
+  static propTypes = {
+    getCategories: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
+    classes: PropTypes.object,
+  }
+
   componentWillMount() {
     this.props.getCategories()
   }

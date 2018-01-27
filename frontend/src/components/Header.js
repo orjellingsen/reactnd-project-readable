@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import { withStyles } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
@@ -20,6 +21,11 @@ const styles = {
 }
 
 class Header extends Component {
+  static propTypes = {
+    path: PropTypes.string,
+    classes: PropTypes.object,
+  }
+
   render() {
     const { classes, path, } = this.props
     return (

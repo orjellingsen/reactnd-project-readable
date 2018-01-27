@@ -3,6 +3,7 @@ import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
 import { capitalize, UUID } from '../utils/helper'
 import { Redirect } from 'react-router'
+import PropTypes from 'prop-types'
 
 import { createPost, updatePost } from '../middleware/posts'
 
@@ -27,6 +28,15 @@ const styles = {
 }
 
 class EditPost extends Component {
+  static propTypes = {
+    post: PropTypes.object,
+    path: PropTypes.string,
+    categories: PropTypes.array.isRequired,
+    createPost: PropTypes.func.isRequired,
+    updatePost: PropTypes.func.isRequired,
+    classes: PropTypes.object,
+  }
+
   state = {
     redirect: false,
     redirectNew: false,

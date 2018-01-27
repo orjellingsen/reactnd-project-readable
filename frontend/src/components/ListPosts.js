@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 
 import { fetchAllPosts, fetchPostsByCategory, fetchPost } from '../middleware/posts'
 import Post from './Post'
@@ -9,9 +10,20 @@ import Post from './Post'
 import Button from 'material-ui/Button'
 
 class ListPosts extends Component {
+  static propTypes = {
+    path: PropTypes.string,
+    category: PropTypes.string.isRequired,
+    getAllPosts: PropTypes.func.isRequired,
+    getPost: PropTypes.func.isRequired,
+    getPostsByCategory: PropTypes.func.isRequired,
+    post: PropTypes.object,
+    posts: PropTypes.array,
+  }
+
   state = {
     sort: 'timestamp',
   }
+
   componentWillMount() {
     const { category, getAllPosts, getPost, path, getPostsByCategory, } = this.props
     if(category === 'all') {
@@ -25,7 +37,7 @@ class ListPosts extends Component {
   }
 
   render() {
-    const { posts, post, category, path, } = this.props
+    const { posts, post, category, } = this.props
     return (
       <div>
         {(category !== 'singlePost')?
@@ -40,7 +52,7 @@ class ListPosts extends Component {
             <Link to='/'>
               <Button className='all-categories'>View all categories</Button>
             </Link>
-            <Post singlePost='true' post={post} path={path} />
+            <Post singlePost='true' post={post} />
           </div>
         }
       </div>

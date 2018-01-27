@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import { removePost, registerVote } from '../middleware/posts'
 
@@ -42,6 +43,14 @@ const styles = {
 }
 
 class Post extends Component {
+  static propTypes = {
+    post: PropTypes.object,
+    singlePost: PropTypes.string,
+    deletePost: PropTypes.func.isRequired,
+    votePost: PropTypes.func.isRequired,
+    classes: PropTypes.object,
+  }
+
   state = {
     redirect: false,
     edit: false,
