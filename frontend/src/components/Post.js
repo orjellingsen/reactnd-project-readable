@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import moment from 'moment'
 
-import { removePost } from '../middleware/posts'
+import { removePost, registerVote } from '../middleware/posts'
 
 import { withStyles } from 'material-ui/styles'
 import IconButton from 'material-ui/IconButton'
@@ -25,7 +25,7 @@ const styles = {
     flex: '1 1 auto',
   },
   cardHeader: {
-    backgroundColor: '#9FA8DA',
+    backgroundColor: '#E8EAF6',
   },
   hidden: {
     display: 'none',
@@ -54,6 +54,10 @@ class Post extends Component {
 
   handleEdit = (post) => {
     this.setState({ edit: true })
+  }
+
+  handleVote = (id, vote) => {
+    this.props.votePost(id, vote)
   }
 
   render() {
@@ -86,32 +90,30 @@ class Post extends Component {
               </CardContent>
             : ''}
 
-            <CardActions>
-              <IconButton aria-label='Like'>
-                <ThumbUp />
-              </IconButton>
-              <IconButton>{post.voteScore}</IconButton>
-              <IconButton aria-label='Dislike'>
-                <ThumbDown />
-              </IconButton>
-              <div className={classes.flexGrow} />
-              {singlePost?
+            {singlePost?
+              <CardActions>
+                <IconButton onClick={(e) => this.handleVote(post.id, 'upVote')} aria-label='Like'>
+                  <ThumbUp />
+                </IconButton>
+                <IconButton>{post.voteScore}</IconButton>
+                <IconButton onClick={(e) => this.handleVote(post.id, 'downVote')} aria-label='Dislike'>
+                  <ThumbDown />
+                </IconButton>
+                <div className={classes.flexGrow} />
                 <Button onClick={(e) => this.handleEdit(post, e)} className={classes.button} raised color='primary'>
                   Edit
                   <Edit className={classes.rightIcon} />
                 </Button>
-              : ''}
-              {singlePost?
                 <Button onClick={(e) => this.handleDelete(post.id, e)} className={classes.button} raised color='primary'>
                     Delete
                     <Delete className={classes.rightIcon} />
                 </Button>
-              : ''}
-              <Button className={classes.button} raised color='primary'>
-                Comment
-                <Comment className={classes.rightIcon} />
-              </Button>
-            </CardActions>
+                <Button className={classes.button} raised color='primary'>
+                  Comment
+                  <Comment className={classes.rightIcon} />
+                </Button>
+              </CardActions>
+            : ''}
           </Card>
         :
           ''
@@ -128,6 +130,7 @@ function mapStateToProps () {
 function mapDispatchToProps (dispatch) {
   return {
     deletePost: (id) => dispatch(removePost(id)),
+    votePost: (id, option) => dispatch(registerVote({id, option})),
   }
 }
 

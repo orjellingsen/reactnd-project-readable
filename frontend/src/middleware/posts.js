@@ -6,6 +6,7 @@ import {
   getPostsByCategory,
   getSinglePost,
   editPost,
+  votePost,
 } from '../actions/posts'
 
 export const fetchAllPosts = () => dispatch => (
@@ -36,4 +37,9 @@ export const removePost = (id) => dispatch => (
 export const updatePost = (post) => dispatch => (
   api.editPost(post)
     .then(post => dispatch(editPost(post)))
+)
+
+export const registerVote = ({id, option}) => dispatch => (
+  api.votePost({id, option})
+    .then(post => dispatch(votePost(post)))
 )

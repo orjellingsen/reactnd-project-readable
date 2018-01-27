@@ -38,7 +38,7 @@ class ListPosts extends Component {
         :
           <div>
             <Link to='/'>
-              <Button className='all-categories' centered>View all categories</Button>
+              <Button className='all-categories'>View all categories</Button>
             </Link>
             <Post singlePost='true' post={post} path={path} />
           </div>

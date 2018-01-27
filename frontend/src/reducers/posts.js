@@ -31,6 +31,10 @@ function postsReducer ( state = {}, action ) {
           post,
       }
     case VOTE_POST:
+      return {
+        ...state,
+          post,
+      }
     case EDIT_POST:
       return {
         ...state,
