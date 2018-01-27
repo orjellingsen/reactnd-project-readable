@@ -45,7 +45,7 @@ export function editComment ({ id, body }) {
   }
 }
 
-export function deleteComment ({ id }) {
+export function deleteComment (id) {
   return {
     type: DELETE_COMMENT,
     id,

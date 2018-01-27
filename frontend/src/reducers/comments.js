@@ -8,7 +8,7 @@ import {
 } from '../actions/actionTypes'
 
 function commentsReducer (state = {}, action) {
-  const { allComments, comment } = action
+  const { allComments, comment, id, } = action
   switch (action.type) {
     case GET_COMMENTS:
       return {
@@ -24,6 +24,11 @@ function commentsReducer (state = {}, action) {
     case VOTE_COMMENT:
     case EDIT_COMMENT:
     case DELETE_COMMENT:
+      const newComments = state.allComments.filter((oldComment) => ( oldComment.id !== id ))
+      return {
+          ...state,
+            allComments: newComments,
+      }
     default:
       return state
   }

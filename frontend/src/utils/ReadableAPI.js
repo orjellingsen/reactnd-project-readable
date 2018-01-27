@@ -93,8 +93,13 @@ export const addComment = (comment) =>
 export const voteComment = () =>
   fetch()
 
-export const deleteComment = () =>
-  fetch()
+export const deleteComment = (id) =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'DELETE',
+    headers,
+  })
+    .then(res => res.json())
+    .then(data => data.comment)
 
 /*
   export const GET_COMMENTS = 'GET_COMMENTS' // GET /posts/:id/comments

@@ -6,7 +6,7 @@ import serializeForm from 'form-serialize'
 import { UUID } from '../utils/helper'
 import _ from 'lodash'
 
-import { fetchComments, createComment } from '../middleware/comments'
+import { fetchComments, createComment, removeComment } from '../middleware/comments'
 
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
@@ -42,6 +42,14 @@ class Comments extends Component {
     addComment(comment)
   }
 
+  handleDelete = id => {
+    this.props.deleteComment(id)
+  }
+
+  handleEdit = e => {
+
+  }
+
   componentWillMount() {
     const { getComments, postId } = this.props
     getComments(postId)
@@ -57,7 +65,8 @@ class Comments extends Component {
             <p>{comment.body}</p>
             <p>{comment.author}</p>
             <p>{comment.timestamp}</p>
-            <button>Delete</button>
+            <button onClick={this.handleEdit}>Edit</button>
+            <button onClick={(e) => this.handleDelete(comment.id)}>Delete</button>
           </div>
         ))}
         <form onSubmit={this.handleSubmit} className={classes.postForm} noValidate autoComplete="off">
@@ -95,6 +104,7 @@ function mapDispatchToProps (dispatch) {
   return {
     getComments: (postId) => dispatch(fetchComments(postId)),
     addComment: (comment) => dispatch(createComment(comment)),
+    deleteComment: (id) => dispatch(removeComment(id)),
   }
 }
 
