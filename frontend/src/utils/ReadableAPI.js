@@ -68,9 +68,6 @@ export const editPost = (post) =>
 
 
 // Comments
-export const getCommentsByParent = () =>
-  fetch()
-
 export const getComments = (postId) =>
   fetch(`${api}/posts/${postId}/comments`, {
     method: 'GET',
@@ -78,8 +75,14 @@ export const getComments = (postId) =>
   })
     .then(res => res.json())
 
-export const editComment = () =>
-  fetch()
+export const editComment = (comment) =>
+  fetch(`${api}/comments/${comment.id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(comment),
+  })
+    .then(res => res.json())
+    .then(data => data.comment)
 
 export const addComment = (comment) =>
   fetch(`${api}/comments`, {
@@ -88,7 +91,6 @@ export const addComment = (comment) =>
     body: JSON.stringify(comment),
   })
     .then(res=> res.json())
-    .then(data => data.comment)
 
 export const voteComment = () =>
   fetch()
@@ -100,11 +102,3 @@ export const deleteComment = (id) =>
   })
     .then(res => res.json())
     .then(data => data.comment)
-
-/*
-  export const GET_COMMENTS = 'GET_COMMENTS' // GET /posts/:id/comments
-export const ADD_COMMENT = 'ADD_COMMENT' // POST /comments
-export const GET_SINGLE_COMMENT = 'GET_SINGLE_COMMENT' // GET /comments/:id
-export const VOTE_COMMENT = 'VOTE_COMMENT' // POST /comments/:id
-export const EDIT_COMMENT = 'EDIT_COMMENT' // PUT /comments/:id
-export const DELETE_COMMENT = 'DELETE_COMMENT' // DELETE /comments/:id*/

@@ -86,7 +86,7 @@ class Post extends Component {
     return (
       <div>
         {post?
-          <Card key = {post.id} className={classes.card}>
+          <Card className={classes.card}>
             <CardHeader
               title={post.title}
               subheader={`Posted ${moment(post.timestamp).fromNow()} by ${post.author} (${post.commentCount} comments, ${post.voteScore} votes)`}

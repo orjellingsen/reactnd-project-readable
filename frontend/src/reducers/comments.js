@@ -18,16 +18,19 @@ function commentsReducer (state = {}, action) {
     case ADD_COMMENT:
       return {
         ...state,
-          comment,
+          allComments: {
+            ...state.allComments,
+              [comment.id]: comment,
+          }
       }
     case GET_SINGLE_COMMENT:
     case VOTE_COMMENT:
     case EDIT_COMMENT:
     case DELETE_COMMENT:
-      const newComments = state.allComments.filter((oldComment) => ( oldComment.id !== id ))
+      const { [id]: _, ...newState } = state.allComments
       return {
-          ...state,
-            allComments: newComments,
+        ...state,
+          allComments: newState,
       }
     default:
       return state

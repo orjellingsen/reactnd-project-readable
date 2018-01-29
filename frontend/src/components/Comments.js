@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import moment from 'moment'
 import serializeForm from 'form-serialize'
 import { UUID } from '../utils/helper'
 import _ from 'lodash'
 
-import { fetchComments, createComment, removeComment } from '../middleware/comments'
+import { fetchComments, createComment, removeComment, } from '../middleware/comments'
+import Comment from './Comment'
 
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
-import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
+import Typography from 'material-ui/Typography/Typography'
 
 const styles = {
   comments: {
@@ -24,7 +24,7 @@ const styles = {
   postForm: {
     width: '50%',
     margin: '0 auto',
-  }
+  },
 }
 
 class Comments extends Component {
@@ -33,7 +33,7 @@ class Comments extends Component {
   }
 
   handleSubmit = e => {
-    const { addComment, postId } = this.props
+    const { addComment, postId, } = this.props
     e.preventDefault()
     const comment = serializeForm(e.target, { hash: true })
     comment.timestamp = Date.now()
@@ -42,16 +42,10 @@ class Comments extends Component {
     addComment(comment)
   }
 
-  handleDelete = id => {
-    this.props.deleteComment(id)
-  }
 
-  handleEdit = e => {
-
-  }
 
   componentWillMount() {
-    const { getComments, postId } = this.props
+    const { getComments, postId, } = this.props
     getComments(postId)
   }
 
@@ -59,15 +53,9 @@ class Comments extends Component {
     const { classes, comments, } = this.props
     return(
       <div className={classes.comments}>
-        <h2>Comments</h2>
+        <Typography type='title'>Comments</Typography>
         {comments.map((comment) => (
-          <div key={comment.id}>
-            <p>{comment.body}</p>
-            <p>{comment.author}</p>
-            <p>{comment.timestamp}</p>
-            <button onClick={this.handleEdit}>Edit</button>
-            <button onClick={(e) => this.handleDelete(comment.id)}>Delete</button>
-          </div>
+          <Comment key={comment.id} comment={comment} />
         ))}
         <form onSubmit={this.handleSubmit} className={classes.postForm} noValidate autoComplete="off">
           <TextField
