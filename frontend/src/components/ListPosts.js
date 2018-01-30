@@ -13,7 +13,6 @@ class ListPosts extends Component {
   static propTypes = {
     path: PropTypes.string,
     category: PropTypes.string.isRequired,
-    getAllPosts: PropTypes.func.isRequired,
     getPost: PropTypes.func.isRequired,
     getPostsByCategory: PropTypes.func.isRequired,
     post: PropTypes.object,
@@ -25,15 +24,16 @@ class ListPosts extends Component {
   }
 
   componentWillMount() {
+    /*
     const { category, getAllPosts, getPost, path, getPostsByCategory, } = this.props
     if(category === 'all') {
-      getAllPosts()
     } else if (category === 'singlePost'){
       const postId = path.substr(6)
       getPost(postId)
     } else {
       getPostsByCategory(category)
     }
+    */
   }
 
   render() {
@@ -62,14 +62,13 @@ class ListPosts extends Component {
 
 function mapStateToProps ({ posts, }) {
   return {
-    posts: _.values(_.orderBy(posts.allPosts, 'timestamp', 'desc')),
     post: posts.post,
+    posts: _.values(_.orderBy(posts.allPosts, 'timestamp', 'desc')),
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    getAllPosts: () => dispatch(fetchAllPosts()),
     getPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
     getPost: (id) => dispatch(fetchPost(id)),
   }

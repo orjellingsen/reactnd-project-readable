@@ -37,7 +37,6 @@ export const addPost = (post) =>
     body: JSON.stringify(post),
    })
     .then(res => res.json())
-    .then(data => data.post)
 
 export const deletePost = (id) =>
   fetch(`${api}/posts/${id}`, {
@@ -64,7 +63,6 @@ export const editPost = (post) =>
     body: JSON.stringify(post),
   })
     .then(res => res.json())
-    .then(data => data.post)
 
 
 // Comments

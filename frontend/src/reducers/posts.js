@@ -28,22 +28,23 @@ function postsReducer ( state = {}, action ) {
     case ADD_POST:
       return {
         ...state,
-          post,
+          allPosts: state.allPosts.concat(post),
       }
     case VOTE_POST:
       return {
         ...state,
-          post,
+          allPosts: state.allPosts.map((oldPost) => ((oldPost.id === post.id)? post: oldPost)),
       }
     case EDIT_POST:
+    console.log(state.allPosts)
       return {
         ...state,
+          allPosts: state.allPosts.map((oldPost) => ((oldPost.id === post.id)? post : oldPost)),
       }
     case DELETE_POST:
-      const newPosts = state.allPosts.filter((oldPost) => ( oldPost.id !== id ))
       return {
           ...state,
-            allPosts: newPosts,
+            allPosts: state.allPosts.filter((p) => (p.id !== id)),
       }
     default:
       return state

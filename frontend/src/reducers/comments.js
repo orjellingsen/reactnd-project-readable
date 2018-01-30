@@ -10,6 +10,7 @@ import {
 function commentsReducer (state = {}, action) {
   const { allComments, comment, id, } = action
   switch (action.type) {
+    // TODO: give id as index key
     case GET_COMMENTS:
       return {
         ...state,
@@ -18,19 +19,15 @@ function commentsReducer (state = {}, action) {
     case ADD_COMMENT:
       return {
         ...state,
-          allComments: {
-            ...state.allComments,
-              [comment.id]: comment,
-          }
+          allComments: state.allComments.concat(comment)
       }
     case GET_SINGLE_COMMENT:
     case VOTE_COMMENT:
     case EDIT_COMMENT:
     case DELETE_COMMENT:
-      const { [id]: _, ...newState } = state.allComments
       return {
         ...state,
-          allComments: newState,
+          allComments: state.allComments.filter((c) => c.id !== id),
       }
     default:
       return state

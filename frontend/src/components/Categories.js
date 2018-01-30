@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
 import { withStyles } from 'material-ui/styles'
 import Tabs, { Tab } from 'material-ui/Tabs'
@@ -44,4 +47,18 @@ class Categories extends Component {
   }
 }
 
-export default withStyles(styles)(Categories)
+function mapStateToProps ({ categories }) {
+  return {
+    categories: _.values(categories.categoryList),
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Categories)))

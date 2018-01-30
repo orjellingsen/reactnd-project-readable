@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import { fetchCategories } from '../middleware/categories'
+import { fetchAllPosts } from '../middleware/posts'
+
 import Header from './Header'
 import Categories from './Categories'
 import ListPosts from './ListPosts'
@@ -31,6 +33,7 @@ class App extends Component {
 
   componentWillMount() {
     this.props.getCategories()
+    this.props.getAllPosts()
   }
 
   render() {
@@ -51,7 +54,7 @@ class App extends Component {
             {categories.map((category) => (
               <Route key={category.path} exact path={`/${category.path}`} render={() => (
                 <div>
-                  <Categories category={category.path} categories={categories} />
+                  <Categories category={category.path} />
                   <ListPosts category={category.path} />
                 </div>
               )}/>
@@ -79,15 +82,17 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ categories, }) {
+function mapStateToProps ({ categories, posts }) {
   return {
     categories: _.values(categories.categoryList),
+    posts: _.values(_.orderBy(posts.allPosts, 'timestamp', 'desc')),
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     getCategories: () => dispatch(fetchCategories()),
+    getAllPosts: () => dispatch(fetchAllPosts()),
   }
 }
 
