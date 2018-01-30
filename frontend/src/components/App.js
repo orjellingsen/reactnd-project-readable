@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Link, Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
@@ -11,9 +11,11 @@ import Header from './Header'
 import Categories from './Categories'
 import ListPosts from './ListPosts'
 import EditPost from './EditPost'
+import SinglePost from './SinglePost'
 
 import { withStyles } from 'material-ui/styles'
 import Reboot from 'material-ui/Reboot'
+import Button from 'material-ui/Button'
 import 'typeface-roboto'
 
 const styles = {
@@ -46,8 +48,8 @@ class App extends Component {
           <Switch>
             <Route exact path='/' render={() => (
               <div>
-                <Categories category='all' categories={categories} />
-                <ListPosts category='all' />
+                <Categories category='all' />
+                <ListPosts />
               </div>
             )}/>
 
@@ -61,7 +63,12 @@ class App extends Component {
             ))}
 
             <Route exact path='/post/:postId' render={() => (
-              <ListPosts category='singlePost' path={pathname} />
+              <div>
+                <Link to='/'>
+                  <Button className='all-categories'>View all categories</Button>
+                </Link>
+                <SinglePost path={pathname} />
+              </div>
             )}/>
 
             <Route exact path='/new' render={() => (

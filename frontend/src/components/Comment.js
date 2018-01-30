@@ -6,13 +6,14 @@ import moment from 'moment'
 import { removeComment, } from '../middleware/comments'
 
 import { withStyles } from 'material-ui/styles'
-import Card, { CardHeader, CardContent } from 'material-ui/Card'
+import Card, { CardContent } from 'material-ui/Card'
 import Typography from 'material-ui/Typography/Typography'
 
 const styles = {
   card: {
     width: '90%',
     margin: '15px auto 15px auto',
+    padding: '5px',
   },
   cardHeader: {
     backgroundColor: '#E8EAF6',
@@ -40,12 +41,10 @@ class Comment extends Component {
       <div>
         {comment?
           <Card className={classes.card}>
-            <CardHeader
-              title={comment.body}
-              className={classes.cardHeader}
-              color='accent'
-            />
-            <CardContent><Typography type='caption'>{`${moment(comment.timestamp).fromNow()} by ${comment.author} (Score: ${comment.voteScore})`}</Typography></CardContent>
+            <CardContent>
+              <Typography type='body2'>{comment.body}</Typography>
+              <Typography type='caption'>{`${moment(comment.timestamp).fromNow()} by ${comment.author} (Score: ${comment.voteScore})`}</Typography>
+            </CardContent>
             <button onClick={this.handleEdit}>Edit</button>
             <button onClick={(e) => this.handleDelete(comment.id)}>Delete</button>
           </Card>

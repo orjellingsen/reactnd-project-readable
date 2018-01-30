@@ -3,19 +3,26 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
-import { fetchAllPosts, fetchPostsByCategory, fetchPost } from '../middleware/posts'
-import Post from './Post'
+import { fetchPostsByCategory } from '../middleware/posts'
 
-import Button from 'material-ui/Button'
+import { withStyles } from 'material-ui/styles'
+import Card, { CardHeader } from 'material-ui/Card'
+
+const styles = {
+  card: {
+    width: '90%',
+    margin: '15px auto 15px auto',
+  },
+  cardHeader: {
+    backgroundColor: '#E8EAF6',
+  },
+}
 
 class ListPosts extends Component {
   static propTypes = {
-    path: PropTypes.string,
-    category: PropTypes.string.isRequired,
-    getPost: PropTypes.func.isRequired,
     getPostsByCategory: PropTypes.func.isRequired,
-    post: PropTypes.object,
     posts: PropTypes.array,
   }
 
@@ -23,38 +30,22 @@ class ListPosts extends Component {
     sort: 'timestamp',
   }
 
-  componentWillMount() {
-    /*
-    const { category, getAllPosts, getPost, path, getPostsByCategory, } = this.props
-    if(category === 'all') {
-    } else if (category === 'singlePost'){
-      const postId = path.substr(6)
-      getPost(postId)
-    } else {
-      getPostsByCategory(category)
-    }
-    */
-  }
-
   render() {
-    const { posts, post, category, } = this.props
+    const { posts, classes } = this.props
     return (
       <div>
-        {(category !== 'singlePost')?
-          posts.map (
-              (post) => (
-                <Link key={post.id} to={`/post/${post.id}`}>
-                  <Post post={post} />
-                </Link>
-            ))
-        :
-          <div>
-            <Link to='/'>
-              <Button className='all-categories'>View all categories</Button>
-            </Link>
-            <Post singlePost='true' post={post} />
-          </div>
-        }
+        {posts.map ((post) => (
+          <Link key={post.id} to={`/post/${post.id}`}>
+            <Card className={classes.card}>
+              <CardHeader
+                title={post.title}
+                subheader={`Posted ${moment(post.timestamp).fromNow()} by ${post.author} (${post.commentCount} comments, ${post.voteScore} votes)`}
+                className={classes.cardHeader}
+                color='accent'
+              />
+            </Card>
+          </Link>
+        ))}
       </div>
     )
   }
@@ -62,7 +53,6 @@ class ListPosts extends Component {
 
 function mapStateToProps ({ posts, }) {
   return {
-    post: posts.post,
     posts: _.values(_.orderBy(posts.allPosts, 'timestamp', 'desc')),
   }
 }
@@ -70,10 +60,9 @@ function mapStateToProps ({ posts, }) {
 function mapDispatchToProps (dispatch) {
   return {
     getPostsByCategory: (category) => dispatch(fetchPostsByCategory(category)),
-    getPost: (id) => dispatch(fetchPost(id)),
   }
 }
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListPosts)
+)(withStyles(styles)(ListPosts))

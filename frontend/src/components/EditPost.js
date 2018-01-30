@@ -45,10 +45,8 @@ class EditPost extends Component {
 
   componentDidMount () {
     const { post, path } = this.props
-    if (post) {
-      this.setState( { category: post.category, })
-    } else if (path !== '/new') {
-      this.setState({ redirectNew: true })
+    if(path.includes('/update')) {
+      if(post) { this.setState({ category: post.category }) }
     }
   }
 

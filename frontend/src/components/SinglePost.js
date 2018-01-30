@@ -42,9 +42,10 @@ const styles = {
   },
 }
 
-class Post extends Component {
+class SinglePost extends Component {
   static propTypes = {
     post: PropTypes.object,
+    singlePost: PropTypes.string,
     deletePost: PropTypes.func.isRequired,
     votePost: PropTypes.func.isRequired,
     classes: PropTypes.object,
@@ -53,6 +54,12 @@ class Post extends Component {
   state = {
     redirect: false,
     edit: false,
+  }
+
+  componentWillMount() {
+    const { getPost, path } = this.props
+    const postId = path.substr(6)
+    getPost(postId)
   }
 
   handleDelete = (id) => {
@@ -69,7 +76,7 @@ class Post extends Component {
   }
 
   render() {
-    const { classes, post, } = this.props
+    const { classes, post } = this.props
     const { redirect, edit } = this.state
 
     if (redirect) {
@@ -92,41 +99,32 @@ class Post extends Component {
               className={classes.cardHeader}
               color='accent'
             />
+            <CardContent>
+              <Typography component='p'>{post.body}</Typography>
+            </CardContent>
 
-            {singlePost?
-              <CardContent>
-                <Typography component='p'>{post.body}</Typography>
-              </CardContent>
-            : ''}
+            <CardActions>
+              <IconButton onClick={(e) => this.handleVote(post.id, 'upVote')} aria-label='Like'>
+                <ThumbUp />
+              </IconButton>
+              <IconButton>{post.voteScore}</IconButton>
+              <IconButton onClick={(e) => this.handleVote(post.id, 'downVote')} aria-label='Dislike'>
+                <ThumbDown />
+              </IconButton>
+              <div className={classes.flexGrow} />
+              <Button onClick={(e) => this.handleEdit(post, e)} className={classes.button} raised color='primary'>
+                Edit
+                <Edit className={classes.rightIcon} />
+              </Button>
+              <Button onClick={(e) => this.handleDelete(post.id, e)} className={classes.button} raised color='primary'>
+                  Delete
+                  <Delete className={classes.rightIcon} />
+              </Button>
+            </CardActions>
 
-            {singlePost?
-              <div>
-                <CardActions>
-                  <IconButton onClick={(e) => this.handleVote(post.id, 'upVote')} aria-label='Like'>
-                    <ThumbUp />
-                  </IconButton>
-                  <IconButton>{post.voteScore}</IconButton>
-                  <IconButton onClick={(e) => this.handleVote(post.id, 'downVote')} aria-label='Dislike'>
-                    <ThumbDown />
-                  </IconButton>
-                  <div className={classes.flexGrow} />
-                  <Button onClick={(e) => this.handleEdit(post, e)} className={classes.button} raised color='primary'>
-                    Edit
-                    <Edit className={classes.rightIcon} />
-                  </Button>
-                  <Button onClick={(e) => this.handleDelete(post.id, e)} className={classes.button} raised color='primary'>
-                      Delete
-                      <Delete className={classes.rightIcon} />
-                  </Button>
-                </CardActions>
-
-                <Comments postId={post.id} />
-              </div>
-            : ''}
+            <Comments postId={post.id} />
           </Card>
-        :
-          ''
-        }
+        :''}
       </div>
     )
   }
@@ -134,7 +132,7 @@ class Post extends Component {
 
 function mapStateToProps ({ posts }) {
   return {
-    currentPost: posts.post,
+    post: posts.post,
   }
 }
 function mapDispatchToProps (dispatch) {
@@ -148,4 +146,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Post))
+)(withStyles(styles)(SinglePost))
