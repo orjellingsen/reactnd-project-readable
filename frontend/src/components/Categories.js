@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-
-import Tabs, { Tab } from 'material-ui/Tabs'
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 class Categories extends Component {
   static propTypes = {
@@ -13,39 +10,26 @@ class Categories extends Component {
   }
 
   render() {
-    const { categories, category} = this.props
+    const { categories } = this.props
     return (
-      <Tabs
-        indicatorColor='primary'
-        centered
-        value={category}
-      >
-        <Tab
-          label='All'
-          value='all'
-          component={Link}
-          to='/'
-        />
-        {categories.map ((category) => (
-          <Tab
-            key={category.name}
-            label={category.name}
-            value={category.path}
-            component={Link}
-            to={category.path}
-          />
+      <ul>
+        <li>
+          <Link to="/" />
+        </li>
+        {categories.map(category => (
+          <li key={category.name}>
+            <Link to={category.path}>{category.name}</Link>
+          </li>
         ))}
-      </Tabs>
+      </ul>
     )
   }
 }
 
-function mapStateToProps ({ categories: { categoryList } }) {
+function mapStateToProps({ categories: { categoryList } }) {
   return {
-    categories: categoryList
+    categories: categoryList,
   }
 }
 
-export default withRouter(connect(
-  mapStateToProps
-)((Categories)))
+export default withRouter(connect(mapStateToProps)(Categories))

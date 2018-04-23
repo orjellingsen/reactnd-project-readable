@@ -7,19 +7,19 @@ import {
   DELETE_COMMENT,
 } from '../actions/comments'
 
-export default function comments (state = {}, action) {
-  const { allComments, comment, id, } = action
+export default function comments(state = {}, action) {
+  const { allComments, comment, id } = action
   switch (action.type) {
     // TODO: give id as index key
     case GET_COMMENTS:
       return {
         ...state,
-          allComments,
+        allComments,
       }
     case ADD_COMMENT:
       return {
         ...state,
-          allComments: state.allComments.concat(comment)
+        allComments: state.allComments.concat(comment),
       }
     case GET_SINGLE_COMMENT:
     case VOTE_COMMENT:
@@ -27,7 +27,7 @@ export default function comments (state = {}, action) {
     case DELETE_COMMENT:
       return {
         ...state,
-          allComments: state.allComments.filter((c) => c.id !== id),
+        allComments: state.allComments.filter(c => c.id !== id),
       }
     default:
       return state

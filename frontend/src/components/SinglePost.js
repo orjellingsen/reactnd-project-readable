@@ -7,48 +7,12 @@ import PropTypes from 'prop-types'
 import { fetchPost, removePost, registerVote } from '../actions/posts'
 import Comments from './Comments'
 
-import { withStyles } from 'material-ui/styles'
-import IconButton from 'material-ui/IconButton'
-import Typography from 'material-ui/Typography'
-import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card'
-import ThumbDown from 'material-ui-icons/ThumbDown'
-import ThumbUp from 'material-ui-icons/ThumbUp'
-import Delete from 'material-ui-icons/Delete'
-import Edit from 'material-ui-icons/Edit'
-import Button from 'material-ui/Button'
-
-const styles = {
-  card: {
-    width: '90%',
-    margin: '15px auto 15px auto',
-  },
-  flexGrow: {
-    flex: '1 1 auto',
-  },
-  cardHeader: {
-    backgroundColor: '#E8EAF6',
-  },
-  hidden: {
-    display: 'none',
-  },
-  commentIcon: {
-    marginRight: '5px',
-  },
-  rightIcon: {
-    marginLeft: '5px',
-  },
-  button: {
-    marginRight: '10px',
-  },
-}
-
 class SinglePost extends Component {
   static propTypes = {
     post: PropTypes.object,
     singlePost: PropTypes.string,
     deletePost: PropTypes.func.isRequired,
     votePost: PropTypes.func.isRequired,
-    classes: PropTypes.object,
   }
 
   state = {
@@ -62,12 +26,12 @@ class SinglePost extends Component {
     getPost(postId)
   }
 
-  handleDelete = (id) => {
+  handleDelete = id => {
     this.props.deletePost(id)
     this.setState({ redirect: true })
   }
 
-  handleEdit = (post) => {
+  handleEdit = post => {
     this.setState({ edit: true })
   }
 
@@ -76,74 +40,59 @@ class SinglePost extends Component {
   }
 
   render() {
-    const { classes, post } = this.props
+    const { post } = this.props
     const { redirect, edit } = this.state
 
     if (redirect) {
-      return <Redirect to='/'/>
+      return <Redirect to="/" />
     }
 
     if (edit) {
-      return (
-        <Redirect to={`/update/${post.id}`} />
-      )
+      return <Redirect to={`/update/${post.id}`} />
     }
 
     return (
       <div>
-        {post?
-          <Card className={classes.card}>
-            <CardHeader
-              title={post.title}
-              subheader={`Posted ${moment(post.timestamp).fromNow()} by ${post.author} (${post.commentCount} comments, ${post.voteScore} votes)`}
-              className={classes.cardHeader}
-              color='accent'
-            />
-            <CardContent>
-              <Typography component='p'>{post.body}</Typography>
-            </CardContent>
+        <h3>{post.title}</h3>
+        <p>
+          Posted {moment(post.timestamp).fromNow()} by {post.author} ({
+            post.commentCount
+          }{' '}
+          comments, {post.voteScore} votes)
+        </p>
+        <div>
+          <p>{post.body}</p>
+        </div>
 
-            <CardActions>
-              <IconButton onClick={(e) => this.handleVote(post.id, 'upVote')} aria-label='Like'>
-                <ThumbUp />
-              </IconButton>
-              <IconButton>{post.voteScore}</IconButton>
-              <IconButton onClick={(e) => this.handleVote(post.id, 'downVote')} aria-label='Dislike'>
-                <ThumbDown />
-              </IconButton>
-              <div className={classes.flexGrow} />
-              <Button onClick={(e) => this.handleEdit(post, e)} className={classes.button} raised color='primary'>
-                Edit
-                <Edit className={classes.rightIcon} />
-              </Button>
-              <Button onClick={(e) => this.handleDelete(post.id, e)} className={classes.button} raised color='primary'>
-                  Delete
-                  <Delete className={classes.rightIcon} />
-              </Button>
-            </CardActions>
+        <div>
+          <button onClick={e => this.handleVote(post.id, 'upVote')}>
+            Upvote
+          </button>
+          <p>{post.voteScore}</p>
+          <button onClick={e => this.handleVote(post.id, 'downVote')}>
+            Downvote
+          </button>
+          <button onClick={e => this.handleEdit(post, e)}>Edit</button>
+          <button onClick={e => this.handleDelete(post.id, e)}>Delete</button>
+        </div>
 
-            <Comments postId={post.id} />
-          </Card>
-        :''}
+        <Comments postId={post.id} />
       </div>
     )
   }
 }
 
-function mapStateToProps ({ posts }) {
+function mapStateToProps({ posts: { post = {} } }) {
   return {
-    post: posts.post,
+    post,
   }
 }
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    getPost: (id) => dispatch(fetchPost(id)),
-    deletePost: (id) => dispatch(removePost(id)),
-    votePost: (id, option) => dispatch(registerVote({id, option})),
+    getPost: id => dispatch(fetchPost(id)),
+    deletePost: id => dispatch(removePost(id)),
+    votePost: (id, option) => dispatch(registerVote({ id, option })),
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(SinglePost))
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePost)

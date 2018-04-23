@@ -12,22 +12,14 @@ import reducer from './reducers'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(
-  reducer,
-  composeEnhancers(
-    applyMiddleware(thunk)
-  )
-)
-
-const element = document.getElementById('root')
-if (!element) {
-  throw new Error('couldn\'t find element with id root')
-}
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)))
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter><App /></BrowserRouter>
-  </Provider>, element
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById('root')
 )
 registerServiceWorker()
-
