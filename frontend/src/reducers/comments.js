@@ -5,9 +5,9 @@ import {
   VOTE_COMMENT,
   EDIT_COMMENT,
   DELETE_COMMENT,
-} from '../actions/actionTypes'
+} from '../actions/comments'
 
-function commentsReducer (state = {}, action) {
+export default function comments (state = {}, action) {
   const { allComments, comment, id, } = action
   switch (action.type) {
     // TODO: give id as index key
@@ -33,5 +33,3 @@ function commentsReducer (state = {}, action) {
       return state
   }
 }
-
-export default commentsReducer

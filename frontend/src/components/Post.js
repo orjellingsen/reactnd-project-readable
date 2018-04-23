@@ -4,7 +4,7 @@ import { Redirect } from 'react-router'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 
-import { fetchPost, removePost, registerVote } from '../middleware/posts'
+import { fetchPost, removePost, registerVote } from '../actions/posts'
 import Comments from './Comments'
 
 import { withStyles } from 'material-ui/styles'

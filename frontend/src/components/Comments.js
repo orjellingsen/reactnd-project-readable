@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
-import { UUID } from '../utils/helper'
+import { ID } from '../utils/helper'
 import _ from 'lodash'
 
-import { fetchComments, createComment, removeComment, } from '../middleware/comments'
+import { fetchComments, createComment, removeComment } from '../actions/comments'
 import Comment from './Comment'
 
 import { withStyles } from 'material-ui/styles'
@@ -37,7 +37,7 @@ class Comments extends Component {
     e.preventDefault()
     const comment = serializeForm(e.target, { hash: true })
     comment.timestamp = Date.now()
-    comment.id = UUID.generate()
+    comment.id = ID()
     comment.parentId = postId
     addComment(comment)
   }

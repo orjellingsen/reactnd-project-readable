@@ -6,9 +6,9 @@ import {
   VOTE_POST,
   EDIT_POST,
   DELETE_POST,
-} from '../actions/actionTypes'
+} from '../actions/posts'
 
-function postsReducer ( state = {}, action ) {
+export default function posts ( state = {}, action ) {
   const { allPosts, post, id } = action
   switch (action.type) {
     case GET_POSTS:
@@ -50,5 +50,3 @@ function postsReducer ( state = {}, action ) {
       return state
   }
 }
-
-export default postsReducer

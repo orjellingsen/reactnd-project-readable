@@ -1,13 +1,13 @@
 import {
   GET_CATEGORIES,
-} from '../actions/actionTypes'
+} from '../actions/categories'
 
 const initialState = {
-  categoryList: '',
+  categoryList: [],
   currentCategory: 'all',
 }
 
-function categoriesReducer (state = initialState, action) {
+export default function categories (state = initialState, action) {
   switch (action.type) {
     case GET_CATEGORIES:
       const { categoryList, } = action
@@ -19,5 +19,3 @@ function categoriesReducer (state = initialState, action) {
       return state
   }
 }
-
-export default categoriesReducer

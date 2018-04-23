@@ -5,7 +5,7 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import { fetchPostsByCategory } from '../middleware/posts'
+import { fetchPostsByCategory } from '../actions/posts'
 
 import { withStyles } from 'material-ui/styles'
 import Card, { CardHeader } from 'material-ui/Card'

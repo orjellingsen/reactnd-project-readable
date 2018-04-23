@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import { removeComment, } from '../middleware/comments'
+import { removeComment } from '../actions/comments'
 
 import { withStyles } from 'material-ui/styles'
 import Card, { CardContent } from 'material-ui/Card'

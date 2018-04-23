@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
-import { fetchCategories } from '../middleware/categories'
-import { fetchAllPosts } from '../middleware/posts'
+import { fetchCategories } from '../actions/categories'
+import { fetchAllPosts } from '../actions/posts'
 
 import Header from './Header'
 import Categories from './Categories'
@@ -14,7 +14,6 @@ import EditPost from './EditPost'
 import SinglePost from './SinglePost'
 
 import { withStyles } from 'material-ui/styles'
-import Reboot from 'material-ui/Reboot'
 import Button from 'material-ui/Button'
 import 'typeface-roboto'
 
@@ -43,7 +42,6 @@ class App extends Component {
     const { pathname } = this.props.location
     return (
       <div className={classes.root}>
-        <Reboot>
           <Header path={pathname} />
           <Switch>
             <Route exact path='/' render={() => (
@@ -83,7 +81,6 @@ class App extends Component {
               </div>
             )}/>
           </Switch>
-        </Reboot>
       </div>
     )
   }

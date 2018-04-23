@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
-import { capitalize, UUID } from '../utils/helper'
+import { capitalize, ID } from '../utils/helper'
 import { Redirect } from 'react-router'
 import PropTypes from 'prop-types'
+import { Intent, Spinner } from "@blueprintjs/core"
 
-import { createPost, updatePost } from '../middleware/posts'
+import { createPost, updatePost } from '../actions/posts'
 
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
@@ -60,7 +61,7 @@ class EditPost extends Component {
     const updatedPost = serializeForm(e.target, { hash: true })
     updatedPost.timestamp = Date.now()
     if (!post) {
-      updatedPost.id = UUID.generate()
+      updatedPost.id = ID()
       createPost(updatedPost)
     } else {
       updatedPost.id = post.id
@@ -86,6 +87,7 @@ class EditPost extends Component {
         <Typography type='title'>
           {post? 'Edit Post' : 'New Post'}
         </Typography>
+        <Spinner intent={Intent.PRIMARY} />;
         <form onSubmit={this.handleSubmit} className='post-form' noValidate autoComplete="off">
           <TextField
             id="title"
