@@ -1,23 +1,29 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import {
+  Navbar,
+  NavbarGroup,
+  NavbarHeading,
+  NavbarDivider,
+  Button,
+  Alignment,
+} from '@blueprintjs/core'
+import Categories from './Categories'
 
-export default class Header extends Component {
-  static propTypes = {
-    path: PropTypes.string,
-  }
-
-  render() {
-    const { path } = this.props
-    return (
-      <div>
-        <h1>READABLE</h1>
-        {path === '/new' || path.includes('/update') ? (
-          <Link to="/">Cancel</Link>
-        ) : (
-          <Link to="/new">New</Link>
-        )}
-      </div>
-    )
-  }
-}
+export default () => (
+  <Navbar>
+    <NavbarGroup>
+      <NavbarHeading>Readable</NavbarHeading>
+      <NavbarDivider />
+      <Link to="/">
+        <Button icon="home" text="All" />
+      </Link>
+      <Categories />
+    </NavbarGroup>
+    <NavbarGroup align={Alignment.RIGHT}>
+      <Link to="/new">
+        <Button icon="plus" text="New Post" />
+      </Link>
+    </NavbarGroup>
+  </Navbar>
+)

@@ -29,65 +29,36 @@ class App extends Component {
     const { categories } = this.props
     const { pathname } = this.props.location
     return (
-      <div>
+      <div className="app pt-dark">
         <Header path={pathname} />
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <div>
-                <Categories category="all" />
-                <ListPosts />
-              </div>
-            )}
-          />
+          <Route exact path="/" component={ListPosts} />
 
           {categories.map(category => (
             <Route
               key={category.path}
               exact
               path={`/${category.path}`}
-              render={() => (
-                <div>
-                  <Categories category={category.path} />
-                  <ListPosts category={category.path} />
-                </div>
-              )}
+              render={() => <ListPosts category={category.path} />}
             />
           ))}
 
           <Route
             exact
             path="/post/:postId"
-            render={() => (
-              <div>
-                <Link to="/">
-                  <button>View all categories</button>
-                </Link>
-                <SinglePost path={pathname} />
-              </div>
-            )}
+            render={() => <SinglePost path={pathname} />}
           />
 
           <Route
             exact
             path="/new"
-            render={() => (
-              <div>
-                <EditPost path={pathname} categories={categories} />
-              </div>
-            )}
+            render={() => <EditPost path={pathname} categories={categories} />}
           />
 
           <Route
             exact
             path="/update/:postId"
-            render={() => (
-              <div>
-                <EditPost path={pathname} categories={categories} />
-              </div>
-            )}
+            render={() => <EditPost path={pathname} categories={categories} />}
           />
         </Switch>
         <Footer />
@@ -98,7 +69,7 @@ class App extends Component {
 
 function mapStateToProps({ categories, posts }) {
   return {
-    categories: _.values(categories.categoryList),
+    categories,
     posts: _.values(_.orderBy(posts.allPosts, 'timestamp', 'desc')),
   }
 }

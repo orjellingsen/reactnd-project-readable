@@ -9,14 +9,15 @@ import {
 } from '../actions/posts'
 
 export default function posts(state = {}, action) {
-  const { allPosts, post, id } = action
-  switch (action.type) {
+  const { type, allPosts, post, id } = action
+  switch (type) {
     case GET_POSTS:
       return {
         ...state,
         allPosts,
       }
     case GET_POSTS_BY_CATEGORY:
+      console.log('categoryposts', allPosts)
       return {
         ...state,
         allPosts,
@@ -39,7 +40,6 @@ export default function posts(state = {}, action) {
         ),
       }
     case EDIT_POST:
-      console.log(state.allPosts)
       return {
         ...state,
         allPosts: state.allPosts.map(

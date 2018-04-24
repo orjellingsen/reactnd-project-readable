@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import { Button, Card, Elevation } from '@blueprintjs/core'
 
 import { fetchPostsByCategory } from '../actions/posts'
 
@@ -22,15 +23,15 @@ class ListPosts extends Component {
       <div>
         {this.props.posts.map(post => (
           <Link key={post.id} to={`/post/${post.id}`}>
-            <div>
-              <h3>{post.title}</h3>
+            <Card className="post" interactive={true} elevation={Elevation.ONE}>
+              <h5>{post.title}</h5>
               <p>
                 Posted {moment(post.timestamp).fromNow()} by {post.author} ({
                   post.commentCount
                 }{' '}
                 comments, {post.voteScore} votes)
               </p>
-            </div>
+            </Card>
           </Link>
         ))}
       </div>

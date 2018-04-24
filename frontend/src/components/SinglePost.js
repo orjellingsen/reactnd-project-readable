@@ -20,7 +20,7 @@ class SinglePost extends Component {
     edit: false,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { getPost, path } = this.props
     const postId = path.substr(6)
     getPost(postId)

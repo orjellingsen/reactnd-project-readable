@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
-import { ID } from '../utils/helper'
 import _ from 'lodash'
 
+import { ID } from '../utils/helper'
 import {
   fetchComments,
   createComment,
@@ -13,10 +13,6 @@ import {
 import Comment from './Comment'
 
 class Comments extends Component {
-  static propTypes = {
-    classes: PropTypes.object,
-  }
-
   handleSubmit = e => {
     const { addComment, postId } = this.props
     e.preventDefault()

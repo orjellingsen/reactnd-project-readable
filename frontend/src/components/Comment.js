@@ -9,7 +9,6 @@ class Comment extends Component {
   static propTypes = {
     deleteComment: PropTypes.func.isRequired,
     comment: PropTypes.object,
-    classes: PropTypes.object,
   }
 
   handleDelete = id => {

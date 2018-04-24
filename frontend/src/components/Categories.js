@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Button } from '@blueprintjs/core'
 
 class Categories extends Component {
   static propTypes = {
@@ -12,23 +13,20 @@ class Categories extends Component {
   render() {
     const { categories } = this.props
     return (
-      <ul>
-        <li>
-          <Link to="/" />
-        </li>
+      <Fragment>
         {categories.map(category => (
-          <li key={category.name}>
-            <Link to={category.path}>{category.name}</Link>
-          </li>
+          <Link to={`/${category.path}`}>
+            <Button key={category.name} icon="tag" text={category.name} />
+          </Link>
         ))}
-      </ul>
+      </Fragment>
     )
   }
 }
 
-function mapStateToProps({ categories: { categoryList } }) {
+function mapStateToProps({ categories }) {
   return {
-    categories: categoryList,
+    categories,
   }
 }
 
