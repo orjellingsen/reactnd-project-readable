@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
-import { Link, Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
+import { Toaster, Toast, Position } from '@blueprintjs/core'
 
 import { fetchCategories } from '../actions/categories'
 import { fetchAllPosts } from '../actions/posts'
 
 import Header from './Header'
-import Categories from './Categories'
 import ListPosts from './ListPosts'
 import EditPost from './EditPost'
 import SinglePost from './SinglePost'
-import Footer from './Footer'
 
 class App extends Component {
   static propTypes = {
@@ -31,6 +29,11 @@ class App extends Component {
     return (
       <div className="app pt-dark">
         <Header path={pathname} />
+        <Toaster position={Position.BOTTOM_RIGHT} canEscapeKeyClear={true}>
+          {this.props.toasts.map((toast, index) => (
+            <Toast key={index} {...toast} />
+          ))}
+        </Toaster>
         <Switch>
           <Route exact path="/" component={ListPosts} />
 
@@ -61,16 +64,16 @@ class App extends Component {
             render={() => <EditPost path={pathname} categories={categories} />}
           />
         </Switch>
-        <Footer />
       </div>
     )
   }
 }
 
-function mapStateToProps({ categories, posts }) {
+function mapStateToProps({ categories, posts: { allPosts = [] }, toasts }) {
   return {
     categories,
-    posts: _.values(_.orderBy(posts.allPosts, 'timestamp', 'desc')),
+    posts: allPosts.sort(({ timestamp }) => timestamp).reverse(),
+    toasts,
   }
 }
 

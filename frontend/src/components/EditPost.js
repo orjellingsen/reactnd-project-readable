@@ -40,6 +40,7 @@ class EditPost extends Component {
     e.preventDefault()
     const updatedPost = serializeForm(e.target, { hash: true })
     updatedPost.timestamp = Date.now()
+    console.log(updatedPost)
     if (!post) {
       updatedPost.id = ID()
       createPost(updatedPost)
@@ -78,11 +79,7 @@ class EditPost extends Component {
             defaultValue={post ? post.author : ''}
           />
 
-          <select
-            value={category}
-            input={<input name="category" id="category" />}
-            onChange={this.handleChange}
-          >
+          <select value={category} name="category" onChange={this.handleChange}>
             {categories.map(category => (
               <option key={category.name} value={category.name}>
                 {capitalize(category.name)}

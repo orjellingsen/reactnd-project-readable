@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
-import _ from 'lodash'
 
 import { ID } from '../utils/helper'
 import {
@@ -13,6 +12,9 @@ import {
 import Comment from './Comment'
 
 class Comments extends Component {
+  static propTypes = {
+    comments: PropTypes.array.isRequired,
+  }
   handleSubmit = e => {
     const { addComment, postId } = this.props
     e.preventDefault()
@@ -46,9 +48,9 @@ class Comments extends Component {
   }
 }
 
-function mapStateToProps({ comments }) {
+function mapStateToProps({ comments: { allComments = [] } }) {
   return {
-    comments: _.values(_.orderBy(comments.allComments, 'timestamp', 'desc')),
+    comments: allComments.sort(({ timestamp }) => timestamp),
   }
 }
 function mapDispatchToProps(dispatch) {

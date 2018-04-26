@@ -7,7 +7,6 @@ import { Button } from '@blueprintjs/core'
 class Categories extends Component {
   static propTypes = {
     categories: PropTypes.array.isRequired,
-    category: PropTypes.string.isRequired,
   }
 
   render() {
@@ -15,8 +14,8 @@ class Categories extends Component {
     return (
       <Fragment>
         {categories.map(category => (
-          <Link to={`/${category.path}`}>
-            <Button key={category.name} icon="tag" text={category.name} />
+          <Link key={category.name} to={`/${category.path}`}>
+            <Button icon="tag" text={category.name} />
           </Link>
         ))}
       </Fragment>

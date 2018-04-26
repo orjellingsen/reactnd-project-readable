@@ -9,7 +9,7 @@ import {
 } from '../actions/posts'
 
 export default function posts(state = {}, action) {
-  const { type, allPosts, post, id } = action
+  const { type, allPosts, postsByCategory, category, post, id } = action
   switch (type) {
     case GET_POSTS:
       return {
@@ -17,10 +17,14 @@ export default function posts(state = {}, action) {
         allPosts,
       }
     case GET_POSTS_BY_CATEGORY:
-      console.log('categoryposts', allPosts)
       return {
         ...state,
-        allPosts,
+        byCategory: {
+          ...state.byCategory,
+          [category]: {
+            ...postsByCategory,
+          },
+        },
       }
     case GET_SINGLE_POST:
       return {

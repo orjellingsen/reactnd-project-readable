@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import _ from 'lodash'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Button, Card, Elevation } from '@blueprintjs/core'
+import { Card, Elevation } from '@blueprintjs/core'
 
 import { fetchPostsByCategory } from '../actions/posts'
 
@@ -12,13 +11,30 @@ class ListPosts extends Component {
   static propTypes = {
     getPostsByCategory: PropTypes.func.isRequired,
     posts: PropTypes.array,
+    category: PropTypes.string,
+  }
+
+  static defaultProps = {
+    category: 'all',
   }
 
   state = {
-    sort: 'timestamp',
+    posts: [],
+  }
+
+  componentDidMount() {
+    const { getPostsByCategory, category } = this.props
+    if (category === 'all') {
+      return
+    } else {
+      console.log(category)
+      getPostsByCategory(category)
+    }
   }
 
   render() {
+    const { postsByCategory, category } = this.props
+    postsByCategory && console.log(postsByCategory[category])
     return (
       <div>
         {this.props.posts.map(post => (
@@ -39,9 +55,11 @@ class ListPosts extends Component {
   }
 }
 
-function mapStateToProps({ posts }) {
+function mapStateToProps({ posts: { allPosts = [], byCategory } }) {
   return {
-    posts: _.values(_.orderBy(posts.allPosts, 'timestamp', 'desc')),
+    // TODO: move sorting into the class with state
+    posts: allPosts.sort(({ timestamp }) => timestamp),
+    postsByCategory: byCategory,
   }
 }
 

@@ -3,6 +3,13 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import moment from 'moment'
 import PropTypes from 'prop-types'
+import {
+  Card,
+  ButtonGroup,
+  Button,
+  Popover,
+  PopoverInteractionKind,
+} from '@blueprintjs/core'
 
 import { fetchPost, removePost, registerVote } from '../actions/posts'
 import Comments from './Comments'
@@ -52,7 +59,7 @@ class SinglePost extends Component {
     }
 
     return (
-      <div>
+      <Card className="post">
         <h3>{post.title}</h3>
         <p>
           Posted {moment(post.timestamp).fromNow()} by {post.author} ({
@@ -64,20 +71,45 @@ class SinglePost extends Component {
           <p>{post.body}</p>
         </div>
 
-        <div>
-          <button onClick={e => this.handleVote(post.id, 'upVote')}>
-            Upvote
-          </button>
-          <p>{post.voteScore}</p>
-          <button onClick={e => this.handleVote(post.id, 'downVote')}>
-            Downvote
-          </button>
-          <button onClick={e => this.handleEdit(post, e)}>Edit</button>
-          <button onClick={e => this.handleDelete(post.id, e)}>Delete</button>
-        </div>
+        <ButtonGroup>
+          <Button
+            icon="thumbs-up"
+            onClick={e => this.handleVote(post.id, 'upVote')}
+          />
+          <Button intent="primary">{post.voteScore}</Button>
+          <Button
+            icon="thumbs-down"
+            onClick={e => this.handleVote(post.id, 'downVote')}
+          />
+          <Button icon="edit" onClick={e => this.handleEdit(post, e)}>
+            Edit
+          </Button>
+          <Popover
+            interactionKind={PopoverInteractionKind.CLICK}
+            popoverClassName="pt-popover-content-sizing"
+          >
+            <Button intent="danger" icon="trash">
+              Delete
+            </Button>
+            <div>
+              <p>Are you sure you want to delete this post?</p>
+              <Button className="pt-popover-dismiss" icon="cancel">
+                Cancel
+              </Button>
+              <Button
+                className="pt-popover"
+                intent="danger"
+                icon="trash"
+                onClick={e => this.handleDelete(post.id, e)}
+              >
+                Confirm delete
+              </Button>
+            </div>
+          </Popover>
+        </ButtonGroup>
 
         <Comments postId={post.id} />
-      </div>
+      </Card>
     )
   }
 }

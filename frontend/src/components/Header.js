@@ -11,7 +11,7 @@ import {
 import Categories from './Categories'
 
 export default () => (
-  <Navbar>
+  <Navbar fixedToTop>
     <NavbarGroup>
       <NavbarHeading>Readable</NavbarHeading>
       <NavbarDivider />
@@ -22,7 +22,7 @@ export default () => (
     </NavbarGroup>
     <NavbarGroup align={Alignment.RIGHT}>
       <Link to="/new">
-        <Button icon="plus" text="New Post" />
+        <Button intent="primary" icon="plus" text="New Post" />
       </Link>
     </NavbarGroup>
   </Navbar>

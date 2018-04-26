@@ -348,5 +348,15 @@ body {
 }
 
 .post {
-  margin: 10px;
+  margin: 15px 20px;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+}
+
+.app {
+  padding-top: 80px;
+  margin: 0 auto;
+  border-left: 1px solid #1f2932;
+  border-right: 1px solid #1f2932;
 }

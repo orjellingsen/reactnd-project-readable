@@ -15,10 +15,11 @@ export function getPosts(allPosts) {
   }
 }
 
-export function getPostsByCategory(allPosts) {
+export function getPostsByCategory(postsByCategory, category) {
   return {
     type: GET_POSTS_BY_CATEGORY,
-    allPosts,
+    postsByCategory,
+    category,
   }
 }
 
@@ -63,7 +64,7 @@ export const fetchAllPosts = () => dispatch =>
 export const fetchPostsByCategory = category => dispatch =>
   api
     .fetchPostsByCategory(category)
-    .then(posts => dispatch(getPostsByCategory(posts)))
+    .then(posts => dispatch(getPostsByCategory(posts, category)))
 
 export const fetchPost = id => dispatch =>
   api.fetchPost(id).then(post => dispatch(getSinglePost(post)))
