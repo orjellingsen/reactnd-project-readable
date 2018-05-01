@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router'
+import { Redirect, withRouter } from 'react-router'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import {
@@ -12,25 +12,34 @@ import {
 } from '@blueprintjs/core'
 
 import { fetchPost, removePost, registerVote } from '../actions/posts'
+import { fetchComments } from '../actions/comments'
 import Comments from './Comments'
 
 class SinglePost extends Component {
   static propTypes = {
-    post: PropTypes.object,
-    singlePost: PropTypes.string,
+    post: PropTypes.object.isRequired,
+    comments: PropTypes.object.isRequired,
+    handleEditPost: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
     votePost: PropTypes.func.isRequired,
+    getPost: PropTypes.func.isRequired,
+    getComments: PropTypes.func.isRequired,
+  }
+  static defaultProps = {
+    post: {},
   }
 
   state = {
     redirect: false,
-    edit: false,
+    postId: null,
   }
 
   componentDidMount() {
-    const { getPost, path } = this.props
-    const postId = path.substr(6)
+    const { getPost, getComments, location } = this.props
+    const postId = location.pathname.substr(6)
+    this.setState(() => ({ postId }))
     getPost(postId)
+    getComments(postId)
   }
 
   handleDelete = id => {
@@ -38,30 +47,21 @@ class SinglePost extends Component {
     this.setState({ redirect: true })
   }
 
-  handleEdit = post => {
-    this.setState({ edit: true })
-  }
-
   handleVote = (id, vote) => {
     this.props.votePost(id, vote)
   }
 
   render() {
-    const { post } = this.props
-    const { redirect, edit } = this.state
-
+    const { post, comments } = this.props
+    const { redirect, postId } = this.state
     if (redirect) {
       return <Redirect to="/" />
     }
 
-    if (edit) {
-      return <Redirect to={`/update/${post.id}`} />
-    }
-
     return (
-      <Card className="post">
+      <Card>
         <h3>{post.title}</h3>
-        <p>
+        <p className="pt-text-muted">
           Posted {moment(post.timestamp).fromNow()} by {post.author} ({
             post.commentCount
           }{' '}
@@ -76,12 +76,12 @@ class SinglePost extends Component {
             icon="thumbs-up"
             onClick={e => this.handleVote(post.id, 'upVote')}
           />
-          <Button intent="primary">{post.voteScore}</Button>
+          <Button>{post.voteScore}</Button>
           <Button
             icon="thumbs-down"
             onClick={e => this.handleVote(post.id, 'downVote')}
           />
-          <Button icon="edit" onClick={e => this.handleEdit(post, e)}>
+          <Button icon="edit" onClick={e => this.props.handleEditPost(post, e)}>
             Edit
           </Button>
           <Popover
@@ -108,23 +108,28 @@ class SinglePost extends Component {
           </Popover>
         </ButtonGroup>
 
-        <Comments postId={post.id} />
+        {comments && (
+          <Comments postId={postId} comments={this.props.comments[postId]} />
+        )}
       </Card>
     )
   }
 }
 
-function mapStateToProps({ posts: { post = {} } }) {
+function mapStateToProps({ comments }) {
   return {
-    post,
+    comments,
   }
 }
 function mapDispatchToProps(dispatch) {
   return {
+    getComments: postId => dispatch(fetchComments(postId)),
     getPost: id => dispatch(fetchPost(id)),
     deletePost: id => dispatch(removePost(id)),
     votePost: (id, option) => dispatch(registerVote({ id, option })),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SinglePost)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SinglePost)
+)

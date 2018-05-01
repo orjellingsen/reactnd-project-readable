@@ -2,18 +2,21 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
+import styled from 'styled-components'
 
 import { ID } from '../utils/helper'
-import {
-  fetchComments,
-  createComment,
-  removeComment,
-} from '../actions/comments'
+import { createComment, removeComment } from '../actions/comments'
 import Comment from './Comment'
 
+const StyledComments = styled.div`
+  width: 80%;
+`
 class Comments extends Component {
   static propTypes = {
     comments: PropTypes.array.isRequired,
+  }
+  static defaultProps = {
+    comments: [],
   }
   handleSubmit = e => {
     const { addComment, postId } = this.props
@@ -25,17 +28,11 @@ class Comments extends Component {
     addComment(comment)
   }
 
-  componentWillMount() {
-    const { getComments, postId } = this.props
-    getComments(postId)
-  }
-
   render() {
-    const { comments } = this.props
     return (
-      <div>
+      <StyledComments>
         <h3>Comments</h3>
-        {comments.map(comment => (
+        {this.props.comments.map(comment => (
           <Comment key={comment.id} comment={comment} />
         ))}
         <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
@@ -43,22 +40,16 @@ class Comments extends Component {
           <input id="author" name="author" />
           <button type="submit">Add comment</button>
         </form>
-      </div>
+      </StyledComments>
     )
   }
 }
 
-function mapStateToProps({ comments: { allComments = [] } }) {
-  return {
-    comments: allComments.sort(({ timestamp }) => timestamp),
-  }
-}
 function mapDispatchToProps(dispatch) {
   return {
-    getComments: postId => dispatch(fetchComments(postId)),
     addComment: comment => dispatch(createComment(comment)),
     deleteComment: id => dispatch(removeComment(id)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comments)
+export default connect(null, mapDispatchToProps)(Comments)

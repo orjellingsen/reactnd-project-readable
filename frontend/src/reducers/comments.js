@@ -8,27 +8,30 @@ import {
 } from '../actions/comments'
 
 export default function comments(state = {}, action) {
-  const { allComments, comment, id } = action
+  const { comments, postId, comment, id } = action
   switch (action.type) {
     // TODO: give id as index key
     case GET_COMMENTS:
       return {
         ...state,
-        allComments,
+        [postId]: [...comments],
       }
     case ADD_COMMENT:
-      return {
-        ...state,
-        allComments: state.allComments.concat(comment),
-      }
+      const { parentId } = comment
+      return parentId
+        ? {
+            ...state,
+            [parentId]: state[parentId].concat(comment),
+          }
+        : {
+            ...state,
+            comment,
+          }
     case GET_SINGLE_COMMENT:
     case VOTE_COMMENT:
     case EDIT_COMMENT:
     case DELETE_COMMENT:
-      return {
-        ...state,
-        allComments: state.allComments.filter(c => c.id !== id),
-      }
+      return state[postId].filter(c => c.id !== id)
     default:
       return state
   }

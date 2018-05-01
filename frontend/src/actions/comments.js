@@ -7,10 +7,11 @@ export const VOTE_COMMENT = 'VOTE_COMMENT' // POST /comments/:id
 export const EDIT_COMMENT = 'EDIT_COMMENT' // PUT /comments/:id
 export const DELETE_COMMENT = 'DELETE_COMMENT' // DELETE /comments/:id
 
-export function getComments(allComments) {
+export function getComments(comments, postId) {
   return {
     type: GET_COMMENTS,
-    allComments,
+    comments,
+    postId,
   }
 }
 
@@ -45,18 +46,23 @@ export function editComment({ id, body }) {
   }
 }
 
-export function deleteComment(id) {
+export function deleteComment(id, postId) {
   return {
     type: DELETE_COMMENT,
     id,
+    postId,
   }
 }
 
 export const fetchComments = postId => dispatch =>
-  api.getComments(postId).then(comments => dispatch(getComments(comments)))
+  api
+    .getComments(postId)
+    .then(comments => dispatch(getComments(comments, postId)))
 
 export const createComment = comment => dispatch =>
-  api.addComment(comment).then(comment => dispatch(addComment(comment)))
+  api
+    .addComment(comment)
+    .then(_ => console.log(comment) || dispatch(addComment(comment)))
 
-export const removeComment = id => dispatch =>
-  api.deleteComment(id).then(data => dispatch(deleteComment(id)))
+export const removeComment = (id, postId) => dispatch =>
+  api.deleteComment(id).then(data => dispatch(deleteComment(id, postId)))

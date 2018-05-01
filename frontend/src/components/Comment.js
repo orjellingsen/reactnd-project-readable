@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
@@ -11,8 +11,8 @@ class Comment extends Component {
     comment: PropTypes.object,
   }
 
-  handleDelete = id => {
-    this.props.deleteComment(id)
+  handleDelete = (id, postId) => {
+    this.props.deleteComment(id, postId)
   }
 
   handleEdit = e => {}
@@ -20,8 +20,8 @@ class Comment extends Component {
   render() {
     const { comment } = this.props
     return (
-      <div>
-        {comment ? (
+      <Fragment>
+        {comment && (
           <div>
             <div>
               <p>{comment.body}</p>
@@ -30,20 +30,22 @@ class Comment extends Component {
               } (Score: ${comment.voteScore})`}</p>
             </div>
             <button onClick={this.handleEdit}>Edit</button>
-            <button onClick={e => this.handleDelete(comment.id)}>Delete</button>
+            <button
+              onClick={e => this.handleDelete(comment.id, comment.parentId)}
+            >
+              Delete
+            </button>
           </div>
-        ) : (
-          ''
         )}
-      </div>
+      </Fragment>
     )
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteComment: id => dispatch(removeComment(id)),
+    deleteComment: (id, postId) => dispatch(removeComment(id, postId)),
   }
 }
 
-export default connect(mapDispatchToProps)(Comment)
+export default connect(null, mapDispatchToProps)(Comment)

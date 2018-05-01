@@ -343,8 +343,11 @@ template {
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
+html {
+  height: 100%;
+}
 body {
-  background-color: #293742;
+  height: 100%;
 }
 
 .post {
@@ -352,11 +355,5 @@ body {
   max-width: 800px;
   display: grid;
   grid-template-columns: 100px 1fr;
-}
-
-.app {
-  padding-top: 80px;
-  margin: 0 auto;
-  border-left: 1px solid #1f2932;
-  border-right: 1px solid #1f2932;
+  grid-gap: 20px;
 }

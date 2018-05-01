@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^2.2.1",
+    "@blueprintjs/select": "^2.0.0",
     "form-serialize": "^0.7.2",
     "moment": "^2.20.1",
     "prop-types": "^15.6.0",

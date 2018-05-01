@@ -7,4 +7,5 @@ export const ID = function() {
   )
 }
 
-export const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1)
+export const capitalize = string =>
+  string.charAt(0).toUpperCase() + string.slice(1)

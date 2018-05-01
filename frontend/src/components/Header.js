@@ -10,7 +10,7 @@ import {
 } from '@blueprintjs/core'
 import Categories from './Categories'
 
-export default () => (
+export default ({ toggleNewPost, toggleTheme, darkTheme }) => (
   <Navbar fixedToTop>
     <NavbarGroup>
       <NavbarHeading>Readable</NavbarHeading>
@@ -21,9 +21,17 @@ export default () => (
       <Categories />
     </NavbarGroup>
     <NavbarGroup align={Alignment.RIGHT}>
-      <Link to="/new">
-        <Button intent="primary" icon="plus" text="New Post" />
-      </Link>
+      <Button
+        icon={darkTheme ? 'flash' : 'moon'}
+        text={darkTheme ? 'Light Theme' : 'Dark Theme'}
+        onClick={toggleTheme}
+      />
+      <Button
+        intent="primary"
+        icon="plus"
+        text="New Post"
+        onClick={toggleNewPost}
+      />
     </NavbarGroup>
   </Navbar>
 )
