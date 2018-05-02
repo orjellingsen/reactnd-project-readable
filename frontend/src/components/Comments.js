@@ -7,17 +7,23 @@ import styled from 'styled-components'
 import { ID } from '../utils/helper'
 import { createComment, removeComment } from '../actions/comments'
 import Comment from './Comment'
+import { Button, FormGroup } from '@blueprintjs/core'
 
 const StyledComments = styled.div`
   width: 80%;
+`
+const CommentHeader = styled.h3`
+  margin-top: 20px;
 `
 class Comments extends Component {
   static propTypes = {
     comments: PropTypes.array.isRequired,
   }
+
   static defaultProps = {
     comments: [],
   }
+
   handleSubmit = e => {
     const { addComment, postId } = this.props
     e.preventDefault()
@@ -31,14 +37,18 @@ class Comments extends Component {
   render() {
     return (
       <StyledComments>
-        <h3>Comments</h3>
+        <CommentHeader>Comments</CommentHeader>
         {this.props.comments.map(comment => (
           <Comment key={comment.id} comment={comment} />
         ))}
         <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
-          <input id="body" name="body" />
-          <input id="author" name="author" />
-          <button type="submit">Add comment</button>
+          <FormGroup label="Comment" labelFor="body">
+            <textarea className="pt-input" id="body" name="body" />
+          </FormGroup>
+          <FormGroup label="Author" labelFor="author">
+            <input className="pt-input" id="author" name="author" />
+          </FormGroup>
+          <Button type="submit">Add comment</Button>
         </form>
       </StyledComments>
     )

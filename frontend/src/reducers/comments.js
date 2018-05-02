@@ -31,7 +31,10 @@ export default function comments(state = {}, action) {
     case VOTE_COMMENT:
     case EDIT_COMMENT:
     case DELETE_COMMENT:
-      return state[postId].filter(c => c.id !== id)
+      return {
+        ...state,
+        [postId]: state[postId].filter(c => c.id !== id),
+      }
     default:
       return state
   }
