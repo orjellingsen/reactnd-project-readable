@@ -3,11 +3,8 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Toaster, Toast, Position } from '@blueprintjs/core'
 
 import { fetchCategories } from '../actions/categories'
-import { fetchAllPosts } from '../actions/posts'
-
 import Header from './Header'
 import ListPosts from './ListPosts'
 import NewPost from './NewPost'
@@ -51,52 +48,33 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getCategories()
-    this.props.getAllPosts()
   }
 
   render() {
-    const { categories, post } = this.props
     const { pathname } = this.props.location
+    const { darkTheme, newPostOpen, currentPost } = this.state
     return (
-      <Container
-        darkTheme={this.state.darkTheme}
-        className={this.state.darkTheme ? 'pt-dark' : ''}
-      >
+      <Container darkTheme={darkTheme} className={darkTheme ? 'pt-dark' : ''}>
         <Header
-          darkTheme={this.state.darkTheme}
+          darkTheme={darkTheme}
           toggleTheme={this.toggleTheme}
           toggleNewPost={this.toggleNewPost}
           path={pathname}
         />
-        <Toaster position={Position.BOTTOM_RIGHT} canEscapeKeyClear={true}>
-          {this.props.toasts.map((toast, index) => (
-            <Toast key={index} {...toast} />
-          ))}
-        </Toaster>
         <NewPost
-          isOpen={this.state.newPostOpen}
+          isOpen={newPostOpen}
           toggle={this.toggleNewPost}
-          darkTheme={this.state.darkTheme}
-          currentPost={this.state.currentPost}
+          darkTheme={darkTheme}
+          currentPost={currentPost}
         />
 
         <Switch>
           <Route exact path="/" component={ListPosts} />
-          {categories.map(category => (
-            <Route
-              key={category.path}
-              exact
-              path={`/${category.path}`}
-              render={() => <ListPosts category={category.path} />}
-            />
-          ))}
-
+          <Route exact path="/c/:category" component={ListPosts} />
           <Route
             exact
             path="/post/:postId"
-            render={() => (
-              <SinglePost handleEditPost={this.handleEditPost} post={post} />
-            )}
+            render={() => <SinglePost handleEditPost={this.handleEditPost} />}
           />
         </Switch>
       </Container>
@@ -104,18 +82,15 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ categories, posts, toasts }, { location }) {
+function mapStateToProps({ categories }) {
   return {
     categories,
-    post: posts.find(post => post.id === location.pathname.substr(6)),
-    toasts,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getCategories: () => dispatch(fetchCategories()),
-    getAllPosts: () => dispatch(fetchAllPosts()),
   }
 }
 

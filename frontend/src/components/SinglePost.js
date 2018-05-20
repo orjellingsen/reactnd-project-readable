@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router'
 import moment from 'moment'
@@ -17,16 +17,13 @@ import Comments from './Comments'
 
 class SinglePost extends Component {
   static propTypes = {
-    post: PropTypes.object.isRequired,
+    post: PropTypes.object,
     comments: PropTypes.object.isRequired,
     handleEditPost: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
     votePost: PropTypes.func.isRequired,
     getPost: PropTypes.func.isRequired,
     getComments: PropTypes.func.isRequired,
-  }
-  static defaultProps = {
-    post: {},
   }
 
   state = {
@@ -35,9 +32,7 @@ class SinglePost extends Component {
   }
 
   componentDidMount() {
-    const { getPost, getComments, location } = this.props
-    const postId = location.pathname.substr(6)
-    this.setState(() => ({ postId }))
+    const { getPost, getComments, match: { params: { postId } } } = this.props
     getPost(postId)
     getComments(postId)
   }
@@ -57,68 +52,84 @@ class SinglePost extends Component {
     if (redirect) {
       return <Redirect to="/" />
     }
-
     return (
       <Card>
-        <h3>{post.title}</h3>
-        <p className="pt-text-muted">
-          Posted {moment(post.timestamp).fromNow()} by {post.author} ({
-            post.commentCount
-          }{' '}
-          comments, {post.voteScore} votes)
-        </p>
-        <div>
-          <p>{post.body}</p>
-        </div>
-
-        <ButtonGroup>
-          <Button
-            icon="thumbs-up"
-            onClick={e => this.handleVote(post.id, 'upVote')}
-          />
-          <Button>{post.voteScore}</Button>
-          <Button
-            icon="thumbs-down"
-            onClick={e => this.handleVote(post.id, 'downVote')}
-          />
-          <Button icon="edit" onClick={e => this.props.handleEditPost(post, e)}>
-            Edit
-          </Button>
-          <Popover
-            interactionKind={PopoverInteractionKind.CLICK}
-            popoverClassName="pt-popover-content-sizing"
-          >
-            <Button intent="danger" icon="trash">
-              Delete
-            </Button>
+        {post ? (
+          <Fragment>
+            <h3>{post.title}</h3>
+            <p className="pt-text-muted">
+              Posted {moment(post.timestamp).fromNow()} by {post.author} ({
+                post.commentCount
+              }{' '}
+              comments, {post.voteScore} votes)
+            </p>
             <div>
-              <p>Are you sure you want to delete this post?</p>
-              <Button className="pt-popover-dismiss" icon="cancel">
-                Cancel
-              </Button>
-              <Button
-                className="pt-popover"
-                intent="danger"
-                icon="trash"
-                onClick={e => this.handleDelete(post.id, e)}
-              >
-                Confirm delete
-              </Button>
+              <p>{post.body}</p>
             </div>
-          </Popover>
-        </ButtonGroup>
 
-        {comments && (
-          <Comments postId={postId} comments={this.props.comments[postId]} />
+            <ButtonGroup>
+              <Button
+                icon="thumbs-up"
+                onClick={e => this.handleVote(post.id, 'upVote')}
+              />
+              <Button>{post.voteScore}</Button>
+              <Button
+                icon="thumbs-down"
+                onClick={e => this.handleVote(post.id, 'downVote')}
+              />
+              <Button
+                icon="edit"
+                onClick={e => this.props.handleEditPost(post, e)}
+              >
+                Edit
+              </Button>
+              <Popover
+                interactionKind={PopoverInteractionKind.CLICK}
+                popoverClassName="pt-popover-content-sizing"
+              >
+                <Button intent="danger" icon="trash">
+                  Delete
+                </Button>
+                <div>
+                  <p>Are you sure you want to delete this post?</p>
+                  <Button className="pt-popover-dismiss" icon="cancel">
+                    Cancel
+                  </Button>
+                  <Button
+                    className="pt-popover"
+                    intent="danger"
+                    icon="trash"
+                    onClick={e => this.handleDelete(post.id, e)}
+                  >
+                    Confirm delete
+                  </Button>
+                </div>
+              </Popover>
+            </ButtonGroup>
+
+            {comments && (
+              <Comments
+                postId={postId}
+                comments={this.props.comments[postId]}
+              />
+            )}
+          </Fragment>
+        ) : (
+          ''
         )}
       </Card>
     )
   }
 }
 
-function mapStateToProps({ comments }) {
+function mapStateToProps(
+  { comments, posts },
+  { match: { params: { postId } } }
+) {
+  console.log(posts)
   return {
     comments,
+    post: posts.find(post => post.id === postId),
   }
 }
 function mapDispatchToProps(dispatch) {

@@ -15,16 +15,11 @@ export default function posts(state = [], action) {
     case GET_POSTS:
       return [...action.allPosts]
     case GET_POSTS_BY_CATEGORY:
-      return {
-        ...state,
-        byCategory: {
-          ...state.byCategory,
-          [action.category]: {
-            ...action.postsByCategory,
-          },
-        },
-      }
+      return [...action.postsByCategory]
     case GET_SINGLE_POST:
+      if (state.length === 0) {
+        return state.concat(post)
+      }
       return state.map(oldPost => (oldPost.id === post.id ? post : oldPost))
     case ADD_POST:
       return state.concat(post)

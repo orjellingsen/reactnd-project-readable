@@ -5,42 +5,53 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Elevation } from '@blueprintjs/core'
 
+import { fetchAllPosts } from '../actions/posts'
 import { fetchPostsByCategory } from '../actions/posts'
 
 class ListPosts extends Component {
   static propTypes = {
     getPostsByCategory: PropTypes.func.isRequired,
     posts: PropTypes.array.isRequired,
-    category: PropTypes.string,
-  }
-
-  static defaultProps = {
-    category: 'all',
-    posts: [],
   }
 
   state = {
-    posts: [],
+    category: 'all',
   }
 
-  componentDidMount() {
-    this.setState(() => ({
-      posts: this.props.posts.sort(({ timestamp }) => timestamp),
-    }))
-    const { getPostsByCategory, category } = this.props
-    if (category === 'all') {
-      return
-    } else {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {
+      getAllPosts,
+      getPostsByCategory,
+      match: { params: { category = 'all' } },
+    } = nextProps
+    if (category === prevState.category) {
+      return null
+    }
+    if (category !== 'all') {
       getPostsByCategory(category)
+      return {
+        category,
+      }
+    } else {
+      getAllPosts()
+      return { category: 'all' }
     }
   }
 
+  componentDidMount() {
+    if (this.state.category === 'all') {
+      this.props.getAllPosts()
+    }
+  }
   render() {
-    const { posts } = this.props
     return (
       <Fragment>
-        {posts.map(post => (
-          <Link key={post.id} to={`/post/${post.id}`}>
+        {this.props.posts.map(post => (
+          <Link
+            style={{ textDecoration: 'none' }}
+            key={post.id}
+            to={`/post/${post.id}`}
+          >
             <Card className="post" interactive={true} elevation={Elevation.ONE}>
               <p>
                 Posted {moment(post.timestamp).fromNow()} by {post.author} ({
@@ -50,12 +61,7 @@ class ListPosts extends Component {
               </p>
               <div>
                 <h5>{post.title}</h5>
-                <p
-                  style={{ width: '150px' }}
-                  className="pt-text-overflow-ellipsis"
-                >
-                  {post.body}
-                </p>
+                <p className="pt-text">{post.body}</p>
               </div>
             </Card>
           </Link>
@@ -65,16 +71,16 @@ class ListPosts extends Component {
   }
 }
 
-function mapStateToProps({ posts, byCategory }) {
+function mapStateToProps({ posts }) {
   return {
-    posts,
-    postsByCategory: byCategory,
+    posts: posts.sort(({ timestamp }) => timestamp),
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getPostsByCategory: category => dispatch(fetchPostsByCategory(category)),
+    getAllPosts: () => dispatch(fetchAllPosts()),
   }
 }
 

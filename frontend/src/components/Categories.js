@@ -1,32 +1,21 @@
-import React, { Component, Fragment } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button } from '@blueprintjs/core'
 
-class Categories extends Component {
-  static propTypes = {
-    categories: PropTypes.array.isRequired,
-  }
+const Categories = ({ categories }) => (
+  <Fragment>
+    {categories.map(category => (
+      <Link key={category.name} to={`/c/${category.path}`}>
+        <Button icon="tag" text={category.name} />
+      </Link>
+    ))}
+  </Fragment>
+)
 
-  render() {
-    const { categories } = this.props
-    return (
-      <Fragment>
-        {categories.map(category => (
-          <Link key={category.name} to={`/${category.path}`}>
-            <Button icon="tag" text={category.name} />
-          </Link>
-        ))}
-      </Fragment>
-    )
-  }
+Categories.propTypes = {
+  categories: PropTypes.array.isRequired,
 }
 
-function mapStateToProps({ categories }) {
-  return {
-    categories,
-  }
-}
-
-export default withRouter(connect(mapStateToProps)(Categories))
+export default connect(({ categories }) => ({ categories }))(Categories)
