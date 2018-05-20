@@ -83,7 +83,14 @@ export const addComment = comment =>
     body: JSON.stringify(comment),
   }).then(res => res.json())
 
-export const voteComment = () => fetch()
+export const voteComment = ({ id, option }) => {
+  const body = { option: option }
+  return fetch(`${api}/comments/${id}`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  }).then(res => res.json())
+}
 
 export const deleteComment = id =>
   fetch(`${api}/comments/${id}`, {

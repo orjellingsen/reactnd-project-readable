@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import {
   Navbar,
   NavbarGroup,
@@ -9,8 +10,9 @@ import {
   Alignment,
 } from '@blueprintjs/core'
 import Categories from './Categories'
+import Context from './App'
 
-export default ({ toggleNewPost, toggleTheme, darkTheme }) => (
+const Header = ({ toggleNewPost, toggleTheme, darkTheme }) => (
   <Navbar fixedToTop>
     <NavbarGroup>
       <NavbarHeading>Readable</NavbarHeading>
@@ -35,3 +37,11 @@ export default ({ toggleNewPost, toggleTheme, darkTheme }) => (
     </NavbarGroup>
   </Navbar>
 )
+
+Header.propTypes = {
+  toggleNewPost: PropTypes.func.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+  darkTheme: PropTypes.bool,
+}
+
+export default Header

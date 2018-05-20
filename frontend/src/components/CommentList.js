@@ -7,15 +7,28 @@ import styled from 'styled-components'
 import { ID } from '../utils/helper'
 import { createComment, removeComment } from '../actions/comments'
 import Comment from './Comment'
-import { Button, FormGroup } from '@blueprintjs/core'
+import { Button, FormGroup, Card } from '@blueprintjs/core'
 
 const StyledComments = styled.div`
-  width: 80%;
+  grid-column: span 2;
 `
 const CommentHeader = styled.h3`
   margin-top: 20px;
+  font-size: 18px;
 `
-class Comments extends Component {
+
+const Form = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+`
+const FormHeader = styled.h3`
+  margin-top: 20px;
+  grid-column: span 2;
+  font-size: 16px;
+`
+
+class CommentList extends Component {
   static propTypes = {
     comments: PropTypes.array.isRequired,
   }
@@ -31,25 +44,32 @@ class Comments extends Component {
     comment.timestamp = Date.now()
     comment.id = ID()
     comment.parentId = postId
+    comment.voteScore = 0
     addComment(comment)
   }
 
   render() {
+    const { comments, commentCount } = this.props
     return (
       <StyledComments>
-        <CommentHeader>Comments</CommentHeader>
-        {this.props.comments.map(comment => (
-          <Comment key={comment.id} comment={comment} />
+        <CommentHeader>Comments ({commentCount})</CommentHeader>
+        {comments.map(comment => (
+          <Card key={comment.id}>
+            <Comment comment={comment} />
+          </Card>
         ))}
-        <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
+        <Form onSubmit={this.handleSubmit} noValidate autoComplete="off">
+          <FormHeader>Add new comment:</FormHeader>
           <FormGroup label="Comment" labelFor="body">
-            <textarea className="pt-input" id="body" name="body" />
+            <textarea className="pt-input pt-fill" id="body" name="body" />
           </FormGroup>
           <FormGroup label="Author" labelFor="author">
-            <input className="pt-input" id="author" name="author" />
+            <input className="pt-input pt-fill" id="author" name="author" />
           </FormGroup>
-          <Button type="submit">Add comment</Button>
-        </form>
+          <Button style={{ gridColumn: 'span 2' }} type="submit">
+            Add comment
+          </Button>
+        </Form>
       </StyledComments>
     )
   }
@@ -62,4 +82,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Comments)
+export default connect(null, mapDispatchToProps)(CommentList)

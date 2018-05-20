@@ -7,7 +7,7 @@ import {
   EDIT_POST,
   DELETE_POST,
 } from '../actions/posts'
-import { ADD_COMMENT } from '../actions/comments'
+import { ADD_COMMENT, DELETE_COMMENT } from '../actions/comments'
 
 export default function posts(state = [], action) {
   const { type, post, id } = action
@@ -35,6 +35,16 @@ export default function posts(state = [], action) {
           return {
             ...post,
             commentCount: post.commentCount + 1,
+          }
+        }
+        return post
+      })
+    case DELETE_COMMENT:
+      return state.map(post => {
+        if (post.id === action.postId) {
+          return {
+            ...post,
+            commentCount: post.commentCount - 1,
           }
         }
         return post

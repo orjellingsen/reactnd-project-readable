@@ -29,11 +29,12 @@ export function getSingleComment({ id }) {
   }
 }
 
-export function voteComment({ id, option }) {
+export function voteComment(id, option, postId) {
   return {
     type: VOTE_COMMENT,
     id,
     option,
+    postId,
   }
 }
 
@@ -60,9 +61,12 @@ export const fetchComments = postId => dispatch =>
     .then(comments => dispatch(getComments(comments, postId)))
 
 export const createComment = comment => dispatch =>
-  api
-    .addComment(comment)
-    .then(_ => console.log(comment) || dispatch(addComment(comment)))
+  api.addComment(comment).then(_ => dispatch(addComment(comment)))
 
 export const removeComment = (id, postId) => dispatch =>
   api.deleteComment(id).then(data => dispatch(deleteComment(id, postId)))
+
+export const registerVoteComment = (id, option, postId) => dispatch =>
+  api
+    .voteComment({ id, option })
+    .then(_ => dispatch(voteComment(id, option, postId)))

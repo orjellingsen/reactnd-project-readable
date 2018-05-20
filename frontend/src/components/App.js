@@ -6,9 +6,9 @@ import styled from 'styled-components'
 
 import { fetchCategories } from '../actions/categories'
 import Header from './Header'
-import ListPosts from './ListPosts'
+import PostList from './PostList'
 import NewPost from './NewPost'
-import SinglePost from './SinglePost'
+import PostSingle from './PostSingle'
 
 const Container = styled.div`
   padding: 80px 0;
@@ -16,6 +16,8 @@ const Container = styled.div`
   min-height: 100vh;
   background-color: ${({ darkTheme }) => (darkTheme ? '#293742' : '#fff')};
 `
+
+export const Context = React.createContext()
 class App extends Component {
   static propTypes = {
     getCategories: PropTypes.func.isRequired,
@@ -54,30 +56,32 @@ class App extends Component {
     const { pathname } = this.props.location
     const { darkTheme, newPostOpen, currentPost } = this.state
     return (
-      <Container darkTheme={darkTheme} className={darkTheme ? 'pt-dark' : ''}>
-        <Header
-          darkTheme={darkTheme}
-          toggleTheme={this.toggleTheme}
-          toggleNewPost={this.toggleNewPost}
-          path={pathname}
-        />
-        <NewPost
-          isOpen={newPostOpen}
-          toggle={this.toggleNewPost}
-          darkTheme={darkTheme}
-          currentPost={currentPost}
-        />
-
-        <Switch>
-          <Route exact path="/" component={ListPosts} />
-          <Route exact path="/c/:category" component={ListPosts} />
-          <Route
-            exact
-            path="/post/:postId"
-            render={() => <SinglePost handleEditPost={this.handleEditPost} />}
+      <Context.Provider state={this.state}>
+        <Container darkTheme={darkTheme} className={darkTheme ? 'pt-dark' : ''}>
+          <Header
+            darkTheme={darkTheme}
+            toggleTheme={this.toggleTheme}
+            toggleNewPost={this.toggleNewPost}
+            path={pathname}
           />
-        </Switch>
-      </Container>
+          <NewPost
+            isOpen={newPostOpen}
+            toggle={this.toggleNewPost}
+            darkTheme={darkTheme}
+            currentPost={currentPost}
+          />
+
+          <Switch>
+            <Route exact path="/" component={PostList} />
+            <Route exact path="/c/:category" component={PostList} />
+            <Route
+              exact
+              path="/post/:postId"
+              render={() => <PostSingle handleEditPost={this.handleEditPost} />}
+            />
+          </Switch>
+        </Container>
+      </Context.Provider>
     )
   }
 }

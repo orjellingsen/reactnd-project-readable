@@ -1,51 +1,52 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import { removeComment } from '../actions/comments'
+import styled from 'styled-components'
+import Settings from './Settings'
+import Vote from './Vote'
 
-class Comment extends Component {
-  static propTypes = {
-    deleteComment: PropTypes.func.isRequired,
-    comment: PropTypes.object,
-  }
+const StyledComment = styled.div`
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  grid-gap: 20px;
+`
 
-  handleDelete = (id, postId) => {
-    this.props.deleteComment(id, postId)
-  }
+const AuthorText = styled.p`
+  padding-left: 10px;
+  margin-bottom: 20px;
+  margin-top: -10px;
+  font-size: 12px;
+`
 
-  handleEdit = e => {}
+const Comment = ({ comment }) => (
+  <Fragment>
+    {comment && (
+      <StyledComment>
+        <Vote
+          type="comment"
+          id={comment.id}
+          score={comment.voteScore}
+          parentId={comment.parentId}
+        />
+        <div>
+          <p>{comment.body}</p>
+          <AuthorText className="pt-text-muted">{`${moment(
+            comment.timestamp
+          ).fromNow()} by ${comment.author}`}</AuthorText>
+        </div>
+        <Settings
+          type="comment"
+          data={comment}
+          handleEditComment={this.handleEdit}
+        />
+      </StyledComment>
+    )}
+  </Fragment>
+)
 
-  render() {
-    const { comment } = this.props
-    return (
-      <Fragment>
-        {comment && (
-          <div>
-            <div>
-              <p>{comment.body}</p>
-              <p>{`${moment(comment.timestamp).fromNow()} by ${
-                comment.author
-              } (Score: ${comment.voteScore})`}</p>
-            </div>
-            <button onClick={this.handleEdit}>Edit</button>
-            <button
-              onClick={e => this.handleDelete(comment.id, comment.parentId)}
-            >
-              Delete
-            </button>
-          </div>
-        )}
-      </Fragment>
-    )
-  }
+Comment.propTypes = {
+  comment: PropTypes.object.isRequired,
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    deleteComment: (id, postId) => dispatch(removeComment(id, postId)),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Comment)
+export default Comment

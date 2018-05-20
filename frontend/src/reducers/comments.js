@@ -8,7 +8,7 @@ import {
 } from '../actions/comments'
 
 export default function comments(state = {}, action) {
-  const { comments, postId, comment, id } = action
+  const { comments, postId, comment, id, option } = action
   switch (action.type) {
     // TODO: give id as index key
     case GET_COMMENTS:
@@ -29,6 +29,21 @@ export default function comments(state = {}, action) {
           }
     case GET_SINGLE_COMMENT:
     case VOTE_COMMENT:
+      return {
+        ...state,
+        [postId]: state[postId].map(comment => {
+          if (comment.id === id) {
+            return {
+              ...comment,
+              voteScore:
+                option === 'upVote'
+                  ? comment.voteScore + 1
+                  : comment.voteScore - 1,
+            }
+          }
+          return comment
+        }),
+      }
     case EDIT_COMMENT:
     case DELETE_COMMENT:
       return {
