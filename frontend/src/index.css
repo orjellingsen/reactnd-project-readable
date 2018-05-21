@@ -19,6 +19,11 @@ body {
   background-color: #293742;
 }
 
+.page-not-found {
+  margin: 20px auto;
+  width: 80%;
+}
+
 .post {
   margin: 15px 20px;
   display: grid;

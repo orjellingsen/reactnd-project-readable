@@ -5,6 +5,7 @@ import Header from './Header'
 import PostList from './PostList'
 import NewPost from './NewPost'
 import PostSingle from './PostSingle'
+import PageNotFound from './PageNotFound'
 
 class App extends Component {
   toggleTheme = () => {
@@ -46,6 +47,7 @@ class App extends Component {
             <Route exact path="/" component={PostList} />
             <Route exact path="/c/:category" component={PostList} />
             <Route exact path="/post/:postId" component={PostSingle} />
+            <Route component={PageNotFound} />
           </Switch>
         </div>
       </Context.Provider>
