@@ -3,18 +3,12 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import styled from 'styled-components'
 import { Card, Elevation } from '@blueprintjs/core'
 
 import { fetchAllPosts } from '../actions/posts'
 import { fetchPostsByCategory } from '../actions/posts'
 import Vote from './Vote'
 import Options from './Options'
-
-const Posts = styled.div`
-  width: 90%;
-  margin: 0 auto;
-`
 
 class PostList extends Component {
   static propTypes = {
@@ -49,7 +43,7 @@ class PostList extends Component {
   }
   render() {
     return (
-      <Posts>
+      <div className="posts">
         {this.props.posts.map(post => (
           <Card key={post.id} className="post" interactive={true} elevation={Elevation.ONE}>
             <Vote type="post" id={post.id} score={post.voteScore} />
@@ -66,7 +60,7 @@ class PostList extends Component {
             <Options type="post" data={post} />
           </Card>
         ))}
-      </Posts>
+      </div>
     )
   }
 }

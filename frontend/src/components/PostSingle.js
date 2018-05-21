@@ -8,20 +8,13 @@ import { Card } from '@blueprintjs/core'
 import { fetchPost } from '../actions/posts'
 import { fetchComments } from '../actions/comments'
 import CommentList from './CommentList'
-import styled from 'styled-components'
 import Vote from './Vote'
 import Options from './Options'
 
-const StyledPost = styled.div`
-  display: grid;
-  grid-template-columns: 30px 1fr auto;
-  grid-gap: 20px;
-`
 class PostSingle extends Component {
   static propTypes = {
     post: PropTypes.object,
     comments: PropTypes.object.isRequired,
-    handleEditPost: PropTypes.func.isRequired,
     getPost: PropTypes.func.isRequired,
     getComments: PropTypes.func.isRequired,
   }

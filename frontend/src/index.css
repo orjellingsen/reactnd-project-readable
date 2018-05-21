@@ -24,6 +24,11 @@ body {
   width: 80%;
 }
 
+.posts {
+  width: 90%;
+  margin: 0 auto;
+}
+
 .post {
   margin: 15px 20px;
   display: grid;
