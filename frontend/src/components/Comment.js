@@ -2,27 +2,13 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import styled from 'styled-components'
-import Settings from './Settings'
+import Options from './Options'
 import Vote from './Vote'
-
-const StyledComment = styled.div`
-  display: grid;
-  grid-template-columns: 30px 1fr auto;
-  grid-gap: 20px;
-`
-
-const AuthorText = styled.p`
-  padding-left: 10px;
-  margin-bottom: 20px;
-  margin-top: -10px;
-  font-size: 12px;
-`
 
 const Comment = ({ comment }) => (
   <Fragment>
     {comment && (
-      <StyledComment>
+      <div className="comment">
         <Vote
           type="comment"
           id={comment.id}
@@ -31,16 +17,12 @@ const Comment = ({ comment }) => (
         />
         <div>
           <p>{comment.body}</p>
-          <AuthorText className="pt-text-muted">{`${moment(
-            comment.timestamp
-          ).fromNow()} by ${comment.author}`}</AuthorText>
+          <p className="pt-text-muted author-text">{`${moment(comment.timestamp).fromNow()} by ${
+            comment.author
+          }`}</p>
         </div>
-        <Settings
-          type="comment"
-          data={comment}
-          handleEditComment={this.handleEdit}
-        />
-      </StyledComment>
+        <Options type="comment" data={comment} handleEditComment={this.handleEdit} />
+      </div>
     )}
   </Fragment>
 )

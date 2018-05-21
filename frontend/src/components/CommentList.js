@@ -2,31 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
-import styled from 'styled-components'
 
 import { ID } from '../utils/helper'
 import { createComment, removeComment } from '../actions/comments'
 import Comment from './Comment'
 import { Button, FormGroup, Card } from '@blueprintjs/core'
-
-const StyledComments = styled.div`
-  grid-column: span 2;
-`
-const CommentHeader = styled.h3`
-  margin-top: 20px;
-  font-size: 18px;
-`
-
-const Form = styled.form`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
-`
-const FormHeader = styled.h3`
-  margin-top: 20px;
-  grid-column: span 2;
-  font-size: 16px;
-`
 
 class CommentList extends Component {
   static propTypes = {
@@ -51,15 +31,15 @@ class CommentList extends Component {
   render() {
     const { comments, commentCount } = this.props
     return (
-      <StyledComments>
-        <CommentHeader>Comments ({commentCount})</CommentHeader>
+      <div className="comment-list">
+        <h3 className="comment-header">Comments ({commentCount})</h3>
         {comments.map(comment => (
           <Card key={comment.id}>
             <Comment comment={comment} />
           </Card>
         ))}
-        <Form onSubmit={this.handleSubmit} noValidate autoComplete="off">
-          <FormHeader>Add new comment:</FormHeader>
+        <form className="comment-form" onSubmit={this.handleSubmit} noValidate autoComplete="off">
+          <h4 className="comment-form-header">Add new comment:</h4>
           <FormGroup label="Comment" labelFor="body">
             <textarea className="pt-input pt-fill" id="body" name="body" />
           </FormGroup>
@@ -69,8 +49,8 @@ class CommentList extends Component {
           <Button style={{ gridColumn: 'span 2' }} type="submit">
             Add comment
           </Button>
-        </Form>
-      </StyledComments>
+        </form>
+      </div>
     )
   }
 }

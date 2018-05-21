@@ -1,7 +1,6 @@
 import {
   GET_COMMENTS,
   ADD_COMMENT,
-  GET_SINGLE_COMMENT,
   VOTE_COMMENT,
   EDIT_COMMENT,
   DELETE_COMMENT,
@@ -10,7 +9,6 @@ import {
 export default function comments(state = {}, action) {
   const { comments, postId, comment, id, option } = action
   switch (action.type) {
-    // TODO: give id as index key
     case GET_COMMENTS:
       return {
         ...state,
@@ -27,7 +25,6 @@ export default function comments(state = {}, action) {
             ...state,
             comment,
           }
-    case GET_SINGLE_COMMENT:
     case VOTE_COMMENT:
       return {
         ...state,
@@ -35,10 +32,7 @@ export default function comments(state = {}, action) {
           if (comment.id === id) {
             return {
               ...comment,
-              voteScore:
-                option === 'upVote'
-                  ? comment.voteScore + 1
-                  : comment.voteScore - 1,
+              voteScore: option === 'upVote' ? comment.voteScore + 1 : comment.voteScore - 1,
             }
           }
           return comment

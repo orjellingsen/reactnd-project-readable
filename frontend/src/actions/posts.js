@@ -62,9 +62,7 @@ export const fetchAllPosts = () => dispatch =>
   api.fetchAllPosts().then(posts => dispatch(getPosts(posts)))
 
 export const fetchPostsByCategory = category => dispatch =>
-  api
-    .fetchPostsByCategory(category)
-    .then(posts => dispatch(getPostsByCategory(posts, category)))
+  api.fetchPostsByCategory(category).then(posts => dispatch(getPostsByCategory(posts, category)))
 
 export const fetchPost = id => dispatch =>
   api.fetchPost(id).then(post => dispatch(getSinglePost(post)))
@@ -78,5 +76,5 @@ export const removePost = id => dispatch =>
 export const updatePost = post => dispatch =>
   api.editPost(post).then(post => dispatch(editPost(post)))
 
-export const registerVote = ({ id, option }) => dispatch =>
+export const registerVote = (id, option) => dispatch =>
   api.votePost({ id, option }).then(post => dispatch(votePost(post)))

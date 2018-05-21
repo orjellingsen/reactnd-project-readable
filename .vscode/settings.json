@@ -6,4 +6,5 @@
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
+  "prettier.printWidth": 100,
 }

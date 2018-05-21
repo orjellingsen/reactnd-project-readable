@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router'
 import moment from 'moment'
@@ -10,19 +10,12 @@ import { fetchComments } from '../actions/comments'
 import CommentList from './CommentList'
 import styled from 'styled-components'
 import Vote from './Vote'
-import Settings from './Settings'
+import Options from './Options'
 
 const StyledPost = styled.div`
   display: grid;
   grid-template-columns: 30px 1fr auto;
   grid-gap: 20px;
-`
-
-const AuthorText = styled.p`
-  padding-left: 10px;
-  margin-bottom: 20px;
-  margin-top: -10px;
-  font-size: 12px;
 `
 class PostSingle extends Component {
   static propTypes = {
@@ -44,30 +37,25 @@ class PostSingle extends Component {
   }
 
   render() {
-    const {
-      handleEditPost,
-      post,
-      comments,
-      match: { params: { postId } },
-    } = this.props
+    const { handleEditPost, post, comments, match: { params: { postId } } } = this.props
     if (this.state.redirect) {
       return <Redirect to="/" />
     }
     return (
-      <Card style={{ width: '90%', margin: '0px auto' }}>
+      <Card className="post">
         {post ? (
-          <StyledPost>
+          <Fragment>
             <Vote type="post" id={post.id} score={post.voteScore} />
             <div>
               <h3>{post.title} </h3>
-              <AuthorText className="pt-text-muted">
+              <p className="pt-text-muted author-text">
                 Posted {moment(post.timestamp).fromNow()} by {post.author}
-              </AuthorText>
+              </p>
               <div>
                 <p>{post.body}</p>
               </div>
             </div>
-            <Settings type="post" data={post} handleEditPost={handleEditPost} />
+            <Options type="post" data={post} handleEditPost={handleEditPost} />
 
             {comments && (
               <CommentList
@@ -76,7 +64,7 @@ class PostSingle extends Component {
                 commentCount={post.commentCount}
               />
             )}
-          </StyledPost>
+          </Fragment>
         ) : (
           ''
         )}
@@ -85,10 +73,7 @@ class PostSingle extends Component {
   }
 }
 
-function mapStateToProps(
-  { comments, posts },
-  { match: { params: { postId } } }
-) {
+function mapStateToProps({ comments, posts }, { match: { params: { postId } } }) {
   return {
     comments,
     post: posts.find(post => post.id === postId),
@@ -101,6 +86,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(PostSingle)
-)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostSingle))

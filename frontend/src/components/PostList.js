@@ -9,17 +9,11 @@ import { Card, Elevation } from '@blueprintjs/core'
 import { fetchAllPosts } from '../actions/posts'
 import { fetchPostsByCategory } from '../actions/posts'
 import Vote from './Vote'
+import Options from './Options'
 
 const Posts = styled.div`
   width: 90%;
   margin: 0 auto;
-`
-
-const AuthorText = styled.p`
-  padding-left: 10px;
-  margin-bottom: 20px;
-  margin-top: -10px;
-  font-size: 12px;
 `
 
 class PostList extends Component {
@@ -33,11 +27,7 @@ class PostList extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const {
-      getAllPosts,
-      getPostsByCategory,
-      match: { params: { category = 'all' } },
-    } = nextProps
+    const { getAllPosts, getPostsByCategory, match: { params: { category = 'all' } } } = nextProps
     if (category === prevState.category) {
       return null
     }
@@ -61,27 +51,19 @@ class PostList extends Component {
     return (
       <Posts>
         {this.props.posts.map(post => (
-          <Card
-            key={post.id}
-            className="post"
-            interactive={true}
-            elevation={Elevation.ONE}
-          >
+          <Card key={post.id} className="post" interactive={true} elevation={Elevation.ONE}>
             <Vote type="post" id={post.id} score={post.voteScore} />
-            <Link
-              style={{ textDecoration: 'none' }}
-              key={post.id}
-              to={`/post/${post.id}`}
-            >
+            <Link style={{ textDecoration: 'none' }} key={post.id} to={`/post/${post.id}`}>
               <div>
                 <h5>{post.title}</h5>
-                <AuthorText className="pt-text-muted">
-                  Posted {moment(post.timestamp).fromNow()} by {post.author}{' '}
-                  (comments: {post.commentCount})
-                </AuthorText>
+                <p className="pt-text-muted author-text">
+                  Posted {moment(post.timestamp).fromNow()} by {post.author} (comments:{' '}
+                  {post.commentCount})
+                </p>
                 <p className="pt-text">{post.body}</p>
               </div>
             </Link>
+            <Options type="post" data={post} />
           </Card>
         ))}
       </Posts>
