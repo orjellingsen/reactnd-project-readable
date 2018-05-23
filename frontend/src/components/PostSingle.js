@@ -36,7 +36,7 @@ class PostSingle extends Component {
     }
     return (
       <Card className="post">
-        {post ? (
+        {post && (
           <Fragment>
             <Vote type="post" id={post.id} score={post.voteScore} />
             <div>
@@ -58,8 +58,6 @@ class PostSingle extends Component {
               />
             )}
           </Fragment>
-        ) : (
-          ''
         )}
       </Card>
     )

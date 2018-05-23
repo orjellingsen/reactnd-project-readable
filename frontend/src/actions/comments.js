@@ -51,6 +51,9 @@ export const fetchComments = postId => dispatch =>
 export const createComment = comment => dispatch =>
   api.addComment(comment).then(_ => dispatch(addComment(comment)))
 
+export const updateComment = comment => dispatch =>
+  api.editComment(comment).then(comment => dispatch(editComment(comment)))
+
 export const removeComment = (id, postId) => dispatch =>
   api.deleteComment(id).then(data => dispatch(deleteComment(id, postId)))
 

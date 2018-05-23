@@ -20,16 +20,17 @@ class Options extends Component {
   }
 
   handleDelete = ({ id, parentId }, type) => {
+    const { deletePost, deleteComment } = this.props
     if (type === 'post') {
-      this.props.deletePost(id)
+      deletePost(id)
       this.setState({ redirect: true })
     } else {
-      this.props.deleteComment(id, parentId)
+      deleteComment(id, parentId)
     }
   }
 
   render() {
-    const { data, type } = this.props
+    const { data, type, handleEditComment } = this.props
     if (this.state.redirect) {
       return <Redirect to="/" />
     }
@@ -39,7 +40,9 @@ class Options extends Component {
           <div className="options">
             <Button
               icon="edit"
-              onClick={() => (type === 'post' ? handleEditPost(data, type) : null)}
+              onClick={() =>
+                type === 'post' ? handleEditPost(data, type) : handleEditComment(data)
+              }
             />
             <Button icon="trash" onClick={() => this.handleDelete(data, type)} />
           </div>

@@ -70,9 +70,7 @@ export const editComment = comment =>
     method: 'PUT',
     headers,
     body: JSON.stringify(comment),
-  })
-    .then(res => res.json())
-    .then(data => data.comment)
+  }).then(res => res.json())
 
 export const addComment = comment =>
   fetch(`${api}/comments`, {

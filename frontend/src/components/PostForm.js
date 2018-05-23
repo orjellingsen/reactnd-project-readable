@@ -9,7 +9,7 @@ import { capitalize, ID } from '../utils/helper'
 import { createPost, updatePost } from '../actions/posts'
 import { Context } from './App'
 
-class NewPost extends Component {
+class PostForm extends Component {
   static propTypes = {
     categories: PropTypes.array.isRequired,
     createPost: PropTypes.func.isRequired,
@@ -48,10 +48,10 @@ class NewPost extends Component {
   render() {
     return (
       <Context.Consumer>
-        {({ newPostOpen, toggleForm, darkTheme, currentPost }) => (
+        {({ postFormOpen, toggleForm, darkTheme, currentPost }) => (
           <Dialog
             className={darkTheme ? 'pt-dark' : ''}
-            isOpen={newPostOpen}
+            isOpen={postFormOpen}
             title={currentPost ? 'Edit post' : 'New Post'}
             icon={currentPost ? 'edit' : 'plus'}
             onClose={toggleForm}
@@ -129,4 +129,4 @@ function mapDispatchToProps(dispatch) {
     updatePost: post => dispatch(updatePost(post)),
   }
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewPost))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostForm))

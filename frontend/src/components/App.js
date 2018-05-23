@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import Header from './Header'
 import PostList from './PostList'
-import NewPost from './NewPost'
+import PostForm from './PostForm'
 import PostSingle from './PostSingle'
 import PageNotFound from './PageNotFound'
 
@@ -14,21 +14,21 @@ class App extends Component {
 
   toggleForm = () => {
     this.setState(() => ({
-      newPostOpen: !this.state.newPostOpen,
+      postFormOpen: !this.state.postFormOpen,
       currentPost: null,
     }))
   }
 
   handleEditPost = currentPost => {
     this.setState(() => ({
-      newPostOpen: true,
+      postFormOpen: true,
       currentPost,
     }))
   }
 
   state = {
     darkTheme: true,
-    newPostOpen: false,
+    postFormOpen: false,
     currentPost: null,
     toggleTheme: this.toggleTheme,
     toggleForm: this.toggleForm,
@@ -41,7 +41,7 @@ class App extends Component {
       <Context.Provider value={this.state}>
         <div className={darkTheme ? 'container dark pt-dark' : 'container'}>
           <Header />
-          <NewPost toggleForm={toggleForm} currentPost={currentPost} />
+          <PostForm toggleForm={toggleForm} currentPost={currentPost} />
 
           <Switch>
             <Route exact path="/" component={PostList} />
