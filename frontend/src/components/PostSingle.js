@@ -26,11 +26,15 @@ class PostSingle extends Component {
 
   componentDidMount() {
     const { getPost, getComments, match: { params: { postId } } } = this.props
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.setState({ notFound: true })
     }, 2000)
     getPost(postId)
     getComments(postId)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
   }
 
   render() {

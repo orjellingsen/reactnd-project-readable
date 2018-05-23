@@ -70,14 +70,12 @@ class PostList extends Component {
           </Button>
         </div>
         {posts
-          .sort((a, b) => {
-            if (sortBy === 'date') {
-              return parseFloat(b.timestamp) - parseFloat(a.timestamp)
-            }
-            if (sortBy === 'score') {
-              return b.voteScore - a.voteScore
-            }
-          })
+          .sort(
+            (a, b) =>
+              sortBy === 'date'
+                ? b.timestamp - a.timestamp
+                : sortBy === 'score' ? b.voteScore - a.voteScore : null
+          )
           .map(post => (
             <Card key={post.id} className="post" interactive={true} elevation={Elevation.ONE}>
               <Vote type="post" id={post.id} score={post.voteScore} />
@@ -101,7 +99,7 @@ class PostList extends Component {
 
 function mapStateToProps({ posts }) {
   return {
-    posts: posts.reverse(),
+    posts: posts,
   }
 }
 
