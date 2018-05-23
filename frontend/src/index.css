@@ -90,3 +90,10 @@ body {
 .wide-button {
   grid-column: span 2;
 }
+
+.sort {
+  display: flex;
+}
+.sort-text {
+  margin-right: 20px;
+}

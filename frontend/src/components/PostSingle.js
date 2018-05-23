@@ -21,22 +21,27 @@ class PostSingle extends Component {
 
   state = {
     redirect: false,
+    notFound: false,
   }
 
   componentDidMount() {
     const { getPost, getComments, match: { params: { postId } } } = this.props
+    setTimeout(() => {
+      this.setState({ notFound: true })
+    }, 2000)
     getPost(postId)
     getComments(postId)
   }
 
   render() {
     const { handleEditPost, post, comments, match: { params: { postId } } } = this.props
-    if (this.state.redirect) {
+    const { redirect, notFound } = this.state
+    if (redirect) {
       return <Redirect to="/" />
     }
     return (
       <Card className="post">
-        {post && (
+        {post ? (
           <Fragment>
             <Vote type="post" id={post.id} score={post.voteScore} />
             <div>
@@ -56,6 +61,15 @@ class PostSingle extends Component {
                 comments={comments[postId]}
                 commentCount={post.commentCount}
               />
+            )}
+          </Fragment>
+        ) : (
+          <Fragment>
+            {notFound && (
+              <Fragment>
+                <span />
+                <h3>404: Post not found</h3>
+              </Fragment>
             )}
           </Fragment>
         )}

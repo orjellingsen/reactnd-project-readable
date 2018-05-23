@@ -39,7 +39,6 @@ export default function comments(state = {}, action) {
         }),
       }
     case EDIT_COMMENT:
-      //return state.map(oldPost => (oldPost.id === post.id ? post : oldPost))
       return {
         ...state,
         [comment.parentId]: state[comment.parentId].map(

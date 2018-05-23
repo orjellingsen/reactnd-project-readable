@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Card, Elevation } from '@blueprintjs/core'
+import { Card, Elevation, Button } from '@blueprintjs/core'
 
 import { fetchAllPosts } from '../actions/posts'
 import { fetchPostsByCategory } from '../actions/posts'
@@ -18,6 +18,7 @@ class PostList extends Component {
 
   state = {
     category: 'all',
+    sortBy: 'date',
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -36,30 +37,63 @@ class PostList extends Component {
     }
   }
 
+  sortPosts = sortBy => {
+    if (sortBy !== this.state.sortBy) {
+      this.setState(() => ({ sortBy }))
+    }
+  }
+
   componentDidMount() {
     if (this.state.category === 'all') {
       this.props.getAllPosts()
     }
   }
+
   render() {
+    const { posts } = this.props
+    const { sortBy } = this.state
     return (
       <div className="posts">
-        {this.props.posts.map(post => (
-          <Card key={post.id} className="post" interactive={true} elevation={Elevation.ONE}>
-            <Vote type="post" id={post.id} score={post.voteScore} />
-            <Link style={{ textDecoration: 'none' }} key={post.id} to={`/post/${post.id}`}>
-              <div>
-                <h5>{post.title}</h5>
-                <p className="pt-text-muted author-text">
-                  Posted {moment(post.timestamp).fromNow()} by {post.author} (comments:{' '}
-                  {post.commentCount})
-                </p>
-                <p className="pt-text">{post.body}</p>
-              </div>
-            </Link>
-            <Options type="post" data={post} />
-          </Card>
-        ))}
+        <div className="sort">
+          <h4 className="sort-text">Sort:</h4>
+          <Button
+            disabled={sortBy === 'date' ? true : false}
+            onClick={() => this.sortPosts('date')}
+          >
+            Date
+          </Button>
+          <Button
+            disabled={sortBy === 'score' ? true : false}
+            onClick={() => this.sortPosts('score')}
+          >
+            Score
+          </Button>
+        </div>
+        {posts
+          .sort((a, b) => {
+            if (sortBy === 'date') {
+              return parseFloat(b.timestamp) - parseFloat(a.timestamp)
+            }
+            if (sortBy === 'score') {
+              return b.voteScore - a.voteScore
+            }
+          })
+          .map(post => (
+            <Card key={post.id} className="post" interactive={true} elevation={Elevation.ONE}>
+              <Vote type="post" id={post.id} score={post.voteScore} />
+              <Link style={{ textDecoration: 'none' }} key={post.id} to={`/post/${post.id}`}>
+                <div>
+                  <h5>{post.title}</h5>
+                  <p className="pt-text-muted author-text">
+                    Posted {moment(post.timestamp).fromNow()} by {post.author} (comments:{' '}
+                    {post.commentCount})
+                  </p>
+                  <p className="pt-text">{post.body}</p>
+                </div>
+              </Link>
+              <Options type="post" data={post} />
+            </Card>
+          ))}
       </div>
     )
   }
@@ -67,7 +101,7 @@ class PostList extends Component {
 
 function mapStateToProps({ posts }) {
   return {
-    posts,
+    posts: posts.reverse(),
   }
 }
 
