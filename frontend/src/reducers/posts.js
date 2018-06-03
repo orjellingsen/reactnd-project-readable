@@ -6,8 +6,9 @@ import {
   VOTE_POST,
   EDIT_POST,
   DELETE_POST,
-} from '../actions/posts'
-import { ADD_COMMENT, DELETE_COMMENT } from '../actions/comments'
+  ADD_COMMENT,
+  DELETE_COMMENT,
+} from '../actions/actionTypes'
 
 export default function posts(state = [], action) {
   const { type, post, id } = action

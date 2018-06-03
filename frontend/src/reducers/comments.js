@@ -4,7 +4,7 @@ import {
   VOTE_COMMENT,
   EDIT_COMMENT,
   DELETE_COMMENT,
-} from '../actions/comments'
+} from '../actions/actionTypes'
 
 export default function comments(state = {}, action) {
   const { comments, postId, comment, id, option } = action
