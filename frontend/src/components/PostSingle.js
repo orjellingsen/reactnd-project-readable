@@ -26,19 +26,17 @@ class PostSingle extends Component {
 
   componentDidMount() {
     const { getPost, getComments, match: { params: { postId } } } = this.props
-    this.timeout = setTimeout(() => {
-      this.setState({ notFound: true })
-    }, 2000)
     getPost(postId)
     getComments(postId)
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-
   render() {
-    const { handleEditPost, post, comments, match: { params: { postId } } } = this.props
+    const {
+      handleEditPost,
+      post,
+      comments,
+      match: { params: { postId } },
+    } = this.props
     const { redirect, notFound } = this.state
     if (redirect) {
       return <Redirect to="/" />
@@ -82,7 +80,10 @@ class PostSingle extends Component {
   }
 }
 
-function mapStateToProps({ comments, posts }, { match: { params: { postId } } }) {
+function mapStateToProps(
+  { comments, posts },
+  { match: { params: { postId } } }
+) {
   return {
     comments,
     post: posts.find(post => post.id === postId),
@@ -95,4 +96,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostSingle))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PostSingle)
+)

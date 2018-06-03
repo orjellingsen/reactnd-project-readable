@@ -1,4 +1,6 @@
-export const ID = function() {
+import moment from 'moment'
+
+export function ID() {
   return (
     '_' +
     Math.random()
@@ -7,4 +9,10 @@ export const ID = function() {
   )
 }
 
-export const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
+export function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+export function dateFormat(timestamp) {
+  return moment(timestamp).fromNow()
+}

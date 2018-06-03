@@ -7,16 +7,17 @@ import serializeForm from 'form-serialize'
 import { ID } from '../utils/helper'
 import { createComment, updateComment } from '../actions/comments'
 
+const defaultState = {
+  body: '',
+  author: '',
+}
 class CommentForm extends Component {
   static propTypes = {
     editComment: PropTypes.object,
     cancelEdit: PropTypes.func.isRequired,
   }
 
-  state = {
-    body: '',
-    author: '',
-  }
+  state = defaultState
 
   static getDerivedStateFromProps({ editComment }) {
     if (editComment) {
@@ -26,15 +27,12 @@ class CommentForm extends Component {
   }
 
   resetForm = () => {
-    this.setState({ body: '', author: '' })
+    this.setState(defaultState)
   }
 
-  onChangeBody = e => {
-    this.setState({ body: e.target.value })
-  }
-
-  onChangeAuthor = e => {
-    this.setState({ author: e.target.value })
+  onChange = e => {
+    const { name, value } = e.target
+    this.setState({ [name]: value })
   }
 
   handleCancel = () => {
@@ -54,6 +52,7 @@ class CommentForm extends Component {
       }
       updateComment(updatedComment)
       this.resetForm()
+      this.handleCancel()
     } else {
       comment.timestamp = Date.now()
       comment.id = ID()
@@ -68,15 +67,22 @@ class CommentForm extends Component {
     const { editComment } = this.props
     const { body, author } = this.state
     return (
-      <form className="comment-form" onSubmit={this.handleSubmit} noValidate autoComplete="off">
-        <h4 className="comment-form-header">{editComment ? 'Edit comment' : 'Add new comment'}</h4>
+      <form
+        className="comment-form"
+        onSubmit={this.handleSubmit}
+        noValidate
+        autoComplete="off"
+      >
+        <h4 className="comment-form-header">
+          {editComment ? 'Edit comment' : 'Add new comment'}
+        </h4>
         <FormGroup label="Comment" labelFor="body">
           <textarea
             className="pt-input pt-fill"
             id="body"
             name="body"
             value={body}
-            onChange={this.onChangeBody}
+            onChange={this.onChange}
           />
         </FormGroup>
         <FormGroup label="Author" labelFor="author">
@@ -85,7 +91,7 @@ class CommentForm extends Component {
             id="author"
             name="author"
             value={author}
-            onChange={this.onChangeAuthor}
+            onChange={this.onChange}
           />
         </FormGroup>
         <Button
@@ -97,7 +103,12 @@ class CommentForm extends Component {
           {editComment ? 'Update' : 'Add comment'}
         </Button>
         {editComment && (
-          <Button className="wide-button" onClick={this.handleCancel} intent="danger" icon="cross">
+          <Button
+            className="wide-button"
+            onClick={this.handleCancel}
+            intent="danger"
+            icon="cross"
+          >
             Cancel
           </Button>
         )}

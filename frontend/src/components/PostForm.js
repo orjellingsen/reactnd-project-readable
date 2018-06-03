@@ -17,7 +17,7 @@ class PostForm extends Component {
   }
 
   state = {
-    category: 'react',
+    category: '',
   }
 
   handleChange = event => {
@@ -25,7 +25,13 @@ class PostForm extends Component {
   }
 
   handleSubmit = e => {
-    const { currentPost, updatePost, createPost, toggleForm, history } = this.props
+    const {
+      currentPost,
+      updatePost,
+      createPost,
+      toggleForm,
+      history,
+    } = this.props
     e.preventDefault()
     const post = serializeForm(e.target, { hash: true })
     if (currentPost) {
@@ -89,7 +95,9 @@ class PostForm extends Component {
               <FormGroup label="Category" labelFor="category">
                 <div className="pt-select pt-fill">
                   <select
-                    value={currentPost ? currentPost.category : this.state.category}
+                    value={
+                      currentPost ? currentPost.category : this.state.category
+                    }
                     name="category"
                     onChange={this.handleChange}
                   >
@@ -129,4 +137,6 @@ function mapDispatchToProps(dispatch) {
     updatePost: post => dispatch(updatePost(post)),
   }
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostForm))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PostForm)
+)

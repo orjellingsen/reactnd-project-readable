@@ -14,7 +14,7 @@ export default function comments(state = {}, action) {
         ...state,
         [postId]: [...comments],
       }
-    case ADD_COMMENT:
+    case ADD_COMMENT: {
       const { parentId } = comment
       return parentId
         ? {
@@ -25,6 +25,7 @@ export default function comments(state = {}, action) {
             ...state,
             comment,
           }
+    }
     case VOTE_COMMENT:
       return {
         ...state,
@@ -32,7 +33,10 @@ export default function comments(state = {}, action) {
           if (comment.id === id) {
             return {
               ...comment,
-              voteScore: option === 'upVote' ? comment.voteScore + 1 : comment.voteScore - 1,
+              voteScore:
+                option === 'upVote'
+                  ? comment.voteScore + 1
+                  : comment.voteScore - 1,
             }
           }
           return comment

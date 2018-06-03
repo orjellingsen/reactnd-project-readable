@@ -1,12 +1,13 @@
 import * as api from '../utils/ReadableAPI'
-
-export const GET_POSTS = 'GET_POSTS' // GET /posts
-export const GET_POSTS_BY_CATEGORY = 'GET_POSTS_BY_CATEGORY' // GET /:category/posts
-export const GET_SINGLE_POST = 'GET_SINGLE_POST' // GET /posts/:id
-export const ADD_POST = 'ADD_POST' // POST /posts
-export const VOTE_POST = 'VOTE_POST' // POST /posts/:id
-export const EDIT_POST = 'EDIT_POST' // PUT /posts/:id
-export const DELETE_POST = 'REMOVE_POST' // DELETE /posts/:id
+import {
+  GET_POSTS,
+  GET_POSTS_BY_CATEGORY,
+  GET_SINGLE_POST,
+  ADD_POST,
+  VOTE_POST,
+  EDIT_POST,
+  DELETE_POST,
+} from './actionTypes'
 
 export function getPosts(allPosts) {
   return {
@@ -62,7 +63,9 @@ export const fetchAllPosts = () => dispatch =>
   api.fetchAllPosts().then(posts => dispatch(getPosts(posts)))
 
 export const fetchPostsByCategory = category => dispatch =>
-  api.fetchPostsByCategory(category).then(posts => dispatch(getPostsByCategory(posts, category)))
+  api
+    .fetchPostsByCategory(category)
+    .then(posts => dispatch(getPostsByCategory(posts, category)))
 
 export const fetchPost = id => dispatch =>
   api.fetchPost(id).then(post => dispatch(getSinglePost(post)))

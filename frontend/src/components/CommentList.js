@@ -33,12 +33,19 @@ class CommentList extends Component {
     const { editComment } = this.state
     return (
       <div className="comment-list">
+        <CommentForm
+          postId={postId}
+          editComment={editComment ? editComment : null}
+          cancelEdit={this.cancelEdit}
+        />
         <h3 className="comment-header">Comments ({commentCount})</h3>
         {comments.map(comment => (
           <Card
             key={comment.id}
             style={{
-              backgroundColor: editComment ? editComment.id === comment.id && '#293742' : null,
+              backgroundColor: editComment
+                ? editComment.id === comment.id && '#293742'
+                : null,
             }}
           >
             <Comment
@@ -48,11 +55,6 @@ class CommentList extends Component {
             />
           </Card>
         ))}
-        <CommentForm
-          postId={postId}
-          editComment={editComment ? editComment : null}
-          cancelEdit={this.cancelEdit}
-        />
       </div>
     )
   }

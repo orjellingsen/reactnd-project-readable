@@ -1,6 +1,5 @@
 import * as api from '../utils/ReadableAPI'
-
-export const GET_CATEGORIES = 'GET_CATEGORIES' // GET /categories
+import { GET_CATEGORIES } from './actionTypes'
 
 export function getCategories(categoryList) {
   return {
