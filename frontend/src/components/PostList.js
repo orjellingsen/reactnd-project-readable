@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment'
@@ -10,22 +10,25 @@ import { fetchPostsByCategory } from '../actions/posts'
 import Vote from './Vote'
 import Options from './Options'
 
-const PostList = ({ posts, getAllPosts, getPostsByCategory, match }) => {
+const PostList = ({ match }) => {
+  const posts = useSelector(({ posts }) => posts)
+  const dispatch = useDispatch()
+
   const [category, setCategory] = useState('all')
   const [sortBy, setSortBy] = useState('date')
 
   useEffect(()=> {
-    if (category === 'all') getAllPosts()
+    if (category === 'all') dispatch(fetchAllPosts())
   }, [])
 
   useEffect(()=>{
     console.log(match.params)
     const { category: newCategory } = match.params
     if (newCategory && newCategory !== 'all') {
-      getPostsByCategory(newCategory)
+      dispatch(fetchPostsByCategory(newCategory))
       setCategory(newCategory)
     } else {
-      getAllPosts()
+      dispatch(fetchAllPosts())
       setCategory('all')
     }
   }, [match])
@@ -85,17 +88,4 @@ PostList.propTypes = {
   posts: PropTypes.array.isRequired,
 }
 
-function mapStateToProps({ posts }) {
-  return {
-    posts: posts,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getPostsByCategory: category => dispatch(fetchPostsByCategory(category)),
-    getAllPosts: () => dispatch(fetchAllPosts()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+export default PostList

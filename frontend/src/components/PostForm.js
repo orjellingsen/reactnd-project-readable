@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import serializeForm from 'form-serialize'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { Button, FormGroup, Dialog } from '@blueprintjs/core'
@@ -9,7 +9,9 @@ import { capitalize, ID } from '../utils/helper'
 import { createPost, updatePost } from '../actions/posts'
 import { Context } from './App'
 
-const PostForm = ({categories, currentPost, updatePost, createPost, toggleForm, history }) => {
+const PostForm = ({ currentPost, toggleForm, history }) => {
+  const categories = useSelector(({ categories }) => categories)
+  const dispatch = useDispatch()
   const [category, setCategory] = useState('')
 
   const handleSubmit = e => {
@@ -17,12 +19,12 @@ const PostForm = ({categories, currentPost, updatePost, createPost, toggleForm, 
     const post = serializeForm(e.target, { hash: true })
     if (currentPost) {
       post.id = currentPost.id
-      updatePost(post)
+      dispatch(updatePost(post))
       toggleForm()
     } else {
       post.timestamp = Date.now()
       post.id = ID()
-      createPost(post)
+      dispatch(createPost(post))
       toggleForm()
       history.push('/')
     }
@@ -110,19 +112,4 @@ PostForm.propTypes = {
   updatePost: PropTypes.func.isRequired,
 }
 
-
-function mapStateToProps({ categories }) {
-  return {
-    categories,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    createPost: post => dispatch(createPost(post)),
-    updatePost: post => dispatch(updatePost(post)),
-  }
-}
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(PostForm)
-)
+export default withRouter(PostForm)

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Button } from '@blueprintjs/core'
 import PropTypes from 'prop-types'
@@ -8,15 +8,15 @@ import { removeComment } from '../actions/comments'
 import { Context } from './App'
 
 const Options = ({ data, type, handleEditComment }) => {
+  const dispatch = useDispatch()
   const [redirect, setRedirect] = useState(false)
 
   const handleDelete = ({ id, parentId }, type) => {
-    const { deletePost, deleteComment } = this.props
     if (type === 'post') {
-      deletePost(id)
+      dispatch(removePost(id))
       setRedirect(true)
     } else {
-      deleteComment(id, parentId)
+      dispatch(removeComment(id, parentId))
     }
   }
 
@@ -46,11 +46,4 @@ Options.propTypes = {
   handleEditComment: PropTypes.func,
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    deletePost: id => dispatch(removePost(id)),
-    deleteComment: (id, postId) => dispatch(removeComment(id, postId)),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Options)
+export default Options

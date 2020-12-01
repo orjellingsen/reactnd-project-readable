@@ -1,14 +1,17 @@
 import React, { Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button } from '@blueprintjs/core'
 
 import { fetchCategories } from '../actions/categories'
 
-const Categories = ({getCategories, categories})=> {
+const Categories = ()=> {
+  const categories = useSelector(({ categories }) => categories)
+  const dispatch = useDispatch()
+
   useEffect(()=> {
-    getCategories()
+    dispatch(fetchCategories())
   },[])
 
   return (
@@ -27,16 +30,4 @@ Categories.propTypes = {
   categories: PropTypes.array.isRequired,
 }
 
-function mapStateToProps({ categories }) {
-  return {
-    categories,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getCategories: () => dispatch(fetchCategories()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Categories)
+export default Categories

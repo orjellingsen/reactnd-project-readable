@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, FormGroup } from '@blueprintjs/core'
 import serializeForm from 'form-serialize'
@@ -12,12 +12,13 @@ const defaultState = {
   author: '',
 }
 
-const CommentForm = ({editComment, cancelEdit, addComment, postId, updateComment})=> {
+const CommentForm = ({editComment, cancelEdit, postId })=> {
+  const dispatch = useDispatch()
   const [state, setState] = useState(defaultState)
 
   useEffect(()=> {
     if (editComment) {
-      return { body: editComment.body, author: editComment.author }
+      setState({ body: editComment.body, author: editComment.author })
     }
   },[editComment])
 
@@ -44,7 +45,7 @@ const CommentForm = ({editComment, cancelEdit, addComment, postId, updateComment
         body: comment.body,
         author: comment.author,
       }
-      updateComment(updatedComment)
+      dispatch(updateComment(updatedComment))
       resetForm()
       handleCancel()
     } else {
@@ -52,7 +53,7 @@ const CommentForm = ({editComment, cancelEdit, addComment, postId, updateComment
       comment.id = ID()
       comment.parentId = postId
       comment.voteScore = 0
-      addComment(comment)
+      dispatch(createComment(comment))
       resetForm()
     }
   }
@@ -113,11 +114,6 @@ CommentForm.propTypes = {
   cancelEdit: PropTypes.func.isRequired,
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addComment: comment => dispatch(createComment(comment)),
-    updateComment: comment => dispatch(updateComment(comment)),
-  }
-}
 
-export default connect(null, mapDispatchToProps)(CommentForm)
+
+export default CommentForm

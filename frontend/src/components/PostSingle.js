@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router'
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -11,10 +11,14 @@ import CommentList from './CommentList'
 import Vote from './Vote'
 import Options from './Options'
 
-const PostSingle = ({ post, handleEditPost, comments = [], getPost, getComments, match: { params: { postId }} }) => {
+const PostSingle = ({ handleEditPost, match: { params: { postId }} }) => {
+  const post = useSelector(({ posts }) => posts.find(({ id }) => id === postId))
+  const comments = useSelector(({ comments }) => comments)
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    getPost(postId)
-    getComments(postId)
+    dispatch(fetchPost(postId))
+    dispatch(fetchComments(postId))
   }, [postId])
 
   return (
@@ -58,23 +62,4 @@ PostSingle.propTypes = {
   getComments: PropTypes.func.isRequired,
 }
 
-
-function mapStateToProps(
-  { comments, posts },
-  { match: { params: { postId } } }
-) {
-  return {
-    comments,
-    post: posts.find(post => post.id === postId),
-  }
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    getComments: postId => dispatch(fetchComments(postId)),
-    getPost: id => dispatch(fetchPost(id)),
-  }
-}
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(PostSingle)
-)
+export default withRouter(PostSingle)

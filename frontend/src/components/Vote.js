@@ -1,14 +1,17 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button } from '@blueprintjs/core'
 import PropTypes from 'prop-types'
 
 import { registerVote } from '../actions/posts'
 import { registerVoteComment } from '../actions/comments'
 
-const Vote = ({ id, score = 1, type, parentId, votePost, voteComment }) => {
+const Vote = ({ id, score = 1, type, parentId }) => {
+  const dispatch = useDispatch()
+
   const handleVote = (voteType) => {
-    type === 'post' ? votePost(id, voteType) : voteComment(id, voteType, parentId)
+    if(type === 'post') dispatch(registerVote(id, voteType))
+    else dispatch(registerVoteComment(id, voteType, parentId))
   }
 
   return (
@@ -32,11 +35,4 @@ Vote.propTypes = {
   voteComment: PropTypes.func.isRequired,
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    votePost: (id, option) => dispatch(registerVote(id, option)),
-    voteComment: (id, option, postId) => dispatch(registerVoteComment(id, option, postId)),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Vote)
+export default Vote
