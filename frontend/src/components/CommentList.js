@@ -45,7 +45,7 @@ const CommentList = ({ comments = [], commentCount, postId })=> {
 }
 
 CommentList.propTypes = {
-  comments: PropTypes.array.isRequired,
+  comments: PropTypes.array,
   postId: PropTypes.string.isRequired,
   commentCount: PropTypes.number,
 }

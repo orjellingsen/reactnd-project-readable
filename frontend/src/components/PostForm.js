@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Button } from '@blueprintjs/core'
 import PropTypes from 'prop-types'
@@ -6,38 +6,30 @@ import PropTypes from 'prop-types'
 import { registerVote } from '../actions/posts'
 import { registerVoteComment } from '../actions/comments'
 
-class Vote extends Component {
-  static propTypes = {
-    type: PropTypes.oneOf(['post', 'comment']).isRequired,
-    id: PropTypes.string.isRequired,
-    parentId: PropTypes.string,
-    score: PropTypes.number.isRequired,
-    votePost: PropTypes.func.isRequired,
-    voteComment: PropTypes.func.isRequired,
+const Vote = ({ id, score = 1, type, parentId, votePost, voteComment }) => {
+  const handleVote = (voteType) => {
+    type === 'post' ? votePost(id, voteType) : voteComment(id, voteType, parentId)
   }
 
-  static defaultProps = {
-    score: 1,
-  }
+  return (
+    <div className="vote-score">
+      <Button icon="thumbs-up" onClick={() => handleVote('upVote')} />
+      <Button>{score}</Button>
+      <Button
+        icon="thumbs-down"
+        onClick={() => handleVote('downVote')}
+      />
+    </div>
+  )
+}
 
-  handleVote = (id, vote, type, parentId) => {
-    const { votePost, voteComment } = this.props
-    type === 'post' ? votePost(id, vote) : voteComment(id, vote, parentId)
-  }
-
-  render() {
-    const { id, score, type, parentId } = this.props
-    return (
-      <div className="vote-score">
-        <Button icon="thumbs-up" onClick={() => this.handleVote(id, 'upVote', type, parentId)} />
-        <Button>{score}</Button>
-        <Button
-          icon="thumbs-down"
-          onClick={() => this.handleVote(id, 'downVote', type, parentId)}
-        />
-      </div>
-    )
-  }
+Vote.propTypes = {
+  type: PropTypes.oneOf(['post', 'comment']).isRequired,
+  id: PropTypes.string.isRequired,
+  parentId: PropTypes.string,
+  score: PropTypes.number.isRequired,
+  votePost: PropTypes.func.isRequired,
+  voteComment: PropTypes.func.isRequired,
 }
 
 function mapDispatchToProps(dispatch) {

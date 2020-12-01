@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, withRouter } from 'react-router'
+import { withRouter } from 'react-router'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import { Card } from '@blueprintjs/core'
@@ -11,74 +11,53 @@ import CommentList from './CommentList'
 import Vote from './Vote'
 import Options from './Options'
 
-class PostSingle extends Component {
-  static propTypes = {
-    post: PropTypes.object,
-    comments: PropTypes.object.isRequired,
-    getPost: PropTypes.func.isRequired,
-    getComments: PropTypes.func.isRequired,
-  }
-
-  state = {
-    redirect: false,
-    notFound: false,
-  }
-
-  componentDidMount() {
-    const { getPost, getComments, match: { params: { postId } } } = this.props
+const PostSingle = ({ post, handleEditPost, comments = [], getPost, getComments, match: { params: { postId }} }) => {
+  useEffect(() => {
     getPost(postId)
     getComments(postId)
-  }
+  }, [postId])
 
-  render() {
-    const {
-      handleEditPost,
-      post,
-      comments,
-      match: { params: { postId } },
-    } = this.props
-    const { redirect, notFound } = this.state
-    if (redirect) {
-      return <Redirect to="/" />
-    }
-    return (
-      <Card className="post">
-        {post ? (
-          <Fragment>
-            <Vote type="post" id={post.id} score={post.voteScore} />
+  return (
+    <Card className="post">
+      {post ? (
+        <Fragment>
+          <Vote type="post" id={post.id} score={post.voteScore} />
+          <div>
+            <h3>{post.title} </h3>
+            <p className="pt-text-muted author-text">
+              Posted {moment(post.timestamp).fromNow()} by {post.author}
+            </p>
             <div>
-              <h3>{post.title} </h3>
-              <p className="pt-text-muted author-text">
-                Posted {moment(post.timestamp).fromNow()} by {post.author}
-              </p>
-              <div>
-                <p>{post.body}</p>
-              </div>
+              <p>{post.body}</p>
             </div>
-            <Options type="post" data={post} handleEditPost={handleEditPost} />
+          </div>
+          <Options type="post" data={post} handleEditPost={handleEditPost} />
 
-            {comments && (
-              <CommentList
-                postId={postId}
-                comments={comments[postId]}
-                commentCount={post.commentCount}
-              />
-            )}
-          </Fragment>
-        ) : (
-          <Fragment>
-            {notFound && (
-              <Fragment>
-                <span />
-                <h3>404: Post not found</h3>
-              </Fragment>
-            )}
-          </Fragment>
-        )}
-      </Card>
-    )
-  }
+          {comments && (
+            <CommentList
+              postId={postId}
+              comments={comments[postId]}
+              commentCount={post.commentCount}
+            />
+          )}
+        </Fragment>
+      ) : (
+        <Fragment>
+          <span />
+          <h3>404: Post not found</h3>
+        </Fragment>
+      )}
+    </Card>
+  )
 }
+
+PostSingle.propTypes = {
+  post: PropTypes.object,
+  comments: PropTypes.object,
+  getPost: PropTypes.func.isRequired,
+  getComments: PropTypes.func.isRequired,
+}
+
 
 function mapStateToProps(
   { comments, posts },
