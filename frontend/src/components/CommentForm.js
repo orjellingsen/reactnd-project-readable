@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, FormGroup } from '@blueprintjs/core'
@@ -11,37 +11,31 @@ const defaultState = {
   body: '',
   author: '',
 }
-class CommentForm extends Component {
-  static propTypes = {
-    editComment: PropTypes.object,
-    cancelEdit: PropTypes.func.isRequired,
-  }
 
-  state = defaultState
+const CommentForm = ({editComment, cancelEdit, addComment, postId, updateComment})=> {
+  const [state, setState] = useState(defaultState)
 
-  static getDerivedStateFromProps({ editComment }) {
+  useEffect(()=> {
     if (editComment) {
       return { body: editComment.body, author: editComment.author }
     }
-    return null
+  },[editComment])
+
+  const resetForm = () => {
+    setState(defaultState)
   }
 
-  resetForm = () => {
-    this.setState(defaultState)
-  }
-
-  onChange = e => {
+  const onChange = e => {
     const { name, value } = e.target
-    this.setState({ [name]: value })
+    setState({ [name]: value })
   }
 
-  handleCancel = () => {
-    this.resetForm()
-    this.props.cancelEdit()
+  const handleCancel = () => {
+    resetForm()
+    cancelEdit()
   }
 
-  handleSubmit = e => {
-    const { addComment, postId, editComment, updateComment } = this.props
+  const handleSubmit = e => {
     e.preventDefault()
     const comment = serializeForm(e.target, { hash: true })
     if (editComment) {
@@ -51,70 +45,72 @@ class CommentForm extends Component {
         author: comment.author,
       }
       updateComment(updatedComment)
-      this.resetForm()
-      this.handleCancel()
+      resetForm()
+      handleCancel()
     } else {
       comment.timestamp = Date.now()
       comment.id = ID()
       comment.parentId = postId
       comment.voteScore = 0
       addComment(comment)
-      this.resetForm()
+      resetForm()
     }
   }
 
-  render() {
-    const { editComment } = this.props
-    const { body, author } = this.state
-    return (
-      <form
-        className="comment-form"
-        onSubmit={this.handleSubmit}
-        noValidate
-        autoComplete="off"
+  const { body, author } = state
+  return (
+    <form
+      className="comment-form"
+      onSubmit={handleSubmit}
+      noValidate
+      autoComplete="off"
+    >
+      <h4 className="comment-form-header">
+        {editComment ? 'Edit comment' : 'Add new comment'}
+      </h4>
+      <FormGroup label="Comment" labelFor="body">
+        <textarea
+          className="pt-input pt-fill"
+          id="body"
+          name="body"
+          value={body}
+          onChange={onChange}
+        />
+      </FormGroup>
+      <FormGroup label="Author" labelFor="author">
+        <input
+          className="pt-input pt-fill"
+          id="author"
+          name="author"
+          value={author}
+          onChange={onChange}
+        />
+      </FormGroup>
+      <Button
+        className="wide-button"
+        type="submit"
+        intent="primary"
+        icon={editComment ? 'edit' : 'plus'}
       >
-        <h4 className="comment-form-header">
-          {editComment ? 'Edit comment' : 'Add new comment'}
-        </h4>
-        <FormGroup label="Comment" labelFor="body">
-          <textarea
-            className="pt-input pt-fill"
-            id="body"
-            name="body"
-            value={body}
-            onChange={this.onChange}
-          />
-        </FormGroup>
-        <FormGroup label="Author" labelFor="author">
-          <input
-            className="pt-input pt-fill"
-            id="author"
-            name="author"
-            value={author}
-            onChange={this.onChange}
-          />
-        </FormGroup>
+        {editComment ? 'Update' : 'Add comment'}
+      </Button>
+      {editComment && (
         <Button
           className="wide-button"
-          type="submit"
-          intent="primary"
-          icon={editComment ? 'edit' : 'plus'}
+          onClick={handleCancel}
+          intent="danger"
+          icon="cross"
         >
-          {editComment ? 'Update' : 'Add comment'}
+          Cancel
         </Button>
-        {editComment && (
-          <Button
-            className="wide-button"
-            onClick={this.handleCancel}
-            intent="danger"
-            icon="cross"
-          >
-            Cancel
-          </Button>
-        )}
-      </form>
-    )
-  }
+      )}
+    </form>
+  )
+}
+
+CommentForm.propTypes = {
+  editComment: PropTypes.object,
+  cancelEdit: PropTypes.func.isRequired,
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import Header from './Header'
@@ -7,52 +7,40 @@ import PostForm from './PostForm'
 import PostSingle from './PostSingle'
 import PageNotFound from './PageNotFound'
 
-class App extends Component {
-  toggleTheme = () => {
-    this.setState(() => ({ darkTheme: !this.state.darkTheme }))
+const App = () => {
+  const [darkTheme, setDarkTheme] = useState(true)
+  const [postFormOpen, setPostFormOpen] = useState(false)
+  const [currentPost, setCurrentPost]= useState(null)
+
+  const toggleTheme = () => {
+    setDarkTheme(!darkTheme)
   }
 
-  toggleForm = () => {
-    this.setState(() => ({
-      postFormOpen: !this.state.postFormOpen,
-      currentPost: null,
-    }))
+  const toggleForm = () => {
+    setCurrentPost(null)
+    setPostFormOpen(!postFormOpen)
   }
 
-  handleEditPost = currentPost => {
-    this.setState(() => ({
-      postFormOpen: true,
-      currentPost,
-    }))
+  const handleEditPost = currentPost => {
+    setCurrentPost(currentPost)
+    setPostFormOpen(true)
   }
 
-  state = {
-    darkTheme: true,
-    postFormOpen: false,
-    currentPost: null,
-    toggleTheme: this.toggleTheme,
-    toggleForm: this.toggleForm,
-    handleEditPost: this.handleEditPost,
-  }
+  return (
+    <Context.Provider value={{darkTheme, postFormOpen, currentPost, toggleTheme, toggleForm, handleEditPost}}>
+      <div className={darkTheme ? 'container dark pt-dark' : 'container'}>
+        <Header />
+        <PostForm toggleForm={toggleForm} currentPost={currentPost} />
 
-  render() {
-    const { darkTheme, currentPost, toggleForm } = this.state
-    return (
-      <Context.Provider value={this.state}>
-        <div className={darkTheme ? 'container dark pt-dark' : 'container'}>
-          <Header />
-          <PostForm toggleForm={toggleForm} currentPost={currentPost} />
-
-          <Switch>
-            <Route exact path="/" component={PostList} />
-            <Route exact path="/c/:category" component={PostList} />
-            <Route exact path="/post/:postId" component={PostSingle} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </div>
-      </Context.Provider>
-    )
-  }
+        <Switch>
+          <Route exact path="/" component={PostList} />
+          <Route exact path="/c/:category" component={PostList} />
+          <Route exact path="/post/:postId" component={PostSingle} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </div>
+    </Context.Provider>
+  )
 }
 
 export const Context = React.createContext()
