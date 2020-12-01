@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import serializeForm from 'form-serialize'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router'
-import PropTypes from 'prop-types'
 import { Button, FormGroup, Dialog } from '@blueprintjs/core'
 
 import { capitalize, ID } from '../utils/helper'
@@ -104,12 +103,6 @@ const PostForm = ({ currentPost, toggleForm, history }) => {
       )}
     </Context.Consumer>
   )
-}
-
-PostForm.propTypes = {
-  categories: PropTypes.array.isRequired,
-  createPost: PropTypes.func.isRequired,
-  updatePost: PropTypes.func.isRequired,
 }
 
 export default withRouter(PostForm)

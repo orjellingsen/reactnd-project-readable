@@ -110,8 +110,9 @@ const CommentForm = ({editComment, cancelEdit, postId })=> {
 }
 
 CommentForm.propTypes = {
-  editComment: PropTypes.object,
   cancelEdit: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired,
+  editComment: PropTypes.object,
 }
 
 

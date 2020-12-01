@@ -31,8 +31,6 @@ Vote.propTypes = {
   id: PropTypes.string.isRequired,
   parentId: PropTypes.string,
   score: PropTypes.number.isRequired,
-  votePost: PropTypes.func.isRequired,
-  voteComment: PropTypes.func.isRequired,
 }
 
 export default Vote

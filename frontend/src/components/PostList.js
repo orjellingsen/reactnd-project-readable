@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Card, Elevation, Button } from '@blueprintjs/core'
 
@@ -81,11 +80,6 @@ const PostList = ({ match }) => {
         ))}
     </div>
   )
-}
-
-PostList.propTypes = {
-  getPostsByCategory: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired,
 }
 
 export default PostList

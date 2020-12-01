@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router'
 import moment from 'moment'
-import PropTypes from 'prop-types'
 import { Card } from '@blueprintjs/core'
 
 import { fetchPost } from '../actions/posts'
@@ -53,13 +52,6 @@ const PostSingle = ({ handleEditPost, match: { params: { postId }} }) => {
       )}
     </Card>
   )
-}
-
-PostSingle.propTypes = {
-  post: PropTypes.object,
-  comments: PropTypes.object,
-  getPost: PropTypes.func.isRequired,
-  getComments: PropTypes.func.isRequired,
 }
 
 export default withRouter(PostSingle)
